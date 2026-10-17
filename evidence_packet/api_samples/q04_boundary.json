@@ -1,0 +1,16 @@
+{
+  "query": "   ",
+  "status": "INVALID_INPUT",
+  "answer": "INVALID INPUT: Query cannot be empty or contain only whitespace.",
+  "evidence": [],
+  "source_document_ids": [],
+  "source_chunk_ids": [],
+  "citations": [],
+  "confidence": 0.0,
+  "limitations": [
+    "Request rejected prior to retrieval due to input validation violation."
+  ],
+  "conflicting_evidence": null,
+  "latency_ms": 0.0,
+  "model_name": null
+}

@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evidence-grounded-rag"
+version = "1.0.0"
+description = "Evidence-Grounded Retrieval-Augmented Generation System"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Rupam Patne", email = "rupampatne@example.com" }
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "PyYAML>=6.0",
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "python-dotenv>=1.0.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+ml = [
+    "sentence-transformers>=2.2.0",
+    "torch>=2.0.0"
+]
+gemini = [
+    "google-genai>=0.1.0"
+]
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0"
+]
+
+[project.scripts]
+evidence-rag = "evidence_rag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

@@ -1,0 +1,274 @@
+[2026-10-17 12:44:04] [INFO] [evidence_rag.pipeline] Starting index build workflow...
+[2026-10-17 12:44:04] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:44:04] [INFO] [evidence_rag.pipeline] Chunked 20 documents into 70 passages.
+[2026-10-17 12:44:04] [INFO] [evidence_rag.indexing] Fitting embedding engine on 70 chunks...
+[2026-10-17 12:44:04] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 512
+[2026-10-17 12:44:04] [INFO] [evidence_rag.indexing] Encoding 70 chunks into vector space...
+[2026-10-17 12:44:04] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:44:04] [INFO] [evidence_rag.indexing] Successfully persisted index with 70 chunks to C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:44:04] [INFO] [evidence_rag.pipeline] Index build completed in 0.19s with 70 chunks.
+[2026-10-17 12:44:36] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:44:36] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:45:44] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:45:44] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:46:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:46:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:46:21] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:39] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:39] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Fitting embedding engine on 2 chunks...
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 111
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Encoding 2 chunks into vector space...
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\AppData\Local\Temp\tmp6sielu29\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Successfully persisted index with 2 chunks to C:\Users\rupam\AppData\Local\Temp\tmp6sielu29\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\AppData\Local\Temp\tmp6sielu29\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 2 chunks from C:\Users\rupam\AppData\Local\Temp\tmp6sielu29\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:47:40] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\questions.jsonl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:47:40] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 12:47:40] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\results\evaluation_run_20261017_071740.json
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:47:40] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 29
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 15
+[2026-10-17 12:47:40] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 24
+[2026-10-17 12:48:36] [ERROR] [evidence_rag.retrieval] Retrieval error during search: Embedding engine must be fitted before encoding.
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Fitting embedding engine on 2 chunks...
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 111
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Encoding 2 chunks into vector space...
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\AppData\Local\Temp\tmpqz3ybqrn\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Successfully persisted index with 2 chunks to C:\Users\rupam\AppData\Local\Temp\tmpqz3ybqrn\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\AppData\Local\Temp\tmpqz3ybqrn\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 2 chunks from C:\Users\rupam\AppData\Local\Temp\tmpqz3ybqrn\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:48:38] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\questions.jsonl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:48:38] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 12:48:38] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\results\evaluation_run_20261017_071838.json
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:48:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 29
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 15
+[2026-10-17 12:48:38] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 24
+[2026-10-17 12:50:35] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:50:35] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Fitting embedding engine on 2 chunks...
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 111
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Encoding 2 chunks into vector space...
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\AppData\Local\Temp\tmppwhh5el5\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Successfully persisted index with 2 chunks to C:\Users\rupam\AppData\Local\Temp\tmppwhh5el5\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\AppData\Local\Temp\tmppwhh5el5\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 2 chunks from C:\Users\rupam\AppData\Local\Temp\tmppwhh5el5\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:51:29] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:29] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\questions.jsonl
+[2026-10-17 12:51:29] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 12:51:29] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 12:51:29] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\results\evaluation_run_20261017_072129.json
+[2026-10-17 12:51:30] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 12:51:30] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 12:51:30] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 29
+[2026-10-17 12:51:30] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 15
+[2026-10-17 12:51:30] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 24
+[2026-10-17 13:09:14] [INFO] [evidence_rag.pipeline] Starting index build workflow...
+[2026-10-17 13:09:14] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 13:09:14] [INFO] [evidence_rag.pipeline] Chunked 20 documents into 70 passages.
+[2026-10-17 13:09:14] [INFO] [evidence_rag.indexing] Fitting embedding engine on 70 chunks...
+[2026-10-17 13:09:14] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 512
+[2026-10-17 13:09:14] [INFO] [evidence_rag.indexing] Encoding 70 chunks into vector space...
+[2026-10-17 13:09:14] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:14] [INFO] [evidence_rag.indexing] Successfully persisted index with 70 chunks to C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:14] [INFO] [evidence_rag.pipeline] Index build completed in 0.05s with 70 chunks.
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Fitting embedding engine on 2 chunks...
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 111
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Encoding 2 chunks into vector space...
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\AppData\Local\Temp\tmpfl5_ab3w\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Successfully persisted index with 2 chunks to C:\Users\rupam\AppData\Local\Temp\tmpfl5_ab3w\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\AppData\Local\Temp\tmpfl5_ab3w\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 2 chunks from C:\Users\rupam\AppData\Local\Temp\tmpfl5_ab3w\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 13:09:23] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\questions.jsonl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:09:23] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 13:09:23] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\results\evaluation_run_20261017_073923.json
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 29
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 15
+[2026-10-17 13:09:23] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 24
+[2026-10-17 13:09:42] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from evaluation\questions.jsonl
+[2026-10-17 13:09:42] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:09:42] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:09:42] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:09:42] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 13:09:42] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to evaluation\results\evaluation_run_20261017_073942.json
+[2026-10-17 13:12:23] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:12:23] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:13:16] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:13:16] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:13:35] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:13:35] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:11] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from evaluation\questions.jsonl
+[2026-10-17 13:14:11] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:11] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:11] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:14:11] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 13:14:11] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to evaluation\results\evaluation_run_20261017_074411.json
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Fitting embedding engine on 2 chunks...
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 111
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Encoding 2 chunks into vector space...
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Saved embedding model to C:\Users\rupam\AppData\Local\Temp\tmpw6pg72ds\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Successfully persisted index with 2 chunks to C:\Users\rupam\AppData\Local\Temp\tmpw6pg72ds\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\AppData\Local\Temp\tmpw6pg72ds\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 2 chunks from C:\Users\rupam\AppData\Local\Temp\tmpw6pg72ds\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 13:14:21] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 20 documents from manifest.
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.evaluation] Loaded 22 evaluation questions from C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\questions.jsonl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'
+[2026-10-17 13:14:21] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'According to operational guidelines, what is the candidate pool size limit for production retrieval queries?'
+[2026-10-17 13:14:21] [INFO] [evidence_rag.evaluation] Evaluation benchmark complete. Results saved to C:\Users\rupam\OneDrive\Desktop\RAG\evaluation\results\evaluation_run_20261017_074421.json
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:21] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 29
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 15
+[2026-10-17 13:14:21] [INFO] [evidence_rag.embeddings] Fitted HybridTfidfEmbeddingEngine with vocabulary size: 24
+[2026-10-17 13:14:38] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\rupam\OneDrive\Desktop\RAG\data\index\embedding_model.pkl
+[2026-10-17 13:14:38] [INFO] [evidence_rag.indexing] Loaded index containing 70 chunks from C:\Users\rupam\OneDrive\Desktop\RAG\data\index
+[2026-10-17 13:14:38] [INFO] [evidence_rag.conflict_detection] Factual conflict detected between DOC-009 and DOC-020 on query: 'What is the default production top-k parameter and candidate pool size for the retrieval service?'

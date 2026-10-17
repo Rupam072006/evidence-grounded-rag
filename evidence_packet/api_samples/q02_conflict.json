@@ -1,0 +1,148 @@
+{
+  "query": "What is the default production top-k parameter and candidate pool size for the retrieval service?",
+  "status": "CONFLICT_DETECTED",
+  "answer": "CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding 'Retrieval default top-k and candidate pool sizing'.\n\nContradictory specifications detected: DOC-009 designates default top-k as 5 with pool size 20, whereas DOC-020 designates revised default top-k as 10 with pool size 50.\n\nDocumented contradictions:\n- [DOC-009:DOC-009-C001]: Specifies default top-k of 5 and candidate pool of 20.\n- [DOC-020:DOC-020-C002]: Production Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes.",
+  "evidence": [
+    {
+      "chunk": {
+        "chunk_id": "DOC-020-C002",
+        "document_id": "DOC-020",
+        "chunk_index": 1,
+        "text": "are requirements, and operational constraints for AegisCore.\n\nProduction Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes. (Note: This operational standard supersedes earlier baseline profiles that specified top-k of 5 and pool size of 20).",
+        "char_start": 124,
+        "char_end": 609,
+        "token_count": 65,
+        "metadata": {
+          "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+          "topic": "Deployment and Limitations",
+          "source": "data/documents/doc_020_deployment_and_limitations.md",
+          "version": "1.0.0",
+          "source_type": "operational_guideline"
+        }
+      },
+      "score": 0.613,
+      "rank": 1,
+      "raw_similarity": 0.533
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-009-C001",
+        "document_id": "DOC-009",
+        "chunk_index": 0,
+        "text": "# Retrieval Configuration, Filter Policies, and Candidate Limits\n\nThe AegisCore query retrieval service governs candidate passage selection and filtering policies. Production systems implement strict operational thresholds to balance recall with context window economy.",
+        "char_start": 0,
+        "char_end": 269,
+        "token_count": 33,
+        "metadata": {
+          "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+          "topic": "Retrieval Configuration",
+          "source": "data/documents/doc_009_retrieval_configuration.md",
+          "version": "1.0.0",
+          "source_type": "operational_guideline"
+        }
+      },
+      "score": 0.371,
+      "rank": 2,
+      "raw_similarity": 0.3354
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-009-C002",
+        "document_id": "DOC-009",
+        "chunk_index": 1,
+        "text": "al thresholds to balance recall with context window economy.\n\nUnder standard operational policy, the retrieval service executes with a default top-k parameter of 5 candidates and caps the candidate evaluation pool at a maximum of 20 raw chunks. Queries apply a relevance cosine similarity threshold of 0.18. Any passage scoring below this similarity threshold is pruned prior to ranking.",
+        "char_start": 209,
+        "char_end": 596,
+        "token_count": 59,
+        "metadata": {
+          "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+          "topic": "Retrieval Configuration",
+          "source": "data/documents/doc_009_retrieval_configuration.md",
+          "version": "1.0.0",
+          "source_type": "operational_guideline"
+        }
+      },
+      "score": 0.354,
+      "rank": 3,
+      "raw_similarity": 0.2918
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-020-C003",
+        "document_id": "DOC-020",
+        "chunk_index": 2,
+        "text": "ine profiles that specified top-k of 5 and pool size of 20).\n\nHardware Sizing and Limitations:\n- Memory: Minimum 4 GB RAM recommended for index caching; 8 GB recommended for dense neural models.\n- Compute: CPU inference achieves average retrieval latencies of 45-85 milliseconds.\n- Storage: 100 MB disk space sufficient for indices containing up to 10,000 document chunks.\n- Limitations: Cross-language retrieval across non-English documents is currently experimental and requires specialized multi-lingual embeddings.",
+        "char_start": 549,
+        "char_end": 1067,
+        "token_count": 74,
+        "metadata": {
+          "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+          "topic": "Deployment and Limitations",
+          "source": "data/documents/doc_020_deployment_and_limitations.md",
+          "version": "1.0.0",
+          "source_type": "operational_guideline"
+        }
+      },
+      "score": 0.2739,
+      "rank": 4,
+      "raw_similarity": 0.2383
+    }
+  ],
+  "source_document_ids": [
+    "DOC-020",
+    "DOC-009"
+  ],
+  "source_chunk_ids": [
+    "DOC-020-C002",
+    "DOC-009-C001",
+    "DOC-009-C002",
+    "DOC-020-C003"
+  ],
+  "citations": [
+    {
+      "document_id": "DOC-009",
+      "chunk_id": "DOC-009-C001",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": "Verified in retrieved context."
+    },
+    {
+      "document_id": "DOC-020",
+      "chunk_id": "DOC-020-C002",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": "Verified in retrieved context."
+    }
+  ],
+  "confidence": 0.6403,
+  "limitations": [
+    "Confidence metric reflects lexical and semantic representation overlap; it is not a calibrated Bayesian posterior probability.",
+    "Contradictory knowledge sources detected; answer presents multiple perspectives."
+  ],
+  "conflicting_evidence": {
+    "topic": "Retrieval default top-k and candidate pool sizing",
+    "description": "Contradictory specifications detected: DOC-009 designates default top-k as 5 with pool size 20, whereas DOC-020 designates revised default top-k as 10 with pool size 50.",
+    "conflicting_sources": [
+      "DOC-009",
+      "DOC-020"
+    ],
+    "conflicting_chunks": [
+      "DOC-009-C001",
+      "DOC-020-C002"
+    ],
+    "items": [
+      {
+        "document_id": "DOC-009",
+        "chunk_id": "DOC-009-C001",
+        "statement": "Specifies default top-k of 5 and candidate pool of 20."
+      },
+      {
+        "document_id": "DOC-020",
+        "chunk_id": "DOC-020-C002",
+        "statement": "Production Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes."
+      }
+    ]
+  },
+  "latency_ms": 1.68,
+  "model_name": "deterministic_mock"
+}

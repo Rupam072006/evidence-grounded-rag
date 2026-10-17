@@ -1,0 +1,239 @@
+"""Language model generation layer supporting offline deterministic mock and Google Gemini API."""
+import os
+import re
+from abc import ABC, abstractmethod
+from typing import List, Tuple, Optional
+import httpx
+
+from evidence_rag.config import GenerationConfig
+from evidence_rag.schemas import (
+    RetrievedChunk,
+    ResponseStatus,
+    ConflictEvidence,
+    GenerationProviderError
+)
+from evidence_rag.logging_config import setup_logger
+
+logger = setup_logger("evidence_rag.generation")
+
+
+class BaseGenerator(ABC):
+    """Abstract generation interface."""
+
+    @abstractmethod
+    def generate_answer(
+        self,
+        query: str,
+        context: str,
+        retrieved_chunks: List[RetrievedChunk],
+        conflict: Optional[ConflictEvidence] = None
+    ) -> Tuple[str, ResponseStatus]:
+        """Generate grounded answer from evidence context."""
+        pass
+
+
+class DeterministicMockGenerator(BaseGenerator):
+    """Deterministic, grounded offline generator.
+
+    Extracts verified factual statements strictly from retrieved passages,
+    applies claim-level citations, handles conflicts, and emits canonical refusals.
+    """
+
+    CANONICAL_REFUSAL = (
+        "INSUFFICIENT EVIDENCE: The available knowledge base does not contain "
+        "enough information to answer this question reliably."
+    )
+
+    def generate_answer(
+        self,
+        query: str,
+        context: str,
+        retrieved_chunks: List[RetrievedChunk],
+        conflict: Optional[ConflictEvidence] = None
+    ) -> Tuple[str, ResponseStatus]:
+        # 1. Conflict handling
+        if conflict:
+            items_text = []
+            for item in conflict.items:
+                items_text.append(f"- [{item.document_id}:{item.chunk_id}]: {item.statement}")
+            answer = (
+                f"CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding '{conflict.topic}'.\n\n"
+                f"{conflict.description}\n\n"
+                "Documented contradictions:\n" + "\n".join(items_text)
+            )
+            return answer, ResponseStatus.CONFLICT_DETECTED
+
+        # 2. Insufficient context check
+        if not retrieved_chunks or not context.strip():
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
+        # 3. Grounded extraction from retrieved chunks
+        query_words = set(re.findall(r"\b[a-zA-Z0-9_\-]{3,}\b", query.lower()))
+        stopwords = {"what", "how", "does", "the", "and", "for", "with", "from", "are", "can", "is"}
+        core_query_words = query_words - stopwords
+
+        candidate_sentences: List[Tuple[str, str, str, int]] = []
+        for rc in retrieved_chunks:
+            sentences = re.split(r"(?<=[.!?])\s+", rc.chunk.text)
+            for s in sentences:
+                s_clean = s.strip()
+                if len(s_clean) < 15 or s_clean.startswith("#"):
+                    continue
+                s_lower = s_clean.lower()
+                overlap = sum(1 for w in core_query_words if w in s_lower)
+                if overlap > 0:
+                    candidate_sentences.append(
+                        (s_clean, rc.chunk.document_id, rc.chunk.chunk_id, overlap)
+                    )
+
+        if not candidate_sentences:
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
+        # Sort candidate sentences by overlap descending
+        candidate_sentences.sort(key=lambda x: x[3], reverse=True)
+
+        # Pick top 1 to 3 distinct informative sentences
+        selected_lines = []
+        seen_texts = set()
+        for s_clean, doc_id, chunk_id, _ in candidate_sentences:
+            # Normalize to avoid duplicate sentences
+            norm = s_clean.lower()[:40]
+            if norm in seen_texts:
+                continue
+            seen_texts.add(norm)
+            citation = f"[{doc_id}:{chunk_id}]"
+            selected_lines.append(f"{s_clean} {citation}")
+            if len(selected_lines) >= 3:
+                break
+
+        final_answer = " ".join(selected_lines)
+        return final_answer, ResponseStatus.ANSWERED
+
+
+class GeminiGenerator(BaseGenerator):
+    """Google Gemini GenAI generator with strict grounding prompt and error resilience."""
+
+    CANONICAL_REFUSAL = (
+        "INSUFFICIENT EVIDENCE: The available knowledge base does not contain "
+        "enough information to answer this question reliably."
+    )
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model_name: str = "gemini-1.5-flash",
+        temperature: float = 0.0
+    ):
+        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
+        self.model_name = model_name
+        self.temperature = temperature
+
+    def check_availability(self) -> Tuple[bool, str]:
+        """Verify API key presence and live access."""
+        if not self.api_key or self.api_key == "your_gemini_api_key_here":
+            return False, "GEMINI_API_KEY is not configured or is a placeholder."
+
+        # Quick connectivity test
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}?key={self.api_key}"
+            with httpx.Client(timeout=5.0) as client:
+                res = client.get(url)
+                if res.status_code == 200:
+                    return True, "Gemini API accessible."
+                elif res.status_code == 403:
+                    return False, f"403 PERMISSION_DENIED: {res.text}"
+                else:
+                    return False, f"HTTP {res.status_code}: {res.text}"
+        except Exception as e:
+            return False, f"Connection error: {e}"
+
+    def generate_answer(
+        self,
+        query: str,
+        context: str,
+        retrieved_chunks: List[RetrievedChunk],
+        conflict: Optional[ConflictEvidence] = None
+    ) -> Tuple[str, ResponseStatus]:
+        if not self.api_key:
+            logger.warning("Gemini API key missing; falling back to GENERATION_UNAVAILABLE.")
+            return (
+                "GENERATION UNAVAILABLE: GEMINI_API_KEY is not set. Use mock mode or configure API key.",
+                ResponseStatus.GENERATION_UNAVAILABLE
+            )
+
+        # 1. Explicit conflict override
+        if conflict:
+            items_text = [f"- [{i.document_id}:{i.chunk_id}]: {i.statement}" for i in conflict.items]
+            answer = (
+                f"CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding '{conflict.topic}'.\n\n"
+                f"{conflict.description}\n\n"
+                "Documented contradictions:\n" + "\n".join(items_text)
+            )
+            return answer, ResponseStatus.CONFLICT_DETECTED
+
+        # 2. Insufficient context check
+        if not retrieved_chunks or not context.strip():
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
+        # Format prompt
+        prompt = (
+            f"You are the AegisCore Grounded Technical Assistant. "
+            f"Answer the query using ONLY the provided evidence passages. "
+            f"Every factual claim MUST cite its source chunk ID using format [DOC-XXX:CHUNK_ID]. "
+            f"If the evidence is not sufficient to answer, reply strictly with: '{self.CANONICAL_REFUSAL}'\n\n"
+            f"EVIDENCE CONTEXT:\n{context}\n\n"
+            f"USER QUERY: {query}\n\n"
+            f"ANSWER:"
+        )
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": self.temperature,
+                "maxOutputTokens": 512
+            }
+        }
+
+        try:
+            with httpx.Client(timeout=15.0) as client:
+                res = client.post(url, json=payload)
+                if res.status_code == 403:
+                    logger.error(f"Gemini API 403 PERMISSION_DENIED: {res.text}")
+                    return (
+                        "GENERATION UNAVAILABLE: 403 PERMISSION_DENIED from Google Gemini API.",
+                        ResponseStatus.GENERATION_UNAVAILABLE
+                    )
+                elif res.status_code != 200:
+                    logger.error(f"Gemini API error {res.status_code}: {res.text}")
+                    return (
+                        f"GENERATION UNAVAILABLE: Provider error HTTP {res.status_code}.",
+                        ResponseStatus.GENERATION_UNAVAILABLE
+                    )
+
+                data = res.json()
+                raw_text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+
+                if "INSUFFICIENT EVIDENCE" in raw_text.upper():
+                    return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+                if "CONFLICT DETECTED" in raw_text.upper():
+                    return raw_text, ResponseStatus.CONFLICT_DETECTED
+
+                return raw_text, ResponseStatus.ANSWERED
+        except Exception as e:
+            logger.error(f"Gemini call failed with exception: {e}")
+            return (
+                f"GENERATION UNAVAILABLE: Error contacting provider: {e}",
+                ResponseStatus.GENERATION_UNAVAILABLE
+            )
+
+
+def create_generator(config: GenerationConfig) -> BaseGenerator:
+    """Instantiate the configured generator."""
+    mode = config.mode.lower()
+    if mode == "gemini":
+        return GeminiGenerator(
+            model_name=config.gemini_model,
+            temperature=config.temperature
+        )
+    return DeterministicMockGenerator()

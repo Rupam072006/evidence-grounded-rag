@@ -1,0 +1,134 @@
+{
+  "query": "What character encoding is mandatory for all incoming documents in AegisCore?",
+  "status": "ANSWERED",
+  "answer": "All incoming files are enforced to use UTF-8 character encoding. [DOC-004:DOC-004-C003] Unicode Normalization: Converts all characters to NFKC (Compatibility Decomposition followed by Canonical Composition) to resolve disparate ligature and accent encodings. [DOC-005:DOC-005-C002] In default reproducible environments, AegisCore employs an advanced Sublinear TF-IDF + Character/Word N-Gram hybrid vectorizer producing 512-dimensional L2-normalized representations. [DOC-007:DOC-007-C002]",
+  "evidence": [
+    {
+      "chunk": {
+        "chunk_id": "DOC-004-C003",
+        "document_id": "DOC-004",
+        "chunk_index": 2,
+        "text": "extracted and associated with the underlying text sections.\n\nAll incoming files are enforced to use UTF-8 character encoding. Files containing invalid byte sequences or unsupported binary markers are rejected immediately with a DocumentParsingError. The parsing module strips non-printable control characters while retaining standard paragraph separators (double newlines) to assist downstream chunking.",
+        "char_start": 566,
+        "char_end": 969,
+        "token_count": 51,
+        "metadata": {
+          "title": "Document Parsing and Structural Extraction",
+          "topic": "Document Processing",
+          "source": "data/documents/doc_004_document_processing.md",
+          "version": "1.0.0",
+          "source_type": "technical_specification"
+        }
+      },
+      "score": 0.2655,
+      "rank": 1,
+      "raw_similarity": 0.2198
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-007-C002",
+        "document_id": "DOC-007",
+        "chunk_index": 1,
+        "text": "sparse-dense representations and neural dense transformers.\n\nIn default reproducible environments, AegisCore employs an advanced Sublinear TF-IDF + Character/Word N-Gram hybrid vectorizer producing 512-dimensional L2-normalized representations. This model operates fully offline, requires zero external network calls, guarantees bitwise deterministic results across platforms, and eliminates GPU dependencies. For dense neural deployments, the system interfaces with sentence-transformers models such as all-MiniLM-L6-v2 yielding 384-dimensional dense vectors.",
+        "char_start": 260,
+        "char_end": 820,
+        "token_count": 62,
+        "metadata": {
+          "title": "Embedding Generation and Vector Representations",
+          "topic": "Embeddings",
+          "source": "data/documents/doc_007_embeddings.md",
+          "version": "1.0.0",
+          "source_type": "technical_specification"
+        }
+      },
+      "score": 0.1921,
+      "rank": 2,
+      "raw_similarity": 0.1578
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-017-C001",
+        "document_id": "DOC-017",
+        "chunk_index": 0,
+        "text": "# Input Validation, Query Sanitization, and Boundary Enforcement\n\nThe Input Validation Layer intercepts all incoming query requests before downstream pipeline processing. This layer enforces structural, length, and content constraints to preserve system stability and security. Input Constraints and Rules:\n1.",
+        "char_start": 0,
+        "char_end": 309,
+        "token_count": 40,
+        "metadata": {
+          "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+          "topic": "Input Validation",
+          "source": "data/documents/doc_017_input_validation.md",
+          "version": "1.0.0",
+          "source_type": "technical_specification"
+        }
+      },
+      "score": 0.1734,
+      "rank": 3,
+      "raw_similarity": 0.1505
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-005-C002",
+        "document_id": "DOC-005",
+        "chunk_index": 1,
+        "text": "The cleaning process executes in four sequential stages:\n1. Unicode Normalization: Converts all characters to NFKC (Compatibility Decomposition followed by Canonical Composition) to resolve disparate ligature and accent encodings. 2.",
+        "char_start": 244,
+        "char_end": 477,
+        "token_count": 30,
+        "metadata": {
+          "title": "Text Cleaning, Sanitization, and PII Redaction",
+          "topic": "Text Cleaning",
+          "source": "data/documents/doc_005_text_cleaning.md",
+          "version": "1.0.0",
+          "source_type": "security_standard"
+        }
+      },
+      "score": 0.1612,
+      "rank": 4,
+      "raw_similarity": 0.1269
+    }
+  ],
+  "source_document_ids": [
+    "DOC-004",
+    "DOC-007",
+    "DOC-017",
+    "DOC-005"
+  ],
+  "source_chunk_ids": [
+    "DOC-004-C003",
+    "DOC-007-C002",
+    "DOC-017-C001",
+    "DOC-005-C002"
+  ],
+  "citations": [
+    {
+      "document_id": "DOC-004",
+      "chunk_id": "DOC-004-C003",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": "Verified in retrieved context."
+    },
+    {
+      "document_id": "DOC-005",
+      "chunk_id": "DOC-005-C002",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": "Verified in retrieved context."
+    },
+    {
+      "document_id": "DOC-007",
+      "chunk_id": "DOC-007-C002",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": "Verified in retrieved context."
+    }
+  ],
+  "confidence": 0.3387,
+  "limitations": [
+    "Confidence metric reflects lexical and semantic representation overlap; it is not a calibrated Bayesian posterior probability.",
+    "Low confidence: Semantic overlap between query and retrieved context is marginal."
+  ],
+  "conflicting_evidence": null,
+  "latency_ms": 21.35,
+  "model_name": "deterministic_mock"
+}

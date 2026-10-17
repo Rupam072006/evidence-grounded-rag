@@ -1,0 +1,1131 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2026-10-17T07:39:14.425564+00:00",
+    "chunk_count": 70,
+    "vector_dimension": 512,
+    "corpus_fingerprint": "5bed908061eb36ef"
+  },
+  "chunks": [
+    {
+      "chunk_id": "DOC-001-C001",
+      "document_id": "DOC-001",
+      "chunk_index": 0,
+      "text": "# AegisCore System Overview and Operational Mission",
+      "char_start": 0,
+      "char_end": 51,
+      "token_count": 7,
+      "metadata": {
+        "title": "AegisCore System Overview and Operational Mission",
+        "topic": "System Overview",
+        "source": "data/documents/doc_001_system_overview.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-001-C002",
+      "document_id": "DOC-001",
+      "chunk_index": 1,
+      "text": "# AegisCore System Overview and Operational Mission\n\nThe AegisCore Distributed Intelligence Platform is a mission-critical, evidence-grounded retrieval-augmented generation system designed for enterprise engineering environments. The primary mission of AegisCore is to provide engineers, compliance auditors, and automated agents with deterministic, verified technical answers derived solely from authoritative internal documentation.",
+      "char_start": 0,
+      "char_end": 434,
+      "token_count": 49,
+      "metadata": {
+        "title": "AegisCore System Overview and Operational Mission",
+        "topic": "System Overview",
+        "source": "data/documents/doc_001_system_overview.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-001-C003",
+      "document_id": "DOC-001",
+      "chunk_index": 2,
+      "text": "rs derived solely from authoritative internal documentation.\n\nAegisCore enforces a zero-trust grounding paradigm. The system explicitly prohibits generating speculative, unverified, or hallucinations derived from external parametric memory. Every factual proposition delivered by the platform must be tied to verified document chunks through strict citation tracking.",
+      "char_start": 374,
+      "char_end": 741,
+      "token_count": 45,
+      "metadata": {
+        "title": "AegisCore System Overview and Operational Mission",
+        "topic": "System Overview",
+        "source": "data/documents/doc_001_system_overview.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-001-C004",
+      "document_id": "DOC-001",
+      "chunk_index": 3,
+      "text": "o verified document chunks through strict citation tracking.\n\nOperationally, AegisCore targets a sustained 99.95% uptime SLA with an end-to-end query response latency target of under 200 milliseconds on standard CPU hardware. It handles structured documentation formats including Markdown, JSON specifications, and technical text files, serving as the central source of truth across engineering departments.",
+      "char_start": 681,
+      "char_end": 1088,
+      "token_count": 54,
+      "metadata": {
+        "title": "AegisCore System Overview and Operational Mission",
+        "topic": "System Overview",
+        "source": "data/documents/doc_001_system_overview.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-002-C001",
+      "document_id": "DOC-002",
+      "chunk_index": 0,
+      "text": "# AegisCore Modular Architecture and Component Topology\n\nThe AegisCore architecture follows a decoupled, pipeline-oriented topology composed of five primary stages: Ingestion & Validation, Text Processing & Chunking, Vector Embedding & Indexing, Semantic Retrieval & Evidence Assessment, and Grounded Generation & Citation Verification.",
+      "char_start": 0,
+      "char_end": 336,
+      "token_count": 42,
+      "metadata": {
+        "title": "AegisCore Modular Architecture and Component Topology",
+        "topic": "Architecture",
+        "source": "data/documents/doc_002_architecture.md",
+        "version": "1.0.0",
+        "source_type": "architecture_design"
+      }
+    },
+    {
+      "chunk_id": "DOC-002-C002",
+      "document_id": "DOC-002",
+      "chunk_index": 1,
+      "text": "Assessment, and Grounded Generation & Citation Verification.\n\nThe pipeline maintains clear process isolation between data ingestion and real-time query serving. The Ingestion Engine processes raw corpus files, validates metadata integrity against the central manifest, and emits sanitized chunks into the persistent Indexing Store. The Query Engine receives incoming requests, verifies syntactic and semantic constraints, retrieves top candidate passages, and applies evidence sufficiency thresholds.",
+      "char_start": 276,
+      "char_end": 776,
+      "token_count": 63,
+      "metadata": {
+        "title": "AegisCore Modular Architecture and Component Topology",
+        "topic": "Architecture",
+        "source": "data/documents/doc_002_architecture.md",
+        "version": "1.0.0",
+        "source_type": "architecture_design"
+      }
+    },
+    {
+      "chunk_id": "DOC-002-C003",
+      "document_id": "DOC-002",
+      "chunk_index": 2,
+      "text": "idate passages, and applies evidence sufficiency thresholds.\n\nState management is strictly partitioned. Index artifacts are serialized as deterministic binary vectors and metadata indices on disk. When external language model providers are invoked, communication occurs via secure, rate-limited TLS channels with complete payload auditing and secret-free logging.",
+      "char_start": 716,
+      "char_end": 1079,
+      "token_count": 46,
+      "metadata": {
+        "title": "AegisCore Modular Architecture and Component Topology",
+        "topic": "Architecture",
+        "source": "data/documents/doc_002_architecture.md",
+        "version": "1.0.0",
+        "source_type": "architecture_design"
+      }
+    },
+    {
+      "chunk_id": "DOC-003-C001",
+      "document_id": "DOC-003",
+      "chunk_index": 0,
+      "text": "# Data Ingestion Protocols and Manifest Validation\n\nThe AegisCore Ingestion Subsystem governs the entry of technical documents into the knowledge base. Documents are ingested from the designated data repository using automated file scanning and manifest verification protocols.",
+      "char_start": 0,
+      "char_end": 277,
+      "token_count": 37,
+      "metadata": {
+        "title": "Data Ingestion Protocols and Manifest Validation",
+        "topic": "Data Ingestion",
+        "source": "data/documents/doc_003_data_ingestion.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-003-C002",
+      "document_id": "DOC-003",
+      "chunk_index": 1,
+      "text": "automated file scanning and manifest verification protocols.\n\nEvery document file must correspond to an entry in the machine-readable manifest (manifest.json). During the ingestion cycle, the subsystem performs SHA-256 cryptographic hashing on each document to verify file provenance and detect unauthorized tampering or bitrot. The ingestion engine enforces strict metadata validation, verifying that required fields\u2014including document_id, title, source, source_type, version, created_at, updated_at, and topic\u2014are present and non-empty.",
+      "char_start": 217,
+      "char_end": 755,
+      "token_count": 66,
+      "metadata": {
+        "title": "Data Ingestion Protocols and Manifest Validation",
+        "topic": "Data Ingestion",
+        "source": "data/documents/doc_003_data_ingestion.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-003-C003",
+      "document_id": "DOC-003",
+      "chunk_index": 2,
+      "text": "created_at, updated_at, and topic\u2014are present and non-empty.\n\nIf a document exists in the filesystem without a corresponding manifest entry, or if manifest metadata fails schema validation, the ingestion process halts with an IngestionValidationError. Ingested documents are assigned immutable internal timestamps and registered in the corpus registry.",
+      "char_start": 695,
+      "char_end": 1047,
+      "token_count": 46,
+      "metadata": {
+        "title": "Data Ingestion Protocols and Manifest Validation",
+        "topic": "Data Ingestion",
+        "source": "data/documents/doc_003_data_ingestion.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-004-C001",
+      "document_id": "DOC-004",
+      "chunk_index": 0,
+      "text": "# Document Parsing and Structural Extraction\n\nDocument parsing converts raw file formats into canonical textual representations suitable for chunking and vector encoding. AegisCore implements format-specific extractors for Markdown, Plaintext, and structured JSON files.",
+      "char_start": 0,
+      "char_end": 270,
+      "token_count": 33,
+      "metadata": {
+        "title": "Document Parsing and Structural Extraction",
+        "topic": "Document Processing",
+        "source": "data/documents/doc_004_document_processing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-004-C002",
+      "document_id": "DOC-004",
+      "chunk_index": 1,
+      "text": "tractors for Markdown, Plaintext, and structured JSON files.\n\nThe parser extracts both structural hierarchy and textual content. For Markdown documents, section headers (H1, H2, H3), code blocks, and bulleted lists are parsed while preserving logical block boundaries. Structural metadata, including primary section titles and hierarchical breadcrumbs, is extracted and associated with the underlying text sections.",
+      "char_start": 210,
+      "char_end": 625,
+      "token_count": 55,
+      "metadata": {
+        "title": "Document Parsing and Structural Extraction",
+        "topic": "Document Processing",
+        "source": "data/documents/doc_004_document_processing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-004-C003",
+      "document_id": "DOC-004",
+      "chunk_index": 2,
+      "text": "extracted and associated with the underlying text sections.\n\nAll incoming files are enforced to use UTF-8 character encoding. Files containing invalid byte sequences or unsupported binary markers are rejected immediately with a DocumentParsingError. The parsing module strips non-printable control characters while retaining standard paragraph separators (double newlines) to assist downstream chunking.",
+      "char_start": 566,
+      "char_end": 969,
+      "token_count": 51,
+      "metadata": {
+        "title": "Document Parsing and Structural Extraction",
+        "topic": "Document Processing",
+        "source": "data/documents/doc_004_document_processing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-005-C001",
+      "document_id": "DOC-005",
+      "chunk_index": 0,
+      "text": "# Text Cleaning, Sanitization, and PII Redaction\n\nThe Text Cleaning Pipeline prepares parsed document text for embedding generation by removing typographic noise, normalizing Unicode representations, and stripping potential injection vectors. The cleaning process executes in four sequential stages:\n1.",
+      "char_start": 0,
+      "char_end": 302,
+      "token_count": 39,
+      "metadata": {
+        "title": "Text Cleaning, Sanitization, and PII Redaction",
+        "topic": "Text Cleaning",
+        "source": "data/documents/doc_005_text_cleaning.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-005-C002",
+      "document_id": "DOC-005",
+      "chunk_index": 1,
+      "text": "The cleaning process executes in four sequential stages:\n1. Unicode Normalization: Converts all characters to NFKC (Compatibility Decomposition followed by Canonical Composition) to resolve disparate ligature and accent encodings. 2.",
+      "char_start": 244,
+      "char_end": 477,
+      "token_count": 30,
+      "metadata": {
+        "title": "Text Cleaning, Sanitization, and PII Redaction",
+        "topic": "Text Cleaning",
+        "source": "data/documents/doc_005_text_cleaning.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-005-C003",
+      "document_id": "DOC-005",
+      "chunk_index": 2,
+      "text": "tion) to resolve disparate ligature and accent encodings. 2. Control Character Removal: Strips ASCII control codes 0 through 31, with the strict exceptions of horizontal tabs (ASCII 9), line feeds (ASCII 10), and carriage returns (ASCII 13). 3.",
+      "char_start": 417,
+      "char_end": 661,
+      "token_count": 38,
+      "metadata": {
+        "title": "Text Cleaning, Sanitization, and PII Redaction",
+        "topic": "Text Cleaning",
+        "source": "data/documents/doc_005_text_cleaning.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-005-C004",
+      "document_id": "DOC-005",
+      "chunk_index": 3,
+      "text": ", line feeds (ASCII 10), and carriage returns (ASCII 13). 3. Whitespace Consolidation: Replaces consecutive whitespace characters with a single space while standardizing multi-line paragraph breaks to double newlines. 4. Security Tag Stripping: Identifies and strips raw HTML tags, embedded Javascript script blocks, and XML directive tags to eliminate markup-based injection attempts.",
+      "char_start": 601,
+      "char_end": 986,
+      "token_count": 52,
+      "metadata": {
+        "title": "Text Cleaning, Sanitization, and PII Redaction",
+        "topic": "Text Cleaning",
+        "source": "data/documents/doc_005_text_cleaning.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-005-C005",
+      "document_id": "DOC-005",
+      "chunk_index": 4,
+      "text": "directive tags to eliminate markup-based injection attempts.\n\nAdditionally, heuristic regex filters detect and mask sensitive identifiers such as API keys, private passwords, and personal email addresses with redacted placeholder tokens.",
+      "char_start": 926,
+      "char_end": 1163,
+      "token_count": 30,
+      "metadata": {
+        "title": "Text Cleaning, Sanitization, and PII Redaction",
+        "topic": "Text Cleaning",
+        "source": "data/documents/doc_005_text_cleaning.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-006-C001",
+      "document_id": "DOC-006",
+      "chunk_index": 0,
+      "text": "# Chunking Strategies and Chunk Identity Specification\n\nAegisCore implements a deterministic, boundary-aware paragraph sliding window chunking algorithm designed to optimize retrieval precision and contextual coherence.",
+      "char_start": 0,
+      "char_end": 219,
+      "token_count": 25,
+      "metadata": {
+        "title": "Chunking Strategies and Chunk Identity Specification",
+        "topic": "Chunking",
+        "source": "data/documents/doc_006_chunking.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-006-C002",
+      "document_id": "DOC-006",
+      "chunk_index": 1,
+      "text": "ed to optimize retrieval precision and contextual coherence.\n\nThe chunking algorithm operates with a target chunk size of 400 characters and a sliding overlap window of 60 characters. Unlike arbitrary character splitters, the AegisCore chunker respects natural text boundaries. It prefers splitting at double-newline paragraph breaks and sentence-ending punctuation marks (. ! ?). If a text segment is shorter than the minimum chunk length of 40 characters, it is merged into the adjacent chunk to prevent orphan fragments with low semantic density.",
+      "char_start": 159,
+      "char_end": 708,
+      "token_count": 82,
+      "metadata": {
+        "title": "Chunking Strategies and Chunk Identity Specification",
+        "topic": "Chunking",
+        "source": "data/documents/doc_006_chunking.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-006-C003",
+      "document_id": "DOC-006",
+      "chunk_index": 2,
+      "text": "chunk to prevent orphan fragments with low semantic density.\n\nEvery chunk is assigned a globally unique, deterministic Chunk ID using the format:\n[DOCUMENT_ID]-C[SEQUENCE_NUMBER] (for example, DOC-006-C001, DOC-006-C002).\nEach chunk object retains complete traceability metadata, including parent document_id, chunk_index, character_start, character_end, token_count, and content hash.",
+      "char_start": 648,
+      "char_end": 1033,
+      "token_count": 44,
+      "metadata": {
+        "title": "Chunking Strategies and Chunk Identity Specification",
+        "topic": "Chunking",
+        "source": "data/documents/doc_006_chunking.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-007-C001",
+      "document_id": "DOC-007",
+      "chunk_index": 0,
+      "text": "# Embedding Generation and Vector Representations\n\nThe AegisCore Vector Engine transforms sanitized text chunks and query strings into high-dimensional semantic vector spaces. The platform provides a dual-provider embedding architecture supporting both hybrid sparse-dense representations and neural dense transformers.",
+      "char_start": 0,
+      "char_end": 319,
+      "token_count": 38,
+      "metadata": {
+        "title": "Embedding Generation and Vector Representations",
+        "topic": "Embeddings",
+        "source": "data/documents/doc_007_embeddings.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-007-C002",
+      "document_id": "DOC-007",
+      "chunk_index": 1,
+      "text": "sparse-dense representations and neural dense transformers.\n\nIn default reproducible environments, AegisCore employs an advanced Sublinear TF-IDF + Character/Word N-Gram hybrid vectorizer producing 512-dimensional L2-normalized representations. This model operates fully offline, requires zero external network calls, guarantees bitwise deterministic results across platforms, and eliminates GPU dependencies. For dense neural deployments, the system interfaces with sentence-transformers models such as all-MiniLM-L6-v2 yielding 384-dimensional dense vectors.",
+      "char_start": 260,
+      "char_end": 820,
+      "token_count": 62,
+      "metadata": {
+        "title": "Embedding Generation and Vector Representations",
+        "topic": "Embeddings",
+        "source": "data/documents/doc_007_embeddings.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-007-C003",
+      "document_id": "DOC-007",
+      "chunk_index": 2,
+      "text": "as all-MiniLM-L6-v2 yielding 384-dimensional dense vectors.\n\nAll generated embedding vectors are strictly normalized to unit length (L2 norm = 1.0). This mathematical normalization ensures that the cosine similarity between two vectors is computationally equivalent to their standard dot product, accelerating vector comparison during retrieval.",
+      "char_start": 761,
+      "char_end": 1106,
+      "token_count": 44,
+      "metadata": {
+        "title": "Embedding Generation and Vector Representations",
+        "topic": "Embeddings",
+        "source": "data/documents/doc_007_embeddings.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-008-C001",
+      "document_id": "DOC-008",
+      "chunk_index": 0,
+      "text": "# Vector Indexing, Storage Layout, and Index Persistence\n\nAegisCore maintains a persistent, file-backed vector index located in data/index/. The indexing subsystem is engineered for atomic persistence, rapid deserialization, and complete state verification.",
+      "char_start": 0,
+      "char_end": 257,
+      "token_count": 32,
+      "metadata": {
+        "title": "Vector Indexing, Storage Layout, and Index Persistence",
+        "topic": "Vector Indexing",
+        "source": "data/documents/doc_008_vector_indexing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-008-C002",
+      "document_id": "DOC-008",
+      "chunk_index": 1,
+      "text": "nce, rapid deserialization, and complete state verification.\n\nThe storage architecture consists of two tightly coupled components:\n1. Vector Matrix (vectors.npy): A dense NumPy binary array storing the complete matrix of unit-normalized chunk embeddings with shape (N, D), where N is the total chunk count and D is the vector dimensionality.\n2. Knowledge Index Metadata (knowledge_index.json): A structured JSON record containing the index manifest, creation timestamp, embedding provider details, chunk lookup tables, document-to-chunk index mappings, and SHA-256 fingerprint hashes.",
+      "char_start": 197,
+      "char_end": 781,
+      "token_count": 78,
+      "metadata": {
+        "title": "Vector Indexing, Storage Layout, and Index Persistence",
+        "topic": "Vector Indexing",
+        "source": "data/documents/doc_008_vector_indexing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-008-C003",
+      "document_id": "DOC-008",
+      "chunk_index": 2,
+      "text": "ent-to-chunk index mappings, and SHA-256 fingerprint hashes.\n\nDuring startup, the index loader verifies that the hash of the indexed corpus matches the current documents manifest. If index corruption or version drift is detected, the loader raises an IndexCorruptionError and prompts an automatic index rebuild.",
+      "char_start": 721,
+      "char_end": 1032,
+      "token_count": 44,
+      "metadata": {
+        "title": "Vector Indexing, Storage Layout, and Index Persistence",
+        "topic": "Vector Indexing",
+        "source": "data/documents/doc_008_vector_indexing.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-009-C001",
+      "document_id": "DOC-009",
+      "chunk_index": 0,
+      "text": "# Retrieval Configuration, Filter Policies, and Candidate Limits\n\nThe AegisCore query retrieval service governs candidate passage selection and filtering policies. Production systems implement strict operational thresholds to balance recall with context window economy.",
+      "char_start": 0,
+      "char_end": 269,
+      "token_count": 33,
+      "metadata": {
+        "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+        "topic": "Retrieval Configuration",
+        "source": "data/documents/doc_009_retrieval_configuration.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-009-C002",
+      "document_id": "DOC-009",
+      "chunk_index": 1,
+      "text": "al thresholds to balance recall with context window economy.\n\nUnder standard operational policy, the retrieval service executes with a default top-k parameter of 5 candidates and caps the candidate evaluation pool at a maximum of 20 raw chunks. Queries apply a relevance cosine similarity threshold of 0.18. Any passage scoring below this similarity threshold is pruned prior to ranking.",
+      "char_start": 209,
+      "char_end": 596,
+      "token_count": 59,
+      "metadata": {
+        "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+        "topic": "Retrieval Configuration",
+        "source": "data/documents/doc_009_retrieval_configuration.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-009-C003",
+      "document_id": "DOC-009",
+      "chunk_index": 2,
+      "text": "below this similarity threshold is pruned prior to ranking.\n\nThe retrieval pipeline supports metadata filtering allowing queries to constrain candidate pools by topic, document version, or source type. When tenant or topic constraints are active, non-matching documents are discarded during the pre-ranking phase before similarity calculation occurs.",
+      "char_start": 537,
+      "char_end": 887,
+      "token_count": 47,
+      "metadata": {
+        "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+        "topic": "Retrieval Configuration",
+        "source": "data/documents/doc_009_retrieval_configuration.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-010-C001",
+      "document_id": "DOC-010",
+      "chunk_index": 0,
+      "text": "# Similarity Scoring Metrics and Candidate Ranking Heuristics\n\nCandidate scoring in AegisCore quantifies the semantic relevance between the user query vector q and each stored chunk vector c_i. Because all vectors in the index are unit-normalized (||q|| = 1 and ||c_i|| = 1), the cosine similarity metric simplifies to the vector dot product:",
+      "char_start": 0,
+      "char_end": 342,
+      "token_count": 53,
+      "metadata": {
+        "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
+        "topic": "Similarity Scoring",
+        "source": "data/documents/doc_010_similarity_scoring.md",
+        "version": "1.0.0",
+        "source_type": "mathematical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-010-C002",
+      "document_id": "DOC-010",
+      "chunk_index": 1,
+      "text": "sine similarity metric simplifies to the vector dot product:\n\nCosine_Similarity(q, c_i) = q \u00b7 c_i = sum(q_j * c_ij) for j = 1 to D.",
+      "char_start": 282,
+      "char_end": 413,
+      "token_count": 25,
+      "metadata": {
+        "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
+        "topic": "Similarity Scoring",
+        "source": "data/documents/doc_010_similarity_scoring.md",
+        "version": "1.0.0",
+        "source_type": "mathematical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-010-C003",
+      "document_id": "DOC-010",
+      "chunk_index": 2,
+      "text": "milarity(q, c_i) = q \u00b7 c_i = sum(q_j * c_ij) for j = 1 to D.\n\nRaw cosine scores range from 0.0 (orthogonal) to 1.0 (identical direction). To improve ranking robustness, AegisCore applies a score calibration heuristic:\n1. Exact keyword overlap boost: Passages containing exact case-insensitive matches for critical query terms receive an additive boost factor of up to 0.05.\n2. Density penalty: Excessively short or repetitive chunks receive a small damping penalty.",
+      "char_start": 353,
+      "char_end": 818,
+      "token_count": 73,
+      "metadata": {
+        "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
+        "topic": "Similarity Scoring",
+        "source": "data/documents/doc_010_similarity_scoring.md",
+        "version": "1.0.0",
+        "source_type": "mathematical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-010-C004",
+      "document_id": "DOC-010",
+      "chunk_index": 3,
+      "text": "short or repetitive chunks receive a small damping penalty.\n\nCandidates are sorted in descending order of calibrated score. In cases where two chunks produce identical similarity scores, tie-breaking defaults to document version precedence followed by chunk sequence order.",
+      "char_start": 759,
+      "char_end": 1032,
+      "token_count": 38,
+      "metadata": {
+        "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
+        "topic": "Similarity Scoring",
+        "source": "data/documents/doc_010_similarity_scoring.md",
+        "version": "1.0.0",
+        "source_type": "mathematical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-011-C001",
+      "document_id": "DOC-011",
+      "chunk_index": 0,
+      "text": "# Context Construction and Passage Formatting Guidelines\n\nContext construction is the critical bridge connecting retrieval to generative inference. The Context Builder synthesizes retrieved chunks into a structured, tamper-resistant prompt payload for the language model. The builder processes the top-k retrieved passages according to strict formatting rules:\n1.",
+      "char_start": 0,
+      "char_end": 363,
+      "token_count": 47,
+      "metadata": {
+        "title": "Context Construction and Passage Formatting Guidelines",
+        "topic": "Context Construction",
+        "source": "data/documents/doc_011_context_construction.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-011-C002",
+      "document_id": "DOC-011",
+      "chunk_index": 1,
+      "text": "retrieved passages according to strict formatting rules:\n1. Context Budgeting: The total token budget allocated for context passages is capped at 1,500 tokens (approximately 6,000 characters). Passages exceeding the budget are excluded. 2.",
+      "char_start": 305,
+      "char_end": 544,
+      "token_count": 33,
+      "metadata": {
+        "title": "Context Construction and Passage Formatting Guidelines",
+        "topic": "Context Construction",
+        "source": "data/documents/doc_011_context_construction.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-011-C003",
+      "document_id": "DOC-011",
+      "chunk_index": 2,
+      "text": "characters). Passages exceeding the budget are excluded. 2. Passage Delimitation: Each passage is framed with explicit boundaries:\n=== PASSAGE [CHUNK_ID] (SOURCE: [DOC_ID] | SCORE: [SCORE]) ===\n[CHUNK_CONTENT]\n=== END PASSAGE ===\n3. Order of Presentation: Passages are presented in descending order of relevance score. 4.",
+      "char_start": 485,
+      "char_end": 806,
+      "token_count": 45,
+      "metadata": {
+        "title": "Context Construction and Passage Formatting Guidelines",
+        "topic": "Context Construction",
+        "source": "data/documents/doc_011_context_construction.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-011-C004",
+      "document_id": "DOC-011",
+      "chunk_index": 3,
+      "text": "ges are presented in descending order of relevance score. 4. Redundancy Elimination: If two adjacent chunks from the same parent document exhibit significant textual overlap, the overlapping characters are deduplicated to conserve token budget.",
+      "char_start": 746,
+      "char_end": 990,
+      "token_count": 34,
+      "metadata": {
+        "title": "Context Construction and Passage Formatting Guidelines",
+        "topic": "Context Construction",
+        "source": "data/documents/doc_011_context_construction.md",
+        "version": "1.0.0",
+        "source_type": "engineering_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-012-C001",
+      "document_id": "DOC-012",
+      "chunk_index": 0,
+      "text": "# Grounded Answer Generation Protocols and Prompt Templates\n\nAegisCore enforces strict grounded generation protocols to guarantee that every factual statement originates directly from retrieved context passages. The generator operates under a specialized system instruction template. System Instruction:\n\"You are the AegisCore Grounded Knowledge Assistant.",
+      "char_start": 0,
+      "char_end": 356,
+      "token_count": 44,
+      "metadata": {
+        "title": "Grounded Answer Generation Protocols and Prompt Templates",
+        "topic": "Answer Generation",
+        "source": "data/documents/doc_012_answer_generation.md",
+        "version": "1.0.0",
+        "source_type": "system_prompt_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-012-C002",
+      "document_id": "DOC-012",
+      "chunk_index": 1,
+      "text": "uction:\n\"You are the AegisCore Grounded Knowledge Assistant. Your mandate is to answer technical questions using ONLY the facts explicitly stated in the provided context passages. Do not extrapolate, infer unstated assumptions, or utilize external world knowledge. Every factual claim must cite its source using the exact format [DOC-ID:CHUNK-ID].",
+      "char_start": 297,
+      "char_end": 644,
+      "token_count": 49,
+      "metadata": {
+        "title": "Grounded Answer Generation Protocols and Prompt Templates",
+        "topic": "Answer Generation",
+        "source": "data/documents/doc_012_answer_generation.md",
+        "version": "1.0.0",
+        "source_type": "system_prompt_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-012-C003",
+      "document_id": "DOC-012",
+      "chunk_index": 2,
+      "text": "st cite its source using the exact format [DOC-ID:CHUNK-ID]. If the provided context does not contain sufficient factual evidence to answer the query directly, you must return:\nINSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
+      "char_start": 584,
+      "char_end": 882,
+      "token_count": 43,
+      "metadata": {
+        "title": "Grounded Answer Generation Protocols and Prompt Templates",
+        "topic": "Answer Generation",
+        "source": "data/documents/doc_012_answer_generation.md",
+        "version": "1.0.0",
+        "source_type": "system_prompt_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-012-C004",
+      "document_id": "DOC-012",
+      "chunk_index": 3,
+      "text": "contain enough information to answer this question reliably. If conflicting evidence is present between sources, state CONFLICT DETECTED and outline the contradictory facts.\"\n\nThe generator operates at a temperature setting of 0.0 to eliminate stochastic hallucination and ensure deterministic reproducibility.",
+      "char_start": 822,
+      "char_end": 1132,
+      "token_count": 40,
+      "metadata": {
+        "title": "Grounded Answer Generation Protocols and Prompt Templates",
+        "topic": "Answer Generation",
+        "source": "data/documents/doc_012_answer_generation.md",
+        "version": "1.0.0",
+        "source_type": "system_prompt_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-013-C001",
+      "document_id": "DOC-013",
+      "chunk_index": 0,
+      "text": "# Citation Syntax, Claim Attribution, and Citation Validation\n\nCitations in AegisCore represent verifiable audit trails linking generated statements to underlying knowledge sources. Every factual statement must carry explicit citations.\n\nThe required citation syntax is:\n[DOCUMENT_ID:CHUNK_ID]\nExample: \"The system enforces a 400-character target chunk size [DOC-013:DOC-013-C001].\"",
+      "char_start": 0,
+      "char_end": 382,
+      "token_count": 45,
+      "metadata": {
+        "title": "Citation Syntax, Claim Attribution, and Citation Validation",
+        "topic": "Citation Rules",
+        "source": "data/documents/doc_013_citation_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-013-C002",
+      "document_id": "DOC-013",
+      "chunk_index": 1,
+      "text": "s a 400-character target chunk size [DOC-013:DOC-013-C001].\"\n\nAegisCore incorporates an automated post-generation Citation Validator. The validator executes the following checks:\n1. Existence Verification: Verifies that every cited chunk ID actually existed in the retrieved context for that specific query. Invented or hallucinated chunk IDs trigger validation failure.\n2. Source ID Consistency: Verifies that the document ID prefix matches the parent document of the cited chunk ID.\n3. Content Overlap Verification: Confirms that key factual n-grams in the cited sentence share lexical overlap with the cited chunk body.",
+      "char_start": 322,
+      "char_end": 944,
+      "token_count": 87,
+      "metadata": {
+        "title": "Citation Syntax, Claim Attribution, and Citation Validation",
+        "topic": "Citation Rules",
+        "source": "data/documents/doc_013_citation_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-013-C003",
+      "document_id": "DOC-013",
+      "chunk_index": 2,
+      "text": "ed sentence share lexical overlap with the cited chunk body.\n\nIf any citation fails validation, the system flags the response with status CITATION_VALIDATION_FAILED and suppresses ungrounded claims.",
+      "char_start": 884,
+      "char_end": 1082,
+      "token_count": 27,
+      "metadata": {
+        "title": "Citation Syntax, Claim Attribution, and Citation Validation",
+        "topic": "Citation Rules",
+        "source": "data/documents/doc_013_citation_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-014-C001",
+      "document_id": "DOC-014",
+      "chunk_index": 0,
+      "text": "# Confidence Scoring and Uncertainty Handling Framework\n\nAegisCore features a transparent, multi-dimensional confidence assessment model. The system avoids deceptive pseudo-probabilistic percentages by distinguishing semantic similarity from factual sufficiency.",
+      "char_start": 0,
+      "char_end": 262,
+      "token_count": 28,
+      "metadata": {
+        "title": "Confidence Scoring and Uncertainty Handling Framework",
+        "topic": "Confidence and Uncertainty",
+        "source": "data/documents/doc_014_confidence_and_uncertainty.md",
+        "version": "1.0.0",
+        "source_type": "algorithmic_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-014-C002",
+      "document_id": "DOC-014",
+      "chunk_index": 1,
+      "text": "distinguishing semantic similarity from factual sufficiency.\n\nThe Confidence Score (ranging from 0.0 to 1.0) is calculated as a composite metric:\nConfidence = (0.50 * Top_Similarity_Score) + (0.30 * Mean_Top3_Similarity) + (0.20 * Query_Term_Coverage_Ratio).",
+      "char_start": 202,
+      "char_end": 460,
+      "token_count": 33,
+      "metadata": {
+        "title": "Confidence Scoring and Uncertainty Handling Framework",
+        "topic": "Confidence and Uncertainty",
+        "source": "data/documents/doc_014_confidence_and_uncertainty.md",
+        "version": "1.0.0",
+        "source_type": "algorithmic_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-014-C003",
+      "document_id": "DOC-014",
+      "chunk_index": 2,
+      "text": "Mean_Top3_Similarity) + (0.20 * Query_Term_Coverage_Ratio).\n\nEvidence Sufficiency Floor:\nTo prevent answering off-topic or out-of-domain queries, AegisCore establishes a strict evidence sufficiency floor of 0.25. If the highest similarity score among retrieved passages is below 0.25, the query is immediately categorized as unanswerable.\nIn such cases, the system returns status INSUFFICIENT_EVIDENCE with the canonical refusal:\n\"INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.\"\nNo speculative generation is permitted when sufficiency criteria are unmet.",
+      "char_start": 401,
+      "char_end": 1030,
+      "token_count": 80,
+      "metadata": {
+        "title": "Confidence Scoring and Uncertainty Handling Framework",
+        "topic": "Confidence and Uncertainty",
+        "source": "data/documents/doc_014_confidence_and_uncertainty.md",
+        "version": "1.0.0",
+        "source_type": "algorithmic_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-015-C001",
+      "document_id": "DOC-015",
+      "chunk_index": 0,
+      "text": "# Error Handling Protocols, Fault Resilience, and Fallbacks\n\nAegisCore is designed for resilient operation across transient faults, missing dependencies, and external service outages. The architecture establishes a dedicated hierarchy of typed exceptions.",
+      "char_start": 0,
+      "char_end": 255,
+      "token_count": 32,
+      "metadata": {
+        "title": "Error Handling Protocols, Fault Resilience, and Fallbacks",
+        "topic": "Error Handling",
+        "source": "data/documents/doc_015_error_handling.md",
+        "version": "1.0.0",
+        "source_type": "reliability_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-015-C002",
+      "document_id": "DOC-015",
+      "chunk_index": 1,
+      "text": "cture establishes a dedicated hierarchy of typed exceptions.\n\nThe core exception hierarchy includes:\n- RAGException (Base system exception)\n - CorpusError (Missing documents directory, corrupt manifest, invalid document IDs)\n - IndexNotFoundError (Index missing, vector dimension mismatch, unbuilt index)\n - RetrievalError (Similarity calculation failure, empty candidate pool)\n - GenerationProviderError (API timeouts, authentication errors, quota exceeded)\n - InputValidationError (Malformed input, length violations, forbidden characters)",
+      "char_start": 195,
+      "char_end": 736,
+      "token_count": 61,
+      "metadata": {
+        "title": "Error Handling Protocols, Fault Resilience, and Fallbacks",
+        "topic": "Error Handling",
+        "source": "data/documents/doc_015_error_handling.md",
+        "version": "1.0.0",
+        "source_type": "reliability_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-015-C003",
+      "document_id": "DOC-015",
+      "chunk_index": 2,
+      "text": "r (Malformed input, length violations, forbidden characters)\n\nWhen an external LLM provider encounters a 403 PERMISSION_DENIED, 429 RATE_LIMIT, or network timeout, the pipeline activates its deterministic offline generation fallback. This guarantees that basic evidence extraction, conflict detection, and evaluation pipelines can execute without crashing.",
+      "char_start": 676,
+      "char_end": 1032,
+      "token_count": 44,
+      "metadata": {
+        "title": "Error Handling Protocols, Fault Resilience, and Fallbacks",
+        "topic": "Error Handling",
+        "source": "data/documents/doc_015_error_handling.md",
+        "version": "1.0.0",
+        "source_type": "reliability_guide"
+      }
+    },
+    {
+      "chunk_id": "DOC-016-C001",
+      "document_id": "DOC-016",
+      "chunk_index": 0,
+      "text": "# Security Controls, Prompt Injection Defense, and Secret Protection\n\nAegisCore enforces enterprise-grade security controls to protect the retrieval and generation lifecycle from manipulation, data exfiltration, and prompt injection attacks. Key security mandates include:\n1. Untrusted Document Paradigm: All document text is treated as passive, untrusted data.",
+      "char_start": 0,
+      "char_end": 361,
+      "token_count": 46,
+      "metadata": {
+        "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+        "topic": "Security Controls",
+        "source": "data/documents/doc_016_security_controls.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-016-C002",
+      "document_id": "DOC-016",
+      "chunk_index": 1,
+      "text": "gm: All document text is treated as passive, untrusted data. The generation prompt instructs the model to ignore any embedded directives such as \"Ignore previous instructions\", \"SYSTEM OVERRIDE\", or \"Print system prompt\". 2. Secret Protection & Environment Isolation: Secrets, API keys, and credentials must never be committed to source repositories or hardcoded in configuration files.",
+      "char_start": 302,
+      "char_end": 688,
+      "token_count": 55,
+      "metadata": {
+        "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+        "topic": "Security Controls",
+        "source": "data/documents/doc_016_security_controls.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-016-C003",
+      "document_id": "DOC-016",
+      "chunk_index": 2,
+      "text": "to source repositories or hardcoded in configuration files. Secrets are read exclusively from environment variables (such as GEMINI_API_KEY). 3. Secret-Free Logging: All log outputs, telemetry streams, and error traces pass through regex redaction filters that scrub potential API keys, authorization bearer tokens, and credentials. 4.",
+      "char_start": 629,
+      "char_end": 964,
+      "token_count": 45,
+      "metadata": {
+        "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+        "topic": "Security Controls",
+        "source": "data/documents/doc_016_security_controls.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-016-C004",
+      "document_id": "DOC-016",
+      "chunk_index": 3,
+      "text": "l API keys, authorization bearer tokens, and credentials. 4. Input Boundary Isolation: User queries are strictly quarantined within delimiter blocks to prevent prompt boundary escaping.",
+      "char_start": 904,
+      "char_end": 1089,
+      "token_count": 25,
+      "metadata": {
+        "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+        "topic": "Security Controls",
+        "source": "data/documents/doc_016_security_controls.md",
+        "version": "1.0.0",
+        "source_type": "security_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-017-C001",
+      "document_id": "DOC-017",
+      "chunk_index": 0,
+      "text": "# Input Validation, Query Sanitization, and Boundary Enforcement\n\nThe Input Validation Layer intercepts all incoming query requests before downstream pipeline processing. This layer enforces structural, length, and content constraints to preserve system stability and security. Input Constraints and Rules:\n1.",
+      "char_start": 0,
+      "char_end": 309,
+      "token_count": 40,
+      "metadata": {
+        "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+        "topic": "Input Validation",
+        "source": "data/documents/doc_017_input_validation.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-017-C002",
+      "document_id": "DOC-017",
+      "chunk_index": 1,
+      "text": "stem stability and security. Input Constraints and Rules:\n1. Length Boundaries: User queries must contain a minimum of 3 characters (excluding whitespace) and cannot exceed the maximum length limit of 500 characters. 2. Emptiness Checks: Queries consisting solely of whitespace, carriage returns, or empty strings are rejected with status INVALID_INPUT. 3.",
+      "char_start": 249,
+      "char_end": 605,
+      "token_count": 51,
+      "metadata": {
+        "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+        "topic": "Input Validation",
+        "source": "data/documents/doc_017_input_validation.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-017-C003",
+      "document_id": "DOC-017",
+      "chunk_index": 2,
+      "text": "or empty strings are rejected with status INVALID_INPUT. 3. Character Sanitization: Control characters, null bytes (\\x00), and unescaped ANSI escape sequences are detected and stripped or rejected. 4. Query Normalization: Excessive repeating punctuation (e.g., '???????') is condensed to single characters, and redundant whitespace is collapsed.",
+      "char_start": 547,
+      "char_end": 892,
+      "token_count": 45,
+      "metadata": {
+        "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+        "topic": "Input Validation",
+        "source": "data/documents/doc_017_input_validation.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-017-C004",
+      "document_id": "DOC-017",
+      "chunk_index": 3,
+      "text": "to single characters, and redundant whitespace is collapsed.\n\nRequests violating these boundary conditions are rejected immediately with descriptive client error messages and status INVALID_INPUT, avoiding wasted vector retrieval computations.",
+      "char_start": 832,
+      "char_end": 1075,
+      "token_count": 29,
+      "metadata": {
+        "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+        "topic": "Input Validation",
+        "source": "data/documents/doc_017_input_validation.md",
+        "version": "1.0.0",
+        "source_type": "technical_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-018-C001",
+      "document_id": "DOC-018",
+      "chunk_index": 0,
+      "text": "# Logging, Telemetry, and Observability Framework\n\nAegisCore provides a centralized, structured logging and observability framework designed for enterprise auditing and performance diagnostics.",
+      "char_start": 0,
+      "char_end": 193,
+      "token_count": 22,
+      "metadata": {
+        "title": "Logging, Telemetry, and Observability Framework",
+        "topic": "Logging and Observability",
+        "source": "data/documents/doc_018_logging_and_observability.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-018-C002",
+      "document_id": "DOC-018",
+      "chunk_index": 1,
+      "text": "esigned for enterprise auditing and performance diagnostics.\n\nThe logging framework writes structured log entries to logs/rag_system.log while emitting human-readable formatted summaries to standard output. Every query execution is assigned a unique UUIDv4 correlation ID (query_id), which is threaded across ingestion, retrieval, ranking, and generation stages.",
+      "char_start": 133,
+      "char_end": 495,
+      "token_count": 45,
+      "metadata": {
+        "title": "Logging, Telemetry, and Observability Framework",
+        "topic": "Logging and Observability",
+        "source": "data/documents/doc_018_logging_and_observability.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-018-C003",
+      "document_id": "DOC-018",
+      "chunk_index": 2,
+      "text": "across ingestion, retrieval, ranking, and generation stages.\n\nRecorded metrics include:\n- Ingestion metrics: Total documents indexed, chunk count, vocabulary size, index build duration.\n- Retrieval metrics: Candidate search latency in milliseconds, top similarity score, score margin between rank 1 and rank 2.\n- Generation metrics: Provider mode (mock vs gemini), prompt token count, generation latency, citation validity flag.\nAll loggers integrate secret scrubbing filters to ensure zero credential leakage in audit logs.",
+      "char_start": 435,
+      "char_end": 959,
+      "token_count": 72,
+      "metadata": {
+        "title": "Logging, Telemetry, and Observability Framework",
+        "topic": "Logging and Observability",
+        "source": "data/documents/doc_018_logging_and_observability.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-019-C001",
+      "document_id": "DOC-019",
+      "chunk_index": 0,
+      "text": "# Testing Pyramid, Quality Assurance, and Evaluation Standards\n\nThe AegisCore Quality Assurance framework enforces a multi-tier testing pyramid to guarantee deterministic behavior, regression resistance, and specification compliance. Testing Layers:\n1.",
+      "char_start": 0,
+      "char_end": 252,
+      "token_count": 30,
+      "metadata": {
+        "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+        "topic": "Testing and Evaluation",
+        "source": "data/documents/doc_019_testing_and_evaluation.md",
+        "version": "1.0.0",
+        "source_type": "qa_standards"
+      }
+    },
+    {
+      "chunk_id": "DOC-019-C002",
+      "document_id": "DOC-019",
+      "chunk_index": 1,
+      "text": "resistance, and specification compliance. Testing Layers:\n1. Unit Tests: Validate isolated components including Unicode text cleaning, chunk boundary splitting, stable chunk ID generation, vector dot products, and input validation bounds. 2.",
+      "char_start": 192,
+      "char_end": 433,
+      "token_count": 31,
+      "metadata": {
+        "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+        "topic": "Testing and Evaluation",
+        "source": "data/documents/doc_019_testing_and_evaluation.md",
+        "version": "1.0.0",
+        "source_type": "qa_standards"
+      }
+    },
+    {
+      "chunk_id": "DOC-019-C003",
+      "document_id": "DOC-019",
+      "chunk_index": 2,
+      "text": "ration, vector dot products, and input validation bounds. 2. Integration Tests: Verify cross-module workflows including index creation, serialization to disk, index reload, candidate retrieval matching, and context payload construction. 3. Functional Tests: Validate complete end-to-end question answering, citation attribution, and refusal responses on answerable and unanswerable queries. 4.",
+      "char_start": 374,
+      "char_end": 767,
+      "token_count": 48,
+      "metadata": {
+        "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+        "topic": "Testing and Evaluation",
+        "source": "data/documents/doc_019_testing_and_evaluation.md",
+        "version": "1.0.0",
+        "source_type": "qa_standards"
+      }
+    },
+    {
+      "chunk_id": "DOC-019-C004",
+      "document_id": "DOC-019",
+      "chunk_index": 3,
+      "text": "refusal responses on answerable and unanswerable queries. 4. Boundary & Security Tests: Exercise edge conditions including empty queries, 500+ character inputs, injection payloads, corrupt indices, and missing corpus files. 5.",
+      "char_start": 707,
+      "char_end": 933,
+      "token_count": 30,
+      "metadata": {
+        "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+        "topic": "Testing and Evaluation",
+        "source": "data/documents/doc_019_testing_and_evaluation.md",
+        "version": "1.0.0",
+        "source_type": "qa_standards"
+      }
+    },
+    {
+      "chunk_id": "DOC-019-C005",
+      "document_id": "DOC-019",
+      "chunk_index": 4,
+      "text": "tion payloads, corrupt indices, and missing corpus files. 5. Benchmark Evaluation: Executes a standardized test battery of at least 20 evaluation queries to quantitatively measure retrieval precision, grounded answer accuracy, and latency.",
+      "char_start": 873,
+      "char_end": 1112,
+      "token_count": 32,
+      "metadata": {
+        "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+        "topic": "Testing and Evaluation",
+        "source": "data/documents/doc_019_testing_and_evaluation.md",
+        "version": "1.0.0",
+        "source_type": "qa_standards"
+      }
+    },
+    {
+      "chunk_id": "DOC-020-C001",
+      "document_id": "DOC-020",
+      "chunk_index": 0,
+      "text": "# Deployment Profiles, Operational Limitations, and Resource Sizing\n\nThis document outlines deployment configurations, hardware requirements, and operational constraints for AegisCore.",
+      "char_start": 0,
+      "char_end": 184,
+      "token_count": 20,
+      "metadata": {
+        "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+        "topic": "Deployment and Limitations",
+        "source": "data/documents/doc_020_deployment_and_limitations.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-020-C002",
+      "document_id": "DOC-020",
+      "chunk_index": 1,
+      "text": "are requirements, and operational constraints for AegisCore.\n\nProduction Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes. (Note: This operational standard supersedes earlier baseline profiles that specified top-k of 5 and pool size of 20).",
+      "char_start": 124,
+      "char_end": 609,
+      "token_count": 65,
+      "metadata": {
+        "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+        "topic": "Deployment and Limitations",
+        "source": "data/documents/doc_020_deployment_and_limitations.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    },
+    {
+      "chunk_id": "DOC-020-C003",
+      "document_id": "DOC-020",
+      "chunk_index": 2,
+      "text": "ine profiles that specified top-k of 5 and pool size of 20).\n\nHardware Sizing and Limitations:\n- Memory: Minimum 4 GB RAM recommended for index caching; 8 GB recommended for dense neural models.\n- Compute: CPU inference achieves average retrieval latencies of 45-85 milliseconds.\n- Storage: 100 MB disk space sufficient for indices containing up to 10,000 document chunks.\n- Limitations: Cross-language retrieval across non-English documents is currently experimental and requires specialized multi-lingual embeddings.",
+      "char_start": 549,
+      "char_end": 1067,
+      "token_count": 74,
+      "metadata": {
+        "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+        "topic": "Deployment and Limitations",
+        "source": "data/documents/doc_020_deployment_and_limitations.md",
+        "version": "1.0.0",
+        "source_type": "operational_guideline"
+      }
+    }
+  ]
+}

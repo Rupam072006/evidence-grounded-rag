@@ -1,0 +1,207 @@
+{
+  "manifest_version": "1.0",
+  "total_documents": 20,
+  "generated_at": "2026-10-17T07:02:14.015869+00:00",
+  "documents": [
+    {
+      "document_id": "DOC-001",
+      "title": "AegisCore System Overview and Operational Mission",
+      "source": "data/documents/doc_001_system_overview.md",
+      "source_type": "technical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "System Overview"
+    },
+    {
+      "document_id": "DOC-002",
+      "title": "AegisCore Modular Architecture and Component Topology",
+      "source": "data/documents/doc_002_architecture.md",
+      "source_type": "architecture_design",
+      "version": "1.0.0",
+      "created_at": "2026-01-10T08:30:00Z",
+      "updated_at": "2026-01-16T09:15:00Z",
+      "topic": "Architecture"
+    },
+    {
+      "document_id": "DOC-003",
+      "title": "Data Ingestion Protocols and Manifest Validation",
+      "source": "data/documents/doc_003_data_ingestion.md",
+      "source_type": "engineering_guide",
+      "version": "1.0.0",
+      "created_at": "2026-01-11T09:00:00Z",
+      "updated_at": "2026-01-17T11:00:00Z",
+      "topic": "Data Ingestion"
+    },
+    {
+      "document_id": "DOC-004",
+      "title": "Document Parsing and Structural Extraction",
+      "source": "data/documents/doc_004_document_processing.md",
+      "source_type": "technical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-11T10:00:00Z",
+      "updated_at": "2026-01-18T14:20:00Z",
+      "topic": "Document Processing"
+    },
+    {
+      "document_id": "DOC-005",
+      "title": "Text Cleaning, Sanitization, and PII Redaction",
+      "source": "data/documents/doc_005_text_cleaning.md",
+      "source_type": "security_standard",
+      "version": "1.0.0",
+      "created_at": "2026-01-12T08:00:00Z",
+      "updated_at": "2026-01-19T10:00:00Z",
+      "topic": "Text Cleaning"
+    },
+    {
+      "document_id": "DOC-006",
+      "title": "Chunking Strategies and Chunk Identity Specification",
+      "source": "data/documents/doc_006_chunking.md",
+      "source_type": "engineering_guide",
+      "version": "1.0.0",
+      "created_at": "2026-01-12T09:30:00Z",
+      "updated_at": "2026-01-20T11:45:00Z",
+      "topic": "Chunking"
+    },
+    {
+      "document_id": "DOC-007",
+      "title": "Embedding Generation and Vector Representations",
+      "source": "data/documents/doc_007_embeddings.md",
+      "source_type": "technical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-13T08:15:00Z",
+      "updated_at": "2026-01-21T13:00:00Z",
+      "topic": "Embeddings"
+    },
+    {
+      "document_id": "DOC-008",
+      "title": "Vector Indexing, Storage Layout, and Index Persistence",
+      "source": "data/documents/doc_008_vector_indexing.md",
+      "source_type": "technical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-13T10:00:00Z",
+      "updated_at": "2026-01-22T09:30:00Z",
+      "topic": "Vector Indexing"
+    },
+    {
+      "document_id": "DOC-009",
+      "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
+      "source": "data/documents/doc_009_retrieval_configuration.md",
+      "source_type": "operational_guideline",
+      "version": "1.0.0",
+      "created_at": "2026-01-14T08:00:00Z",
+      "updated_at": "2026-01-23T11:00:00Z",
+      "topic": "Retrieval Configuration"
+    },
+    {
+      "document_id": "DOC-010",
+      "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
+      "source": "data/documents/doc_010_similarity_scoring.md",
+      "source_type": "mathematical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-14T11:30:00Z",
+      "updated_at": "2026-01-24T14:15:00Z",
+      "topic": "Similarity Scoring"
+    },
+    {
+      "document_id": "DOC-011",
+      "title": "Context Construction and Passage Formatting Guidelines",
+      "source": "data/documents/doc_011_context_construction.md",
+      "source_type": "engineering_guide",
+      "version": "1.0.0",
+      "created_at": "2026-01-15T09:00:00Z",
+      "updated_at": "2026-01-25T10:00:00Z",
+      "topic": "Context Construction"
+    },
+    {
+      "document_id": "DOC-012",
+      "title": "Grounded Answer Generation Protocols and Prompt Templates",
+      "source": "data/documents/doc_012_answer_generation.md",
+      "source_type": "system_prompt_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-15T11:00:00Z",
+      "updated_at": "2026-01-26T12:00:00Z",
+      "topic": "Answer Generation"
+    },
+    {
+      "document_id": "DOC-013",
+      "title": "Citation Syntax, Claim Attribution, and Citation Validation",
+      "source": "data/documents/doc_013_citation_rules.md",
+      "source_type": "compliance_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-16T08:30:00Z",
+      "updated_at": "2026-01-27T14:00:00Z",
+      "topic": "Citation Rules"
+    },
+    {
+      "document_id": "DOC-014",
+      "title": "Confidence Scoring and Uncertainty Handling Framework",
+      "source": "data/documents/doc_014_confidence_and_uncertainty.md",
+      "source_type": "algorithmic_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-16T10:00:00Z",
+      "updated_at": "2026-01-28T09:30:00Z",
+      "topic": "Confidence and Uncertainty"
+    },
+    {
+      "document_id": "DOC-015",
+      "title": "Error Handling Protocols, Fault Resilience, and Fallbacks",
+      "source": "data/documents/doc_015_error_handling.md",
+      "source_type": "reliability_guide",
+      "version": "1.0.0",
+      "created_at": "2026-01-17T09:00:00Z",
+      "updated_at": "2026-01-29T11:15:00Z",
+      "topic": "Error Handling"
+    },
+    {
+      "document_id": "DOC-016",
+      "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+      "source": "data/documents/doc_016_security_controls.md",
+      "source_type": "security_standard",
+      "version": "1.0.0",
+      "created_at": "2026-01-17T11:30:00Z",
+      "updated_at": "2026-01-30T15:00:00Z",
+      "topic": "Security Controls"
+    },
+    {
+      "document_id": "DOC-017",
+      "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
+      "source": "data/documents/doc_017_input_validation.md",
+      "source_type": "technical_specification",
+      "version": "1.0.0",
+      "created_at": "2026-01-18T08:00:00Z",
+      "updated_at": "2026-01-31T09:45:00Z",
+      "topic": "Input Validation"
+    },
+    {
+      "document_id": "DOC-018",
+      "title": "Logging, Telemetry, and Observability Framework",
+      "source": "data/documents/doc_018_logging_and_observability.md",
+      "source_type": "operational_guideline",
+      "version": "1.0.0",
+      "created_at": "2026-01-18T10:30:00Z",
+      "updated_at": "2026-02-01T13:30:00Z",
+      "topic": "Logging and Observability"
+    },
+    {
+      "document_id": "DOC-019",
+      "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
+      "source": "data/documents/doc_019_testing_and_evaluation.md",
+      "source_type": "qa_standards",
+      "version": "1.0.0",
+      "created_at": "2026-01-19T08:00:00Z",
+      "updated_at": "2026-02-02T11:00:00Z",
+      "topic": "Testing and Evaluation"
+    },
+    {
+      "document_id": "DOC-020",
+      "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
+      "source": "data/documents/doc_020_deployment_and_limitations.md",
+      "source_type": "operational_guideline",
+      "version": "1.0.0",
+      "created_at": "2026-01-19T10:30:00Z",
+      "updated_at": "2026-02-03T14:00:00Z",
+      "topic": "Deployment and Limitations"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "query": "What is the secret recipe for Aunt May's chocolate chip cookies?",
+  "status": "INSUFFICIENT_EVIDENCE",
+  "answer": "INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
+  "evidence": [
+    {
+      "chunk": {
+        "chunk_id": "DOC-011-C001",
+        "document_id": "DOC-011",
+        "chunk_index": 0,
+        "text": "# Context Construction and Passage Formatting Guidelines\n\nContext construction is the critical bridge connecting retrieval to generative inference. The Context Builder synthesizes retrieved chunks into a structured, tamper-resistant prompt payload for the language model. The builder processes the top-k retrieved passages according to strict formatting rules:\n1.",
+        "char_start": 0,
+        "char_end": 363,
+        "token_count": 47,
+        "metadata": {
+          "title": "Context Construction and Passage Formatting Guidelines",
+          "topic": "Context Construction",
+          "source": "data/documents/doc_011_context_construction.md",
+          "version": "1.0.0",
+          "source_type": "engineering_guide"
+        }
+      },
+      "score": 0.2356,
+      "rank": 1,
+      "raw_similarity": 0.2356
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-008-C002",
+        "document_id": "DOC-008",
+        "chunk_index": 1,
+        "text": "nce, rapid deserialization, and complete state verification.\n\nThe storage architecture consists of two tightly coupled components:\n1. Vector Matrix (vectors.npy): A dense NumPy binary array storing the complete matrix of unit-normalized chunk embeddings with shape (N, D), where N is the total chunk count and D is the vector dimensionality.\n2. Knowledge Index Metadata (knowledge_index.json): A structured JSON record containing the index manifest, creation timestamp, embedding provider details, chunk lookup tables, document-to-chunk index mappings, and SHA-256 fingerprint hashes.",
+        "char_start": 197,
+        "char_end": 781,
+        "token_count": 78,
+        "metadata": {
+          "title": "Vector Indexing, Storage Layout, and Index Persistence",
+          "topic": "Vector Indexing",
+          "source": "data/documents/doc_008_vector_indexing.md",
+          "version": "1.0.0",
+          "source_type": "technical_specification"
+        }
+      },
+      "score": 0.2319,
+      "rank": 2,
+      "raw_similarity": 0.2319
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-016-C001",
+        "document_id": "DOC-016",
+        "chunk_index": 0,
+        "text": "# Security Controls, Prompt Injection Defense, and Secret Protection\n\nAegisCore enforces enterprise-grade security controls to protect the retrieval and generation lifecycle from manipulation, data exfiltration, and prompt injection attacks. Key security mandates include:\n1. Untrusted Document Paradigm: All document text is treated as passive, untrusted data.",
+        "char_start": 0,
+        "char_end": 361,
+        "token_count": 46,
+        "metadata": {
+          "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+          "topic": "Security Controls",
+          "source": "data/documents/doc_016_security_controls.md",
+          "version": "1.0.0",
+          "source_type": "security_standard"
+        }
+      },
+      "score": 0.163,
+      "rank": 3,
+      "raw_similarity": 0.1516
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-016-C002",
+        "document_id": "DOC-016",
+        "chunk_index": 1,
+        "text": "gm: All document text is treated as passive, untrusted data. The generation prompt instructs the model to ignore any embedded directives such as \"Ignore previous instructions\", \"SYSTEM OVERRIDE\", or \"Print system prompt\". 2. Secret Protection & Environment Isolation: Secrets, API keys, and credentials must never be committed to source repositories or hardcoded in configuration files.",
+        "char_start": 302,
+        "char_end": 688,
+        "token_count": 55,
+        "metadata": {
+          "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
+          "topic": "Security Controls",
+          "source": "data/documents/doc_016_security_controls.md",
+          "version": "1.0.0",
+          "source_type": "security_standard"
+        }
+      },
+      "score": 0.1583,
+      "rank": 4,
+      "raw_similarity": 0.1469
+    }
+  ],
+  "source_document_ids": [
+    "DOC-011",
+    "DOC-008",
+    "DOC-016"
+  ],
+  "source_chunk_ids": [
+    "DOC-011-C001",
+    "DOC-008-C002",
+    "DOC-016-C001",
+    "DOC-016-C002"
+  ],
+  "citations": [],
+  "confidence": 0.2094,
+  "limitations": [
+    "Confidence metric reflects lexical and semantic representation overlap; it is not a calibrated Bayesian posterior probability.",
+    "Low confidence: Semantic overlap between query and retrieved context is marginal.",
+    "Retrieval similarity below evidence sufficiency floor (0.25)."
+  ],
+  "conflicting_evidence": null,
+  "latency_ms": 1.06,
+  "model_name": "deterministic_mock"
+}
