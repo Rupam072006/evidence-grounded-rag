@@ -51,7 +51,9 @@ class RetrievalConfig(BaseModel):
 
 
 class GenerationConfig(BaseModel):
-    mode: str = "mock"  # "mock" or "gemini"
+    mode: str = "mock"  # "mock", "grok", "groq", or "gemini"
+    grok_model: str = "grok-beta"
+    groq_model: str = "llama-3.3-70b-versatile"
     gemini_model: str = "gemini-1.5-flash"
     temperature: float = 0.0
     max_tokens: int = 512
@@ -113,6 +115,14 @@ def load_config(config_path: Optional[str] = None) -> RAGConfig:
     env_gemini_model = os.getenv("GEMINI_MODEL")
     if env_gemini_model:
         config.generation.gemini_model = env_gemini_model
+
+    env_grok_model = os.getenv("GROK_MODEL")
+    if env_grok_model:
+        config.generation.grok_model = env_grok_model
+
+    env_groq_model = os.getenv("GROQ_MODEL")
+    if env_groq_model:
+        config.generation.groq_model = env_groq_model
 
     env_log_level = os.getenv("RAG_LOG_LEVEL")
     if env_log_level:

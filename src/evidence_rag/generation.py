@@ -228,12 +228,194 @@ class GeminiGenerator(BaseGenerator):
             )
 
 
+class OpenAICompatibleGenerator(BaseGenerator):
+    """OpenAI-compatible generator supporting xAI Grok and Groq Cloud."""
+
+    CANONICAL_REFUSAL = (
+        "INSUFFICIENT EVIDENCE: The available knowledge base does not contain "
+        "enough information to answer this question reliably."
+    )
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        base_url: str = "https://api.x.ai/v1/chat/completions",
+        model_name: str = "grok-beta",
+        provider_name: str = "xAI Grok",
+        temperature: float = 0.0,
+        max_tokens: int = 512
+    ):
+        self.api_key = api_key
+        self.base_url = base_url
+        self.model_name = model_name
+        self.provider_name = provider_name
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+
+    def check_availability(self) -> Tuple[bool, str]:
+        if not self.api_key or "your_" in self.api_key:
+            return False, f"API key for {self.provider_name} is missing or placeholder."
+        return True, f"{self.provider_name} configured with model {self.model_name}."
+
+    def generate_answer(
+        self,
+        query: str,
+        context: str,
+        retrieved_chunks: List[RetrievedChunk],
+        conflict: Optional[ConflictEvidence] = None
+    ) -> Tuple[str, ResponseStatus]:
+        if not self.api_key:
+            logger.warning(f"{self.provider_name} API key missing; falling back to GENERATION_UNAVAILABLE.")
+            return (
+                f"GENERATION UNAVAILABLE: API key for {self.provider_name} is not set.",
+                ResponseStatus.GENERATION_UNAVAILABLE
+            )
+
+        # 1. Conflict handling
+        if conflict:
+            items_text = [f"- [{i.document_id}:{i.chunk_id}]: {i.statement}" for i in conflict.items]
+            answer = (
+                f"CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding '{conflict.topic}'.\n\n"
+                f"{conflict.description}\n\n"
+                "Documented contradictions:\n" + "\n".join(items_text)
+            )
+            return answer, ResponseStatus.CONFLICT_DETECTED
+
+        # 2. Insufficient context check
+        if not retrieved_chunks or not context.strip():
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
+        # Format system prompt and user prompt
+        system_msg = (
+            "You are the AegisCore Grounded Technical Assistant. "
+            "Your mandate is to answer technical questions using ONLY the facts explicitly stated in the provided evidence passages. "
+            "Do not extrapolate, infer unstated assumptions, or utilize external world knowledge. "
+            "Every factual claim must cite its source chunk ID using the exact format [DOC-XXX:CHUNK_ID]. "
+            f"If the context does not contain sufficient factual evidence to answer directly, reply strictly with: '{self.CANONICAL_REFUSAL}'\n"
+            "If conflicting evidence is present between sources, state 'CONFLICT DETECTED' and outline the contradictory facts."
+        )
+
+        user_msg = (
+            f"EVIDENCE CONTEXT:\n{context}\n\n"
+            f"USER QUERY: {query}\n\n"
+            "ANSWER:"
+        )
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "model": self.model_name,
+            "messages": [
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": user_msg}
+            ],
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens
+        }
+
+        try:
+            with httpx.Client(timeout=30.0) as client:
+                res = client.post(self.base_url, headers=headers, json=payload)
+                if res.status_code == 401:
+                    logger.error(f"{self.provider_name} 401 Unauthorized: {res.text}")
+                    return (
+                        f"GENERATION UNAVAILABLE: 401 Unauthorized for {self.provider_name}. Please verify your API key.",
+                        ResponseStatus.GENERATION_UNAVAILABLE
+                    )
+                elif res.status_code != 200:
+                    logger.error(f"{self.provider_name} HTTP {res.status_code}: {res.text}")
+                    return (
+                        f"GENERATION UNAVAILABLE: {self.provider_name} returned error HTTP {res.status_code}.",
+                        ResponseStatus.GENERATION_UNAVAILABLE
+                    )
+
+                data = res.json()
+                raw_text = data["choices"][0]["message"]["content"].strip()
+
+                if "INSUFFICIENT EVIDENCE" in raw_text.upper():
+                    return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+                if "CONFLICT DETECTED" in raw_text.upper():
+                    return raw_text, ResponseStatus.CONFLICT_DETECTED
+
+                return raw_text, ResponseStatus.ANSWERED
+        except Exception as e:
+            logger.error(f"{self.provider_name} call failed: {e}")
+            return (
+                f"GENERATION UNAVAILABLE: Error contacting {self.provider_name}: {e}",
+                ResponseStatus.GENERATION_UNAVAILABLE
+            )
+
+
+class GrokGenerator(OpenAICompatibleGenerator):
+    """xAI Grok generator with strict grounding and citation attribution."""
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model_name: str = "grok-beta",
+        temperature: float = 0.0
+    ):
+        key = api_key or os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
+        super().__init__(
+            api_key=key,
+            base_url="https://api.x.ai/v1/chat/completions",
+            model_name=model_name,
+            provider_name="xAI Grok",
+            temperature=temperature
+        )
+
+
+class GroqGenerator(OpenAICompatibleGenerator):
+    """Groq Cloud generator for high-speed inference (e.g. Llama-3.3-70b)."""
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model_name: str = "llama-3.3-70b-versatile",
+        temperature: float = 0.0
+    ):
+        key = api_key or os.getenv("GROQ_API_KEY")
+        super().__init__(
+            api_key=key,
+            base_url="https://api.groq.com/openai/v1/chat/completions",
+            model_name=model_name,
+            provider_name="Groq Cloud",
+            temperature=temperature
+        )
+
+
 def create_generator(config: GenerationConfig) -> BaseGenerator:
     """Instantiate the configured generator."""
     mode = config.mode.lower()
-    if mode == "gemini":
+    if mode == "grok":
+        return GrokGenerator(
+            model_name=config.grok_model,
+            temperature=config.temperature
+        )
+    elif mode == "groq":
+        return GroqGenerator(
+            model_name=config.groq_model,
+            temperature=config.temperature
+        )
+    elif mode == "gemini":
         return GeminiGenerator(
             model_name=config.gemini_model,
             temperature=config.temperature
         )
+
+    # Automatic fallback if API keys are set in environment
+    if os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY"):
+        return GrokGenerator(
+            model_name=config.grok_model,
+            temperature=config.temperature
+        )
+    elif os.getenv("GROQ_API_KEY"):
+        return GroqGenerator(
+            model_name=config.groq_model,
+            temperature=config.temperature
+        )
+
     return DeterministicMockGenerator()

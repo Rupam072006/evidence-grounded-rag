@@ -39,7 +39,9 @@ retrieval:
   margin_threshold: 0.05
 
 generation:
-  mode: "mock" # "mock" (offline deterministic) or "gemini" (Google GenAI)
+  mode: "mock" # options: "mock" (offline), "grok" (xAI Grok), "groq" (Groq Cloud), "gemini"
+  grok_model: "grok-beta"
+  groq_model: "llama-3.3-70b-versatile"
   gemini_model: "gemini-1.5-flash"
   temperature: 0.0
   max_tokens: 512
