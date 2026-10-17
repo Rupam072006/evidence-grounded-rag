@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-17T07:44:21.564811+00:00",
+  "timestamp": "2026-10-17T10:29:57.669647+00:00",
   "total_questions": 22,
   "metrics": {
     "retrieval_success_rate": 1.0,
@@ -10,7 +10,7 @@
     "negative_cases_count": 6,
     "citation_validity_rate": 1.0,
     "total_citations_evaluated": 41,
-    "average_latency_ms": 0.69
+    "average_latency_ms": 3.37
   },
   "results": [
     {
@@ -23,8 +23,8 @@
         "DOC-001"
       ],
       "retrieved_sources": [
-        "DOC-006",
-        "DOC-001"
+        "DOC-001",
+        "DOC-006"
       ],
       "retrieved_chunk_ids": [
         "DOC-001-C001",
@@ -57,7 +57,7 @@
         }
       ],
       "actual_answer": "Operationally, AegisCore targets a sustained 99.95% uptime SLA with an end-to-end query response latency target of under 200 milliseconds on standard CPU hardware. [DOC-001:DOC-001-C004] The primary mission of AegisCore is to provide engineers, compliance auditors, and automated agents with deterministic, verified technical answers derived solely from authoritative internal documentation. [DOC-001:DOC-001-C002] The chunking algorithm operates with a target chunk size of 400 characters and a sliding overlap window of 60 characters. [DOC-006:DOC-006-C002]",
-      "latency_ms": 1.53,
+      "latency_ms": 4.04,
       "passed": true,
       "failure_reasons": []
     },
@@ -71,9 +71,9 @@
         "DOC-003"
       ],
       "retrieved_sources": [
+        "DOC-003",
         "DOC-005",
-        "DOC-002",
-        "DOC-003"
+        "DOC-002"
       ],
       "retrieved_chunk_ids": [
         "DOC-003-C002",
@@ -92,7 +92,7 @@
         }
       ],
       "actual_answer": "During the ingestion cycle, the subsystem performs SHA-256 cryptographic hashing on each document to verify file provenance and detect unauthorized tampering or bitrot. [DOC-003:DOC-003-C002] The ingestion engine enforces strict metadata validation, verifying that required fields\u2014including document_id, title, source, source_type, version, created_at, updated_at, and topic\u2014are present and non-empty. [DOC-003:DOC-003-C002] Every document file must correspond to an entry in the machine-readable manifest (manifest.json). [DOC-003:DOC-003-C002]",
-      "latency_ms": 1.14,
+      "latency_ms": 3.66,
       "passed": true,
       "failure_reasons": []
     },
@@ -106,10 +106,10 @@
         "DOC-004"
       ],
       "retrieved_sources": [
+        "DOC-007",
         "DOC-005",
         "DOC-017",
-        "DOC-004",
-        "DOC-007"
+        "DOC-004"
       ],
       "retrieved_chunk_ids": [
         "DOC-004-C003",
@@ -142,7 +142,7 @@
         }
       ],
       "actual_answer": "All incoming files are enforced to use UTF-8 character encoding. [DOC-004:DOC-004-C003] Unicode Normalization: Converts all characters to NFKC (Compatibility Decomposition followed by Canonical Composition) to resolve disparate ligature and accent encodings. [DOC-005:DOC-005-C002] In default reproducible environments, AegisCore employs an advanced Sublinear TF-IDF + Character/Word N-Gram hybrid vectorizer producing 512-dimensional L2-normalized representations. [DOC-007:DOC-007-C002]",
-      "latency_ms": 1.0,
+      "latency_ms": 3.66,
       "passed": true,
       "failure_reasons": []
     },
@@ -156,9 +156,9 @@
         "DOC-005"
       ],
       "retrieved_sources": [
+        "DOC-002",
         "DOC-005",
-        "DOC-019",
-        "DOC-002"
+        "DOC-019"
       ],
       "retrieved_chunk_ids": [
         "DOC-005-C001",
@@ -184,7 +184,7 @@
         }
       ],
       "actual_answer": "The cleaning process executes in four sequential stages:\n1. [DOC-005:DOC-005-C001] Unit Tests: Validate isolated components including Unicode text cleaning, chunk boundary splitting, stable chunk ID generation, vector dot products, and input validation bounds. [DOC-019:DOC-019-C002]",
-      "latency_ms": 0.96,
+      "latency_ms": 3.25,
       "passed": true,
       "failure_reasons": []
     },
@@ -198,8 +198,8 @@
         "DOC-006"
       ],
       "retrieved_sources": [
-        "DOC-006",
-        "DOC-013"
+        "DOC-013",
+        "DOC-006"
       ],
       "retrieved_chunk_ids": [
         "DOC-006-C002",
@@ -232,7 +232,7 @@
         }
       ],
       "actual_answer": "The chunking algorithm operates with a target chunk size of 400 characters and a sliding overlap window of 60 characters. [DOC-006:DOC-006-C002] s a 400-character target chunk size [DOC-013:DOC-013-C001].\"\n\nAegisCore incorporates an automated post-generation Citation Validator. [DOC-013:DOC-013-C002] Unlike arbitrary character splitters, the AegisCore chunker respects natural text boundaries. [DOC-006:DOC-006-C002]",
-      "latency_ms": 0.77,
+      "latency_ms": 4.32,
       "passed": true,
       "failure_reasons": []
     },
@@ -246,10 +246,10 @@
         "DOC-007"
       ],
       "retrieved_sources": [
-        "DOC-008",
+        "DOC-007",
         "DOC-002",
         "DOC-005",
-        "DOC-007"
+        "DOC-008"
       ],
       "retrieved_chunk_ids": [
         "DOC-007-C003",
@@ -268,7 +268,7 @@
         }
       ],
       "actual_answer": "All generated embedding vectors are strictly normalized to unit length (L2 norm = 1.0). [DOC-007:DOC-007-C003] This mathematical normalization ensures that the cosine similarity between two vectors is computationally equivalent to their standard dot product, accelerating vector comparison during retrieval. [DOC-007:DOC-007-C003] as all-MiniLM-L6-v2 yielding 384-dimensional dense vectors. [DOC-007:DOC-007-C003]",
-      "latency_ms": 0.6,
+      "latency_ms": 3.37,
       "passed": true,
       "failure_reasons": []
     },
@@ -316,7 +316,7 @@
         }
       ],
       "actual_answer": "The storage architecture consists of two tightly coupled components:\n1. [DOC-008:DOC-008-C002] Because all vectors in the index are unit-normalized (||q|| = 1 and ||c_i|| = 1), the cosine similarity metric simplifies to the vector dot product: [DOC-010:DOC-010-C001] The indexing subsystem is engineered for atomic persistence, rapid deserialization, and complete state verification. [DOC-008:DOC-008-C001]",
-      "latency_ms": 0.59,
+      "latency_ms": 4.1,
       "passed": true,
       "failure_reasons": []
     },
@@ -331,8 +331,8 @@
       ],
       "retrieved_sources": [
         "DOC-009",
-        "DOC-010",
-        "DOC-014"
+        "DOC-014",
+        "DOC-010"
       ],
       "retrieved_chunk_ids": [
         "DOC-010-C004",
@@ -365,7 +365,7 @@
         }
       ],
       "actual_answer": "In cases where two chunks produce identical similarity scores, tie-breaking defaults to document version precedence followed by chunk sequence order. [DOC-010:DOC-010-C004] When tenant or topic constraints are active, non-matching documents are discarded during the pre-ranking phase before similarity calculation occurs. [DOC-009:DOC-009-C003] Raw cosine scores range from 0.0 (orthogonal) to 1.0 (identical direction). [DOC-010:DOC-010-C003]",
-      "latency_ms": 0.65,
+      "latency_ms": 4.18,
       "passed": true,
       "failure_reasons": []
     },
@@ -379,8 +379,8 @@
         "DOC-011"
       ],
       "retrieved_sources": [
-        "DOC-012",
-        "DOC-011"
+        "DOC-011",
+        "DOC-012"
       ],
       "retrieved_chunk_ids": [
         "DOC-011-C002",
@@ -406,7 +406,7 @@
         }
       ],
       "actual_answer": "Context Budgeting: The total token budget allocated for context passages is capped at 1,500 tokens (approximately 6,000 characters). [DOC-011:DOC-011-C002] Passages exceeding the budget are excluded. [DOC-011:DOC-011-C002] Your mandate is to answer technical questions using ONLY the facts explicitly stated in the provided context passages. [DOC-012:DOC-012-C002]",
-      "latency_ms": 0.6,
+      "latency_ms": 3.66,
       "passed": true,
       "failure_reasons": []
     },
@@ -420,10 +420,10 @@
         "DOC-013"
       ],
       "retrieved_sources": [
-        "DOC-008",
-        "DOC-010",
         "DOC-013",
-        "DOC-011"
+        "DOC-011",
+        "DOC-008",
+        "DOC-010"
       ],
       "retrieved_chunk_ids": [
         "DOC-013-C001",
@@ -449,7 +449,7 @@
         }
       ],
       "actual_answer": "The required citation syntax is:\n[DOCUMENT_ID:CHUNK_ID]\nExample: \"The system enforces a 400-character target chunk size [DOC-013:DOC-013-C001].\" [DOC-013:DOC-013-C001] Every factual statement must carry explicit citations. [DOC-013:DOC-013-C001] Exact keyword overlap boost: Passages containing exact case-insensitive matches for critical query terms receive an additive boost factor of up to 0.05. [DOC-010:DOC-010-C003]",
-      "latency_ms": 0.62,
+      "latency_ms": 3.6,
       "passed": true,
       "failure_reasons": []
     },
@@ -460,12 +460,12 @@
       "expected_status": "ANSWERED",
       "actual_status": "ANSWERED",
       "expected_sources": [
-        "DOC-006",
-        "DOC-011"
+        "DOC-011",
+        "DOC-006"
       ],
       "retrieved_sources": [
-        "DOC-006",
-        "DOC-011"
+        "DOC-011",
+        "DOC-006"
       ],
       "retrieved_chunk_ids": [
         "DOC-011-C002",
@@ -491,7 +491,7 @@
         }
       ],
       "actual_answer": "Context Budgeting: The total token budget allocated for context passages is capped at 1,500 tokens (approximately 6,000 characters). [DOC-011:DOC-011-C002] Passages exceeding the budget are excluded. [DOC-011:DOC-011-C002] Redundancy Elimination: If two adjacent chunks from the same parent document exhibit significant textual overlap, the overlapping characters are deduplicated to conserve token budget. [DOC-011:DOC-011-C004]",
-      "latency_ms": 0.57,
+      "latency_ms": 3.43,
       "passed": true,
       "failure_reasons": []
     },
@@ -502,13 +502,13 @@
       "expected_status": "ANSWERED",
       "actual_status": "ANSWERED",
       "expected_sources": [
-        "DOC-005",
-        "DOC-016"
+        "DOC-016",
+        "DOC-005"
       ],
       "retrieved_sources": [
+        "DOC-016",
         "DOC-005",
-        "DOC-019",
-        "DOC-016"
+        "DOC-019"
       ],
       "retrieved_chunk_ids": [
         "DOC-005-C001",
@@ -541,7 +541,7 @@
         }
       ],
       "actual_answer": "Unit Tests: Validate isolated components including Unicode text cleaning, chunk boundary splitting, stable chunk ID generation, vector dot products, and input validation bounds. [DOC-019:DOC-019-C002] The cleaning process executes in four sequential stages:\n1. [DOC-005:DOC-005-C001] Key security mandates include:\n1. [DOC-016:DOC-016-C001]",
-      "latency_ms": 0.6,
+      "latency_ms": 3.68,
       "passed": true,
       "failure_reasons": []
     },
@@ -556,9 +556,9 @@
         "DOC-014"
       ],
       "retrieved_sources": [
+        "DOC-002",
         "DOC-017",
-        "DOC-014",
-        "DOC-002"
+        "DOC-014"
       ],
       "retrieved_chunk_ids": [
         "DOC-017-C001",
@@ -591,7 +591,7 @@
         }
       ],
       "actual_answer": "Evidence Sufficiency Floor:\nTo prevent answering off-topic or out-of-domain queries, AegisCore establishes a strict evidence sufficiency floor of 0.25. [DOC-014:DOC-014-C003] The Query Engine receives incoming requests, verifies syntactic and semantic constraints, retrieves top candidate passages, and applies evidence sufficiency thresholds. [DOC-002:DOC-002-C002] Input Constraints and Rules:\n1. [DOC-017:DOC-017-C001]",
-      "latency_ms": 0.65,
+      "latency_ms": 4.68,
       "passed": true,
       "failure_reasons": []
     },
@@ -632,7 +632,7 @@
         }
       ],
       "actual_answer": "(Note: This operational standard supersedes earlier baseline profiles that specified top-k of 5 and pool size of 20). [DOC-020:DOC-020-C002] ine profiles that specified top-k of 5 and pool size of 20). [DOC-020:DOC-020-C003] Hardware Sizing and Limitations:\n- Memory: Minimum 4 GB RAM recommended for index caching; 8 GB recommended for dense neural models. [DOC-020:DOC-020-C003]",
-      "latency_ms": 0.69,
+      "latency_ms": 3.39,
       "passed": true,
       "failure_reasons": []
     },
@@ -648,8 +648,8 @@
       ],
       "retrieved_sources": [
         "DOC-017",
-        "DOC-006",
-        "DOC-007"
+        "DOC-007",
+        "DOC-006"
       ],
       "retrieved_chunk_ids": [
         "DOC-006-C002",
@@ -675,7 +675,7 @@
         }
       ],
       "actual_answer": "Unlike arbitrary character splitters, the AegisCore chunker respects natural text boundaries. [DOC-006:DOC-006-C002] If a text segment is shorter than the minimum chunk length of 40 characters, it is merged into the adjacent chunk to prevent orphan fragments with low semantic density. [DOC-006:DOC-006-C002] Length Boundaries: User queries must contain a minimum of 3 characters (excluding whitespace) and cannot exceed the maximum length limit of 500 characters. [DOC-017:DOC-017-C002]",
-      "latency_ms": 0.63,
+      "latency_ms": 3.64,
       "passed": true,
       "failure_reasons": []
     },
@@ -687,9 +687,9 @@
       "actual_status": "INSUFFICIENT_EVIDENCE",
       "expected_sources": [],
       "retrieved_sources": [
-        "DOC-008",
         "DOC-016",
-        "DOC-011"
+        "DOC-011",
+        "DOC-008"
       ],
       "retrieved_chunk_ids": [
         "DOC-011-C001",
@@ -700,7 +700,7 @@
       "confidence": 0.2094,
       "citations": [],
       "actual_answer": "INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
-      "latency_ms": 0.6,
+      "latency_ms": 2.95,
       "passed": true,
       "failure_reasons": []
     },
@@ -712,9 +712,9 @@
       "actual_status": "INSUFFICIENT_EVIDENCE",
       "expected_sources": [],
       "retrieved_sources": [
-        "DOC-012",
+        "DOC-003",
         "DOC-013",
-        "DOC-003"
+        "DOC-012"
       ],
       "retrieved_chunk_ids": [
         "DOC-003-C002",
@@ -725,7 +725,7 @@
       "confidence": 0.2143,
       "citations": [],
       "actual_answer": "INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
-      "latency_ms": 0.77,
+      "latency_ms": 3.13,
       "passed": true,
       "failure_reasons": []
     },
@@ -767,7 +767,7 @@
         }
       ],
       "actual_answer": "CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding 'Retrieval default top-k and candidate pool sizing'.\n\nContradictory specifications detected: DOC-009 designates default top-k as 5 with pool size 20, whereas DOC-020 designates revised default top-k as 10 with pool size 50.\n\nDocumented contradictions:\n- [DOC-009:DOC-009-C001]: Specifies default top-k of 5 and candidate pool of 20.\n- [DOC-020:DOC-020-C002]: Production Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes.",
-      "latency_ms": 0.8,
+      "latency_ms": 3.86,
       "passed": true,
       "failure_reasons": []
     },
@@ -809,7 +809,7 @@
         }
       ],
       "actual_answer": "CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding 'Retrieval default top-k and candidate pool sizing'.\n\nContradictory specifications detected: DOC-009 designates default top-k as 5 with pool size 20, whereas DOC-020 designates revised default top-k as 10 with pool size 50.\n\nDocumented contradictions:\n- [DOC-009:DOC-009-C001]: Specifies default top-k of 5 and candidate pool of 20.\n- [DOC-020:DOC-020-C002]: Production Deployment Profile (Conflicting Specification):\nUnder the revised enterprise deployment guidelines, the production retrieval service has standardized on a default top-k parameter of 10 candidates and a maximum candidate pool size of 50 to maximize recall across distributed multi-cluster nodes.",
-      "latency_ms": 0.7,
+      "latency_ms": 4.01,
       "passed": true,
       "failure_reasons": []
     },
@@ -824,8 +824,8 @@
       ],
       "retrieved_sources": [
         "DOC-016",
-        "DOC-005",
-        "DOC-013"
+        "DOC-013",
+        "DOC-005"
       ],
       "retrieved_chunk_ids": [
         "DOC-016-C002",
@@ -851,7 +851,7 @@
         }
       ],
       "actual_answer": "The generation prompt instructs the model to ignore any embedded directives such as \"Ignore previous instructions\", \"SYSTEM OVERRIDE\", or \"Print system prompt\". [DOC-016:DOC-016-C002] Additionally, heuristic regex filters detect and mask sensitive identifiers such as API keys, private passwords, and personal email addresses with redacted placeholder tokens. [DOC-005:DOC-005-C005] Secret Protection & Environment Isolation: Secrets, API keys, and credentials must never be committed to source repositories or hardcoded in configuration files. [DOC-016:DOC-016-C002]",
-      "latency_ms": 0.61,
+      "latency_ms": 3.56,
       "passed": true,
       "failure_reasons": []
     },
@@ -867,7 +867,7 @@
       "confidence": 0.0,
       "citations": [],
       "actual_answer": "INVALID INPUT: Query cannot be empty or contain only whitespace.",
-      "latency_ms": 0.0,
+      "latency_ms": 0.01,
       "passed": true,
       "failure_reasons": []
     },
@@ -883,7 +883,7 @@
       "confidence": 0.0,
       "citations": [],
       "actual_answer": "INVALID INPUT: Query exceeds maximum allowed length of 500 characters (length: 556).",
-      "latency_ms": 0.0,
+      "latency_ms": 0.01,
       "passed": true,
       "failure_reasons": []
     }

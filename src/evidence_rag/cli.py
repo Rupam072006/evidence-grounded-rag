@@ -162,5 +162,69 @@ def evaluate(questions, output):
         sys.exit(1)
 
 
+@main.command()
+def demo():
+    """Run an end-to-end interactive demo demonstrating all key RAG capabilities."""
+    cfg = load_config()
+    pipeline = RAGPipeline(config=cfg)
+
+    console.print(Panel(
+        "[bold cyan]AegisCore Evidence-Grounded RAG System -- Live Demo[/bold cyan]\n"
+        "[dim]Running 100% offline, deterministic, verified knowledge retrieval[/dim]",
+        border_style="cyan"
+    ))
+
+    # Step 1: Ensure Index
+    with console.status("[bold green]Verifying and loading vector index..."):
+        idx = pipeline.ensure_index()
+    console.print(f"[green][OK] Index Active:[/green] {len(idx.chunks)} passages ready across 20 technical documents.\n")
+
+    demo_queries = [
+        (
+            "1. Factual Answerable Query",
+            "What character encoding is mandatory for all incoming documents in AegisCore?",
+            "Demonstrates precise factual retrieval and verified claim-level citations."
+        ),
+        (
+            "2. Intentional Contradiction Query",
+            "What is the default production top-k parameter and candidate pool size for the retrieval service?",
+            "Demonstrates cross-document conflict detection (DOC-009 vs DOC-020)."
+        ),
+        (
+            "3. Out-of-Domain Unanswerable Query",
+            "What is the secret recipe for Aunt May's chocolate chip cookies?",
+            "Demonstrates strict evidence sufficiency floor and canonical refusal without hallucination."
+        )
+    ]
+
+    for title, q, note in demo_queries:
+        console.print(f"[bold yellow][*] {title}[/bold yellow]")
+        console.print(f"[dim]{note}[/dim]")
+        console.print(f"[bold white]Query:[/bold white] \"{q}\"")
+
+        resp = pipeline.query(q)
+
+        status_style = "bold green" if resp.status == ResponseStatus.ANSWERED else "bold yellow"
+        if resp.status == ResponseStatus.CONFLICT_DETECTED:
+            status_style = "bold magenta"
+        elif resp.status in (ResponseStatus.INVALID_INPUT, ResponseStatus.GENERATION_UNAVAILABLE):
+            status_style = "bold red"
+
+        console.print(Panel(
+            f"[bold]Status:[/bold] [{status_style}]{resp.status.value}[/{status_style}] | "
+            f"[bold]Confidence:[/bold] {resp.confidence:.2f} | "
+            f"[bold]Latency:[/bold] {resp.latency_ms:.1f} ms\n\n"
+            f"[bold]Output:[/bold]\n{resp.answer}",
+            border_style=status_style.split()[-1]
+        ))
+
+        if resp.citations:
+            cit_summary = ", ".join(f"[{c.document_id}:{c.chunk_id}] (valid: {c.is_valid})" for c in resp.citations)
+            console.print(f"[dim]Verified Citations: {cit_summary}[/dim]")
+        console.print()
+
+    console.print("[bold green][OK] Live Demonstration Complete.[/bold green]")
+
+
 if __name__ == "__main__":
     main()

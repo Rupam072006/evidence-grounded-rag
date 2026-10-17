@@ -406,16 +406,5 @@ def create_generator(config: GenerationConfig) -> BaseGenerator:
             temperature=config.temperature
         )
 
-    # Automatic fallback if API keys are set in environment
-    if os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY"):
-        return GrokGenerator(
-            model_name=config.grok_model,
-            temperature=config.temperature
-        )
-    elif os.getenv("GROQ_API_KEY"):
-        return GroqGenerator(
-            model_name=config.groq_model,
-            temperature=config.temperature
-        )
-
+    # Default is always deterministic offline mock generator
     return DeterministicMockGenerator()
