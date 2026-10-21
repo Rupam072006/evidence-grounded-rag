@@ -20,7 +20,8 @@ def test_response_statuses_complete():
         "INSUFFICIENT_EVIDENCE",
         "CONFLICT_DETECTED",
         "INVALID_INPUT",
-        "GENERATION_UNAVAILABLE"
+        "GENERATION_UNAVAILABLE",
+        "INDEX_UNAVAILABLE",
     }
     actual = {s.value for s in ResponseStatus}
     assert expected == actual

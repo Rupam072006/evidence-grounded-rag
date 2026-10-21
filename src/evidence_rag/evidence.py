@@ -10,9 +10,9 @@ logger = setup_logger("evidence_rag.evidence")
 class CitationValidator:
     """Extracts, validates, and audits claim-level citations in generated answers."""
 
-    # Matches formats: [DOC-001:DOC-001-C001], [DOC-001:C001], [DOC-001]
+    # Matches formats: [DOC-001:DOC-001-C001], [DOC-001:C001], [DOC-001-C001], [DOC-001], 【DOC-001-C001】
     CITATION_PATTERN = re.compile(
-        r"\[(DOC-\d{3})(?::([A-Za-z0-9\-_]+))?\]"
+        r"[\[\u3010](DOC-\d{3})(?:[:-]([A-Za-z0-9\-_]+))?[\]\u3011]"
     )
 
     def extract_citations(self, text: str) -> List[Citation]:

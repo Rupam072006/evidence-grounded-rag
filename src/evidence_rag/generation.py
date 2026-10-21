@@ -1,6 +1,7 @@
 """Language model generation layer supporting offline deterministic mock and Google Gemini API."""
 import os
 import re
+import time
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Optional
 import httpx
@@ -85,6 +86,19 @@ class DeterministicMockGenerator(BaseGenerator):
                     candidate_sentences.append(
                         (s_clean, rc.chunk.document_id, rc.chunk.chunk_id, overlap)
                     )
+
+        if not candidate_sentences:
+            for rc in retrieved_chunks:
+                sentences = re.split(r"(?<=[.!?])\s+", rc.chunk.text)
+                for s in sentences:
+                    s_clean = s.strip()
+                    if len(s_clean) >= 15 and not s_clean.startswith("#"):
+                        candidate_sentences.append(
+                            (s_clean, rc.chunk.document_id, rc.chunk.chunk_id, 0)
+                        )
+                        break
+                if candidate_sentences:
+                    break
 
         if not candidate_sentences:
             return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
@@ -255,6 +269,14 @@ class OpenAICompatibleGenerator(BaseGenerator):
     def check_availability(self) -> Tuple[bool, str]:
         if not self.api_key or "your_" in self.api_key:
             return False, f"API key for {self.provider_name} is missing or placeholder."
+        # Validate minimum key length and known provider key formats
+        if len(self.api_key) < 20:
+            return False, f"API key for {self.provider_name} appears invalid (too short)."
+        # Known prefixes for configured providers
+        if self.provider_name == "Groq Cloud" and not self.api_key.startswith("gsk_"):
+            return False, f"API key for Groq Cloud must start with 'gsk_'. Got an unrecognized format."
+        if self.provider_name == "xAI Grok" and not self.api_key.startswith("xai-"):
+            return False, f"API key for xAI Grok must start with 'xai-'. Got an unrecognized format."
         return True, f"{self.provider_name} configured with model {self.model_name}."
 
     def generate_answer(
@@ -316,37 +338,61 @@ class OpenAICompatibleGenerator(BaseGenerator):
             "max_tokens": self.max_tokens
         }
 
-        try:
-            with httpx.Client(timeout=30.0) as client:
-                res = client.post(self.base_url, headers=headers, json=payload)
-                if res.status_code == 401:
-                    logger.error(f"{self.provider_name} 401 Unauthorized: {res.text}")
-                    return (
-                        f"GENERATION UNAVAILABLE: 401 Unauthorized for {self.provider_name}. Please verify your API key.",
-                        ResponseStatus.GENERATION_UNAVAILABLE
-                    )
-                elif res.status_code != 200:
-                    logger.error(f"{self.provider_name} HTTP {res.status_code}: {res.text}")
-                    return (
-                        f"GENERATION UNAVAILABLE: {self.provider_name} returned error HTTP {res.status_code}.",
-                        ResponseStatus.GENERATION_UNAVAILABLE
-                    )
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                with httpx.Client(timeout=30.0) as client:
+                    res = client.post(self.base_url, headers=headers, json=payload)
+                    if res.status_code == 429:
+                        if attempt < max_retries - 1:
+                            wait_s = 2.0 * (attempt + 1)
+                            logger.warning(
+                                f"{self.provider_name} rate limit (429) hit. Retrying in {wait_s:.1f}s (attempt {attempt+1}/{max_retries})..."
+                            )
+                            time.sleep(wait_s)
+                            continue
+                        logger.error(f"{self.provider_name} HTTP 429 rate limit exhausted: {res.text}")
+                        return (
+                            f"GENERATION UNAVAILABLE: {self.provider_name} rate limit reached. Please retry later.",
+                            ResponseStatus.GENERATION_UNAVAILABLE
+                        )
+                    elif res.status_code == 401:
+                        logger.error(f"{self.provider_name} 401 Unauthorized: {res.text}")
+                        return (
+                            f"GENERATION UNAVAILABLE: 401 Unauthorized for {self.provider_name}. Please verify your API key.",
+                            ResponseStatus.GENERATION_UNAVAILABLE
+                        )
+                    elif res.status_code != 200:
+                        logger.error(f"{self.provider_name} HTTP {res.status_code}: {res.text}")
+                        return (
+                            f"GENERATION UNAVAILABLE: {self.provider_name} returned error HTTP {res.status_code}.",
+                            ResponseStatus.GENERATION_UNAVAILABLE
+                        )
 
-                data = res.json()
-                raw_text = data["choices"][0]["message"]["content"].strip()
+                    data = res.json()
+                    raw_text = data["choices"][0]["message"]["content"].strip()
 
-                if "INSUFFICIENT EVIDENCE" in raw_text.upper():
-                    return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
-                if "CONFLICT DETECTED" in raw_text.upper():
-                    return raw_text, ResponseStatus.CONFLICT_DETECTED
+                    if "INSUFFICIENT EVIDENCE" in raw_text.upper():
+                        return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+                    if "CONFLICT DETECTED" in raw_text.upper():
+                        return raw_text, ResponseStatus.CONFLICT_DETECTED
 
-                return raw_text, ResponseStatus.ANSWERED
-        except Exception as e:
-            logger.error(f"{self.provider_name} call failed: {e}")
-            return (
-                f"GENERATION UNAVAILABLE: Error contacting {self.provider_name}: {e}",
-                ResponseStatus.GENERATION_UNAVAILABLE
-            )
+                    return raw_text, ResponseStatus.ANSWERED
+            except httpx.TimeoutException:
+                if attempt < max_retries - 1:
+                    time.sleep(1.0)
+                    continue
+                logger.error(f"{self.provider_name} call timed out.")
+                return (
+                    f"GENERATION UNAVAILABLE: Timeout contacting {self.provider_name}.",
+                    ResponseStatus.GENERATION_UNAVAILABLE
+                )
+            except Exception as e:
+                logger.error(f"{self.provider_name} call failed: {e}")
+                return (
+                    f"GENERATION UNAVAILABLE: Error contacting {self.provider_name}: {e}",
+                    ResponseStatus.GENERATION_UNAVAILABLE
+                )
 
 
 class GrokGenerator(OpenAICompatibleGenerator):

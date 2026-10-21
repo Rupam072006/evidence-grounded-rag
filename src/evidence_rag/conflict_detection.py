@@ -10,11 +10,21 @@ logger = setup_logger("evidence_rag.conflict_detection")
 class ConflictDetector:
     """Detects factual contradictions between retrieved knowledge passages."""
 
-    # Explicit known contradictory pairings in our corpus
-    # DOC-009 (top-k=5, candidate pool=20) vs DOC-020 (top-k=10, candidate pool=50)
-    KNOWN_CONFLICT_PAIRS = [
+    # Default known contradictory pairings in our corpus (extensible)
+    DEFAULT_KNOWN_CONFLICT_PAIRS = [
         ("DOC-009", "DOC-020", "Retrieval default top-k and candidate pool sizing")
     ]
+    # Backward compatibility alias
+    KNOWN_CONFLICT_PAIRS = DEFAULT_KNOWN_CONFLICT_PAIRS
+
+    def __init__(self, known_pairs: Optional[List[Tuple[str, str, str]]] = None):
+        self.known_conflict_pairs = list(self.DEFAULT_KNOWN_CONFLICT_PAIRS)
+        if known_pairs:
+            self.known_conflict_pairs.extend(known_pairs)
+
+    def register_conflict_pair(self, doc_a: str, doc_b: str, topic: str) -> None:
+        """Register a new known contradictory pairing dynamically."""
+        self.known_conflict_pairs.append((doc_a, doc_b, topic))
 
     def detect_conflicts(
         self,
@@ -30,7 +40,7 @@ class ConflictDetector:
             doc_chunks_map.setdefault(rc.chunk.document_id, []).append(rc)
 
         # 1. Check known explicit contradiction pairs
-        for doc_a, doc_b, topic in self.KNOWN_CONFLICT_PAIRS:
+        for doc_a, doc_b, topic in self.known_conflict_pairs:
             if doc_a in doc_chunks_map and doc_b in doc_chunks_map:
                 # Check if query or chunks relate to the conflicting parameters (top-k, candidate pool, default parameter)
                 relevant_terms = ["top-k", "candidate pool", "retrieval service", "default", "production"]

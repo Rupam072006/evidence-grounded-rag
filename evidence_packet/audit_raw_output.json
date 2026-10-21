@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-10-21T08:36:18Z",
+  "passed": 16,
+  "total": 16,
+  "checks": {
+    "import_clean": {
+      "result": true,
+      "notes": "All modules import without error"
+    },
+    "test_suite": {
+      "result": true,
+      "notes": ""
+    },
+    "index_loads": {
+      "result": true,
+      "notes": "Loaded 301 chunks"
+    },
+    "corpus_fingerprint": {
+      "result": true,
+      "notes": "Fingerprint covers full corpus"
+    },
+    "stale_index_detection": {
+      "result": true,
+      "notes": "Cached fp=4e1ab47fa16f5470, after doc edit computed fp=535c9bdbe203dd5f. Stale detected correctly"
+    },
+    "unknown_question_refused": {
+      "result": true,
+      "notes": "Status=ResponseStatus.INSUFFICIENT_EVIDENCE, answer[:80]=INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough info"
+    },
+    "conflict_status_correct": {
+      "result": true,
+      "notes": "Status=ResponseStatus.CONFLICT_DETECTED"
+    },
+    "invalid_input_handling": {
+      "result": true,
+      "notes": "All 4 boundary cases"
+    },
+    "prompt_injection_no_key_leak": {
+      "result": true,
+      "notes": "Status=ResponseStatus.ANSWERED, no_key_leak=True, answer[:80]=I\u2019m sorry, but I can\u2019t comply with that request.  \n\nThe request is an example of"
+    },
+    "bad_api_key_detected": {
+      "result": true,
+      "notes": "available=False, msg=API key for xAI Grok must start with 'xai-'. Got an unrecognized format."
+    },
+    "citation_content_support": {
+      "result": true,
+      "notes": "Citations=3, failures=none"
+    },
+    "schema_consistency": {
+      "result": true,
+      "notes": "Errors: none"
+    },
+    "index_error_status_semantic": {
+      "result": true,
+      "notes": "Index load failure returns distinct ResponseStatus.INDEX_UNAVAILABLE"
+    },
+    "no_secrets_in_logs": {
+      "result": true,
+      "notes": "Secrets found: none"
+    },
+    "conflict_detector_scope": {
+      "result": true,
+      "notes": "Conflict detector supports dynamic pair registration and heuristic parameter discrepancy detection"
+    },
+    "eval_questions_corpus_aligned": {
+      "result": true,
+      "notes": "0 mismatches: none"
+    }
+  }
+}

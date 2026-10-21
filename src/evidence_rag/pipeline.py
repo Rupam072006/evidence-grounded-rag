@@ -45,6 +45,23 @@ class RAGPipeline:
         self.confidence_scorer = ConfidenceScorer()
         self.context_builder = ContextBuilder()
 
+    def compute_corpus_fingerprint(self) -> str:
+        """Compute SHA-256 fingerprint across all loaded documents."""
+        import hashlib
+        ingestion_engine = IngestionEngine(self.config.corpus, base_dir=self.base_dir)
+        documents = ingestion_engine.load_corpus()
+        combined = "|".join(sorted(d.content_hash for d in documents))
+        return hashlib.sha256(combined.encode()).hexdigest()[:16]
+
+    def is_index_stale(self, index: Optional[VectorIndex] = None) -> bool:
+        """Check if persistent index fingerprint differs from the current corpus."""
+        target_index = index or self.index
+        if target_index is None:
+            return True
+        cached_fp = target_index.metadata.get("corpus_fingerprint", "")
+        current_fp = self.compute_corpus_fingerprint()
+        return cached_fp != current_fp
+
     def build_index(self) -> VectorIndex:
         """Execute full ingestion, chunking, and index build from source corpus."""
         logger.info("Starting index build workflow...")
@@ -61,7 +78,9 @@ class RAGPipeline:
 
         # 3. Embeddings & Indexing
         embedding_engine = create_embedding_engine(self.config.embeddings)
-        corpus_fingerprint = documents[0].content_hash[:16] if documents else ""
+        import hashlib as _hashlib
+        combined = "|".join(sorted(d.content_hash for d in documents))
+        corpus_fingerprint = _hashlib.sha256(combined.encode()).hexdigest()[:16]
         index = VectorIndex.build(chunks, embedding_engine, corpus_fingerprint=corpus_fingerprint)
 
         # 4. Save persistent index
@@ -80,12 +99,19 @@ class RAGPipeline:
         self.index = VectorIndex.load(str(index_dir), embedding_engine=embedding_engine)
         return self.index
 
-    def ensure_index(self) -> VectorIndex:
-        """Ensure an index is loaded, attempting to load from disk or build if absent."""
+    def ensure_index(self, check_staleness: bool = False) -> VectorIndex:
+        """Ensure an index is loaded, attempting to load from disk or build if absent or stale."""
         if self.index is not None:
+            if check_staleness and self.is_index_stale(self.index):
+                logger.info("Loaded index is stale compared to corpus; rebuilding...")
+                return self.build_index()
             return self.index
         try:
-            return self.load_index()
+            idx = self.load_index()
+            if check_staleness and self.is_index_stale(idx):
+                logger.info("Persistent index is stale compared to corpus; rebuilding...")
+                return self.build_index()
+            return idx
         except IndexNotFoundError:
             logger.info("Persistent index not found; building from corpus...")
             return self.build_index()
@@ -135,8 +161,8 @@ class RAGPipeline:
             logger.error(f"Failed to access index: {e}")
             return RAGResponse(
                 query=clean_query,
-                status=ResponseStatus.GENERATION_UNAVAILABLE,
-                answer=f"SYSTEM ERROR: Unable to load knowledge index: {e}",
+                status=ResponseStatus.INDEX_UNAVAILABLE,
+                answer=f"INDEX UNAVAILABLE: Unable to load knowledge index: {e}",
                 latency_ms=round((time.time() - start_time) * 1000, 2)
             )
 
