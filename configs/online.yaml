@@ -1,0 +1,54 @@
+# Online Configuration for Evidence-Grounded RAG System
+version: "1.0"
+
+corpus:
+  document_dir: "data/documents"
+  manifest_path: "data/manifest.json"
+  required_count: 20
+
+cleaning:
+  normalize_unicode: true
+  collapse_whitespace: true
+  remove_control_characters: true
+  strip_external_tags: true
+
+chunking:
+  strategy: "paragraph_window"
+  chunk_size_chars: 400
+  chunk_overlap_chars: 60
+  min_chunk_chars: 40
+
+embeddings:
+  provider: "hybrid_tfidf"
+  model_name: "all-MiniLM-L6-v2"
+  dimension: 512
+
+indexing:
+  index_dir: "data/index"
+  index_file: "knowledge_index.json"
+  vectors_file: "vectors.npy"
+  similarity_metric: "cosine"
+
+retrieval:
+  top_k: 4
+  similarity_threshold: 0.12
+  evidence_sufficiency_floor: 0.20
+  margin_threshold: 0.05
+
+generation:
+  mode: "groq" # Options: "groq", "gemini", "grok", or "mock"
+  groq_model: "llama-3.3-70b-versatile"
+  gemini_model: "gemini-1.5-flash"
+  grok_model: "grok-beta"
+  temperature: 0.0
+  max_tokens: 512
+
+conflict_detection:
+  enabled: true
+  polarity_contrast_weight: 0.6
+  content_contradiction_threshold: 0.35
+
+logging:
+  level: "INFO"
+  log_file: "logs/rag_system.log"
+  mask_secrets: true

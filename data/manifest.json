@@ -1,207 +1,207 @@
 {
   "manifest_version": "1.0",
   "total_documents": 20,
-  "generated_at": "2026-10-17T07:02:14.015869+00:00",
+  "generated_at": "2026-10-21T07:15:00.000000+00:00",
   "documents": [
     {
       "document_id": "DOC-001",
-      "title": "AegisCore System Overview and Operational Mission",
-      "source": "data/documents/doc_001_system_overview.md",
-      "source_type": "technical_specification",
+      "title": "Python Basics and Core Programming Fundamentals",
+      "source": "data/documents/doc_001_python_basics.md",
+      "source_type": "programming_guide",
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "System Overview"
+      "topic": "Python Basics"
     },
     {
       "document_id": "DOC-002",
-      "title": "AegisCore Modular Architecture and Component Topology",
-      "source": "data/documents/doc_002_architecture.md",
-      "source_type": "architecture_design",
+      "title": "Python Functions, Modular Design, and Scope Resolution",
+      "source": "data/documents/doc_002_python_functions.md",
+      "source_type": "programming_guide",
       "version": "1.0.0",
       "created_at": "2026-01-10T08:30:00Z",
       "updated_at": "2026-01-16T09:15:00Z",
-      "topic": "Architecture"
+      "topic": "Python Functions"
     },
     {
       "document_id": "DOC-003",
-      "title": "Data Ingestion Protocols and Manifest Validation",
-      "source": "data/documents/doc_003_data_ingestion.md",
-      "source_type": "engineering_guide",
+      "title": "Python Exception Handling and Fault Resilience",
+      "source": "data/documents/doc_003_python_exceptions.md",
+      "source_type": "programming_guide",
       "version": "1.0.0",
       "created_at": "2026-01-11T09:00:00Z",
       "updated_at": "2026-01-17T11:00:00Z",
-      "topic": "Data Ingestion"
+      "topic": "Python Exceptions"
     },
     {
       "document_id": "DOC-004",
-      "title": "Document Parsing and Structural Extraction",
-      "source": "data/documents/doc_004_document_processing.md",
-      "source_type": "technical_specification",
+      "title": "NumPy Basics, Array Operations, and Vector Computation",
+      "source": "data/documents/doc_004_numpy_basics.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
       "created_at": "2026-01-11T10:00:00Z",
       "updated_at": "2026-01-18T14:20:00Z",
-      "topic": "Document Processing"
+      "topic": "NumPy Basics"
     },
     {
       "document_id": "DOC-005",
-      "title": "Text Cleaning, Sanitization, and PII Redaction",
-      "source": "data/documents/doc_005_text_cleaning.md",
-      "source_type": "security_standard",
+      "title": "Pandas Basics, DataFrames, and Structural Ingestion",
+      "source": "data/documents/doc_005_pandas_basics.md",
+      "source_type": "data_analysis_guide",
       "version": "1.0.0",
       "created_at": "2026-01-12T08:00:00Z",
       "updated_at": "2026-01-19T10:00:00Z",
-      "topic": "Text Cleaning"
+      "topic": "Pandas Basics"
     },
     {
       "document_id": "DOC-006",
-      "title": "Chunking Strategies and Chunk Identity Specification",
-      "source": "data/documents/doc_006_chunking.md",
-      "source_type": "engineering_guide",
+      "title": "Pandas Data Cleaning, Normalization, and Missing Value Handling",
+      "source": "data/documents/doc_006_pandas_cleaning.md",
+      "source_type": "data_analysis_guide",
       "version": "1.0.0",
       "created_at": "2026-01-12T09:30:00Z",
       "updated_at": "2026-01-20T11:45:00Z",
-      "topic": "Chunking"
+      "topic": "Data Cleaning"
     },
     {
       "document_id": "DOC-007",
-      "title": "Embedding Generation and Vector Representations",
-      "source": "data/documents/doc_007_embeddings.md",
-      "source_type": "technical_specification",
+      "title": "Matplotlib Basics, Data Visualization, and Vector Charting",
+      "source": "data/documents/doc_007_matplotlib_basics.md",
+      "source_type": "visualization_guide",
       "version": "1.0.0",
       "created_at": "2026-01-13T08:15:00Z",
       "updated_at": "2026-01-21T13:00:00Z",
-      "topic": "Embeddings"
+      "topic": "Data Visualization"
     },
     {
       "document_id": "DOC-008",
-      "title": "Vector Indexing, Storage Layout, and Index Persistence",
-      "source": "data/documents/doc_008_vector_indexing.md",
-      "source_type": "technical_specification",
+      "title": "SQL Basics, Relational Queries, and Storage Indexing",
+      "source": "data/documents/doc_008_sql_basics.md",
+      "source_type": "database_guide",
       "version": "1.0.0",
       "created_at": "2026-01-13T10:00:00Z",
       "updated_at": "2026-01-22T09:30:00Z",
-      "topic": "Vector Indexing"
+      "topic": "Relational Queries"
     },
     {
       "document_id": "DOC-009",
-      "title": "Retrieval Configuration, Filter Policies, and Candidate Limits",
-      "source": "data/documents/doc_009_retrieval_configuration.md",
-      "source_type": "operational_guideline",
+      "title": "Machine Learning Introduction and Fundamentals",
+      "source": "data/documents/doc_009_machine_learning_intro.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-14T08:00:00Z",
-      "updated_at": "2026-01-23T11:00:00Z",
-      "topic": "Retrieval Configuration"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Machine Learning Introduction"
     },
     {
       "document_id": "DOC-010",
-      "title": "Similarity Scoring Metrics and Candidate Ranking Heuristics",
-      "source": "data/documents/doc_010_similarity_scoring.md",
-      "source_type": "mathematical_specification",
+      "title": "Supervised Learning and Algorithmic Classification",
+      "source": "data/documents/doc_010_supervised_learning.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-14T11:30:00Z",
-      "updated_at": "2026-01-24T14:15:00Z",
-      "topic": "Similarity Scoring"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Supervised Learning"
     },
     {
       "document_id": "DOC-011",
-      "title": "Context Construction and Passage Formatting Guidelines",
-      "source": "data/documents/doc_011_context_construction.md",
-      "source_type": "engineering_guide",
+      "title": "Model Evaluation Metrics and Performance Assessment",
+      "source": "data/documents/doc_011_model_evaluation.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-15T09:00:00Z",
-      "updated_at": "2026-01-25T10:00:00Z",
-      "topic": "Context Construction"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Model Evaluation"
     },
     {
       "document_id": "DOC-012",
-      "title": "Grounded Answer Generation Protocols and Prompt Templates",
-      "source": "data/documents/doc_012_answer_generation.md",
-      "source_type": "system_prompt_specification",
+      "title": "Dataset Partitioning, Validation Splits, and Grounding Contracts",
+      "source": "data/documents/doc_012_train_test_split.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-15T11:00:00Z",
-      "updated_at": "2026-01-26T12:00:00Z",
-      "topic": "Answer Generation"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Train-Test Split and Grounding"
     },
     {
       "document_id": "DOC-013",
-      "title": "Citation Syntax, Claim Attribution, and Citation Validation",
-      "source": "data/documents/doc_013_citation_rules.md",
-      "source_type": "compliance_specification",
+      "title": "Dense Text Embeddings, Semantic Representation, and Citation Rules",
+      "source": "data/documents/doc_013_embeddings.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-16T08:30:00Z",
-      "updated_at": "2026-01-27T14:00:00Z",
-      "topic": "Citation Rules"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Embeddings and Semantic Representation"
     },
     {
       "document_id": "DOC-014",
-      "title": "Confidence Scoring and Uncertainty Handling Framework",
-      "source": "data/documents/doc_014_confidence_and_uncertainty.md",
-      "source_type": "algorithmic_specification",
+      "title": "Vector Search, Indexing Architectures, and Confidence Calibration",
+      "source": "data/documents/doc_014_vector_search.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-16T10:00:00Z",
-      "updated_at": "2026-01-28T09:30:00Z",
-      "topic": "Confidence and Uncertainty"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Vector Search and Retrieval"
     },
     {
       "document_id": "DOC-015",
-      "title": "Error Handling Protocols, Fault Resilience, and Fallbacks",
-      "source": "data/documents/doc_015_error_handling.md",
-      "source_type": "reliability_guide",
+      "title": "Retrieval-Augmented Generation (RAG) Fundamentals and Exception Architecture",
+      "source": "data/documents/doc_015_rag_fundamentals.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-17T09:00:00Z",
-      "updated_at": "2026-01-29T11:15:00Z",
-      "topic": "Error Handling"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "RAG Fundamentals"
     },
     {
       "document_id": "DOC-016",
-      "title": "Security Controls, Prompt Injection Defense, and Secret Protection",
-      "source": "data/documents/doc_016_security_controls.md",
-      "source_type": "security_standard",
+      "title": "Document Chunking Strategies, Boundary Preservation, and Security Controls",
+      "source": "data/documents/doc_016_chunking.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-17T11:30:00Z",
-      "updated_at": "2026-01-30T15:00:00Z",
-      "topic": "Security Controls"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Document Chunking and Security"
     },
     {
       "document_id": "DOC-017",
-      "title": "Input Validation, Query Sanitization, and Boundary Enforcement",
-      "source": "data/documents/doc_017_input_validation.md",
-      "source_type": "technical_specification",
+      "title": "Prompt Injection Defense, Untrusted Context, and Input Validation",
+      "source": "data/documents/doc_017_prompt_injection.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-18T08:00:00Z",
-      "updated_at": "2026-01-31T09:45:00Z",
-      "topic": "Input Validation"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Prompt Injection and Input Validation"
     },
     {
       "document_id": "DOC-018",
-      "title": "Logging, Telemetry, and Observability Framework",
-      "source": "data/documents/doc_018_logging_and_observability.md",
-      "source_type": "operational_guideline",
+      "title": "RAG Evaluation Methodologies, Groundedness, and Observability",
+      "source": "data/documents/doc_018_evaluation_methods.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-18T10:30:00Z",
-      "updated_at": "2026-02-01T13:30:00Z",
-      "topic": "Logging and Observability"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "RAG Evaluation and Observability"
     },
     {
       "document_id": "DOC-019",
-      "title": "Testing Pyramid, Quality Assurance, and Evaluation Standards",
-      "source": "data/documents/doc_019_testing_and_evaluation.md",
-      "source_type": "qa_standards",
+      "title": "Metadata Management, Schema Preservation, and Testing Framework",
+      "source": "data/documents/doc_019_metadata_management.md",
+      "source_type": "technical_guide",
       "version": "1.0.0",
-      "created_at": "2026-01-19T08:00:00Z",
-      "updated_at": "2026-02-02T11:00:00Z",
-      "topic": "Testing and Evaluation"
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-15T10:30:00Z",
+      "topic": "Metadata Management and Testing"
     },
     {
       "document_id": "DOC-020",
-      "title": "Deployment Profiles, Operational Limitations, and Resource Sizing",
-      "source": "data/documents/doc_020_deployment_and_limitations.md",
-      "source_type": "operational_guideline",
-      "version": "1.0.0",
-      "created_at": "2026-01-19T10:30:00Z",
-      "updated_at": "2026-02-03T14:00:00Z",
-      "topic": "Deployment and Limitations"
+      "title": "Evidence Grounding, Citation Traceability, and Deployment Sizing",
+      "source": "data/documents/doc_020_evidence_and_citations.md",
+      "source_type": "operational_standard",
+      "version": "2.0.0",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-02-01T14:00:00Z",
+      "topic": "Evidence Grounding and Deployment"
     }
   ]
 }

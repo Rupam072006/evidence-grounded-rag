@@ -17,132 +17,144 @@ The AegisCore Retrieval-Augmented Generation (RAG) system is engineered around a
 ```mermaid
 flowchart TD
     subgraph Offline_Corpus_Preparation ["Phase 1: Ingestion & Vector Indexing"]
-        A[Raw Markdown Documents\n20 Technical Docs] --> B[Ingestion Engine & Manifest Validator]
-        B --> C[Cryptographic SHA-256 Provenance]
-        C --> D[Text Cleaner & Sanitizer\nNFKC / Tag Stripping / PII Redaction]
-        D --> E[Boundary-Aware Chunker\nParagraph Window: 400 chars, 60 overlap]
-        E --> F[Hybrid TF-IDF & N-Gram Embedder\n512-dim Unit-Normalized Vectors]
-        F --> G[(Persistent Index Storage\nvectors.npy + knowledge_index.json)]
+        A["20 Knowledge Base Documents\n(data/documents/*.md)"] --> B["Ingestion Engine & Manifest Validator\n(data/manifest.json)"]
+        B --> C["Cryptographic SHA-256 Provenance & Schema Check"]
+        C --> D["Text Cleaner & Sanitizer\n(Unicode NFKC / Tag Stripping / Whitespace)"]
+        D --> E["Boundary-Aware Chunker\n(Target: 400 chars, Overlap: 60 chars)"]
+        E --> F["Hybrid TF-IDF & N-Gram Embedder\n(512-dim Unit-Normalized Vectors)"]
+        F --> G[("Persistent Index Storage\nvvectors.npy + knowledge_index.json + embedding_model.pkl")]
     end
 
     subgraph Online_Query_Processing ["Phase 2: Real-Time Query Serving"]
-        Q[Incoming User Query] --> H[Input Validator & Boundary Checker\n3-500 chars / Control Char Filter]
-        H -->|Invalid| ERR[INVALID_INPUT Response]
-        H -->|Valid| I[Query Vectorizer]
-        I --> J[Cosine Similarity Search & Keyword Calibrator]
+        Q["Incoming User Query"] --> H["Input Validator & Boundary Checker\n(3-500 chars / Whitespace Filter)"]
+        H -->|Invalid| ERR["INVALID_INPUT Response"]
+        H -->|Valid| I["Query Vectorizer\n(Identical 512-dim Space)"]
+        I --> J["Cosine Similarity Search & Dot Product Scoring"]
         G -.-> J
-        J --> K[Candidate Ranking & Top-K Filter]
-        K --> L{Evidence Sufficiency Floor\nScore >= 0.20 & Term Coverage >= 28%}
-        L -->|Insufficient| REF[INSUFFICIENT_EVIDENCE\nCanonical Refusal]
-        L -->|Sufficient| M[Cross-Document Conflict Detector]
-        M -->|Conflict Found| CNF[CONFLICT_DETECTED\nDual-Perspective Output]
-        M -->|No Conflict| N[Context Builder & Budget Quarantine\nMax 1,500 Tokens]
-        N --> O[Grounded Generator\nDeterministic Mock / Gemini Flash]
-        O --> P[Citation Validator\nPost-Generation Audit]
-        P --> RES[Structured RAGResponse Payload]
+        J --> K["Candidate Ranking & Top-K Filter"]
+        K --> L{"Evidence Sufficiency Floor\n(Score >= 0.20 & Term Coverage >= 28%)"}
+        L -->|Insufficient| REF["INSUFFICIENT_EVIDENCE\n(Canonical Refusal)"]
+        L -->|Sufficient| M["Cross-Document Conflict Detector"]
+        M -->|Conflict Found| CNF["CONFLICT_DETECTED\n(Dual-Perspective Output)"]
+        M -->|No Conflict| N["Context Builder & Budget Quarantine\n(Max 1,500 Tokens / 6,000 Chars)"]
+        N --> O["Grounded Generator\n(Deterministic Mock / Groq Cloud / Gemini)"]
+        O --> P["Citation Validator\n(Post-Generation Audit [DOC-ID:CHUNK-ID])"]
+        P --> RES["Structured RAGResponse Payload"]
     end
 ```
 
 ---
 
-## 3. Detailed Component Responsibilities & Interfaces
+## 3. The 20 Ingested Knowledge Base Documents
 
-### 3.1 Ingestion & Manifest Verification Subsystem (`ingestion.py`)
-- **Responsibilities:**
-  - Discovers documents declared in `data/manifest.json`.
-  - Validates all 8 required schema fields: `document_id`, `title`, `source`, `source_type`, `version`, `created_at`, `updated_at`, `topic`.
-  - Enforces the strict corpus size constraint (exactly 20 documents).
-  - Computes cryptographic SHA-256 hashes of all files to guarantee file integrity and provenance.
-- **Interface:** `IngestionEngine.load_corpus() -> List[Document]`
+The system's non-parametric knowledge corpus resides in `data/documents/` and is strictly registered in `data/manifest.json`. Every document implements the 8 mandatory schema attributes (`document_id`, `title`, `source`, `source_type`, `version`, `created_at`, `updated_at`, `topic`):
 
-### 3.2 Text Cleaning & Sanitization Engine (`cleaning.py`)
-- **Responsibilities:**
-  - Converts disparate Unicode encodings to NFKC canonical standard.
-  - Strips non-printable ASCII control characters while preserving structural layout (`\n`, `\t`).
-  - Strips HTML tags, `<script>` injection vectors, and XML directives.
-  - Redacts sensitive PII (email addresses, potential API tokens).
-- **Interface:** `clean_text(text: str, config: CleaningConfig) -> str`
+### Programming & Data Analysis Group
+1. **`doc_001_python_basics.md` (`DOC-001`):** Python variables, dynamic typing, operators, control flow, loops, and AegisCore's 99.95% uptime SLA target.
+2. **`doc_002_python_functions.md` (`DOC-002`):** Function definitions, default parameters, scope resolution (LEGB rule), and modular system topology.
+3. **`doc_003_python_exceptions.md` (`DOC-003`):** Exception handling (`try`, `except`, `else`, `finally`), SHA-256 document provenance hashing, and manifest validation.
+4. **`doc_004_numpy_basics.md` (`DOC-004`):** NumPy arrays (`ndarray`), vectorized operations, slicing, and mandatory UTF-8 character encoding enforcement.
+5. **`doc_005_pandas_basics.md` (`DOC-005`):** Series and DataFrames, CSV loading, data filtering, and the 4-stage text cleaning pipeline (NFKC, control char removal, whitespace consolidation, security tag stripping).
+6. **`doc_006_pandas_cleaning.md` (`DOC-006`):** Missing value imputation, deduplication, type casting, 400-character chunking target, and 60-character sliding overlap.
+7. **`doc_007_matplotlib_basics.md` (`DOC-007`):** Basic plots, chart selection, visualization aesthetics, and 512-dimensional L2 unit-norm vectors for dot product equivalence.
+8. **`doc_008_sql_basics.md` (`DOC-008`):** Relational queries (`SELECT`, `WHERE`, `GROUP BY`, joins), aggregate functions, and persistent vector storage layout (`vectors.npy` and `knowledge_index.json`).
 
-### 3.3 Boundary-Aware Chunker (`chunking.py`)
-- **Responsibilities:**
-  - Segments documents along natural paragraph double-newlines and sentence punctuation (`.`, `!`, `?`).
-  - Target size: 400 characters; sliding overlap: 60 characters; minimum chunk floor: 40 characters (orphan fragments are merged into adjacent passages).
-  - Assigns immutable, deterministic Chunk IDs: `[DOC_ID]-C[SEQUENCE_3_DIGITS]`.
-- **Interface:** `Chunker.chunk_corpus(documents: List[Document]) -> List[Chunk]`
+### Machine Learning Group
+9. **`doc_009_machine_learning_intro.md` (`DOC-009`):** Machine learning fundamentals, supervised/unsupervised/reinforcement learning paradigms, applications, and baseline retrieval parameters (default top-k of 5 and candidate pool size of 20).
+10. **`doc_010_supervised_learning.md` (`DOC-010`):** Classification vs. regression, loss functions, algorithms, and deterministic tie-breaking policy (document version precedence followed by chunk sequence order).
+11. **`doc_011_model_evaluation.md` (`DOC-011`):** Accuracy, precision, recall, F1-score, confusion matrix, and the 1,500 token (6,000 character) context budget cap.
+12. **`doc_012_train_test_split.md` (`DOC-012`):** Training/validation/test partitions, data leakage prevention, cross-validation, and answer generation grounding contracts.
 
-### 3.4 Vector Embedding Engine (`embeddings.py`)
-- **Responsibilities:**
-  - Translates textual passages and incoming queries into high-dimensional geometric representations.
-  - Default: Sublinear TF-IDF with character and word n-grams (512 dimensions, L2-normalized).
-  - Dense Neural: Compatible with Sentence-Transformers (`all-MiniLM-L6-v2`, 384 dimensions).
-  - Enforces strict unit normalization (`||v|| = 1.0`), transforming cosine similarity computation into an ultra-fast matrix-vector dot product.
-- **Interface:** `BaseEmbeddingEngine.encode(texts: List[str]) -> np.ndarray`
+### RAG and Retrieval Group
+13. **`doc_013_embeddings.md` (`DOC-013`):** Dense text embeddings, semantic search, cosine similarity, inner product equivalence, and mandatory citation syntax `[DOCUMENT_ID:CHUNK_ID]`.
+14. **`doc_014_vector_search.md` (`DOC-014`):** Vector indices, exact flat k-NN vs. ANN (HNSW, IVF, PQ), top-k candidate ranking, and the 0.25 similarity floor (or 0.20 floor with 28% query term coverage).
+15. **`doc_015_rag_fundamentals.md` (`DOC-015`):** RAG workflow, non-parametric vs. parametric memory, grounded generation benefits, and typed exception hierarchy rooted in `RAGException`.
+16. **`doc_016_chunking.md` (`DOC-016`):** Linguistic boundary preservation, paragraph splitting, sliding windows, and security controls mandating retrieved passages be treated as untrusted data.
+17. **`doc_017_prompt_injection.md` (`DOC-017`):** Direct and indirect prompt injection attacks, adversarial defense, and query validation boundaries (3 to 500 characters, whitespace rejection).
+18. **`doc_018_evaluation_methods.md` (`DOC-018`):** Retrieval relevance (Recall@k, MRR, NDCG), answer groundedness, unanswerable query rejection, and structured JSON logging.
 
-### 3.5 Persistent Index Store (`indexing.py`)
-- **Responsibilities:**
-  - Serializes embedding matrix to `vectors.npy` (binary NumPy array).
-  - Serializes chunk catalog, metadata lookup tables, and corpus fingerprints to `knowledge_index.json`.
-  - Serializes vectorizer state to `embedding_model.pkl` to guarantee identical query encoding upon reloading.
-- **Interface:** `VectorIndex.save(dir)`, `VectorIndex.load(dir) -> VectorIndex`
-
-### 3.6 Semantic Retrieval & Evidence Assessment (`retrieval.py`)
-- **Responsibilities:**
-  - Performs candidate dot-product scoring against indexed vectors.
-  - Applies lexical calibration boost (+0.08 max) for exact key-term overlaps.
-  - Prunes candidates below `similarity_threshold` (0.12).
-  - Evaluates dual-factor evidence sufficiency: Top score >= `0.20` AND query term coverage across retrieved context >= `28%`.
-- **Interface:** `Retriever.retrieve(query: str, top_k: int) -> List[RetrievedChunk]`
-
-### 3.7 Context Construction & Quarantining (`context_builder.py`)
-- **Responsibilities:**
-  - Enforces a strict context budget ceiling (1,500 tokens / 6,000 characters).
-  - Formats retrieved chunks inside explicit boundary frames:
-    ```
-    === PASSAGE [DOC-XXX-C00Y] (SOURCE: DOC-XXX | RELEVANCE: 0.XX) ===
-    [CHUNK_CONTENT]
-    === END PASSAGE ===
-    ```
-  - Isolates context data from system instructions to prevent prompt-injection escalation.
-- **Interface:** `ContextBuilder.build_context(retrieved: List[RetrievedChunk]) -> Tuple[str, List[str]]`
-
-### 3.8 Grounded Answer Generation (`generation.py`)
-- **Responsibilities:**
-  - Decoupled generator architecture supporting two engines:
-    1. `DeterministicMockGenerator`: Grounded, bitwise-deterministic extraction from retrieved chunks for offline automated testing and guaranteed reproducibility.
-    2. `GeminiGenerator`: Live Google GenAI integration with temperature=0.0, fallback handling for 403 / quota errors, and strict grounding instructions.
-- **Interface:** `BaseGenerator.generate_answer(query, context, retrieved, conflict) -> Tuple[str, ResponseStatus]`
-
-### 3.9 Claim Citation Validator (`evidence.py`)
-- **Responsibilities:**
-  - Extracts citations with regex `\[(DOC-\d{3})(?::([A-Za-z0-9\-_]+))?\]`.
-  - Cross-checks cited Document IDs and Chunk IDs against the runtime retrieved candidate list.
-  - Flags citations as valid (`is_valid=True`) or ungrounded (`is_valid=False`).
-- **Interface:** `CitationValidator.validate_citations(text, retrieved_chunks) -> List[Citation]`
-
-### 3.10 Cross-Document Conflict Detector (`conflict_detection.py`)
-- **Responsibilities:**
-  - Analyzes retrieved candidate passages across distinct documents for contradictory parameters.
-  - Specifically detects contradictions between `DOC-009` (top-k=5, pool=20) and `DOC-020` (top-k=10, pool=50).
-  - Emits `ConflictEvidence` with structured items and overrides status to `CONFLICT_DETECTED`.
-- **Interface:** `ConflictDetector.detect_conflicts(query, retrieved_chunks) -> Optional[ConflictEvidence]`
-
-### 3.11 Confidence & Uncertainty Quantification (`confidence.py`)
-- **Responsibilities:**
-  - Computes composite confidence metric:
-    $$Confidence = 0.50 \cdot TopSim + 0.30 \cdot MeanTop3 + 0.20 \cdot QueryCoverage$$
-  - Attaches explicit technical limitation disclosures explaining that similarity is not a Bayesian probability.
-- **Interface:** `ConfidenceScorer.calculate_confidence(query, retrieved_chunks) -> Tuple[float, List[str]]`
+### Metadata and Evidence Group
+19. **`doc_019_metadata_management.md` (`DOC-019`):** The 8 mandatory metadata fields, schema preservation across ingestion/chunking/indexing/retrieval, the 46-test test suite, and 22-question evaluation benchmark.
+20. **`doc_020_evidence_and_citations.md` (`DOC-020`):** Claim-level attribution, citation verification, platform deployment profile (minimum 4GB RAM, CPU inference, 99.95% SLA), and revised retrieval parameters (top-k=10, candidate pool=50) that deliberately contradict DOC-009.
 
 ---
 
-## 4. Failure Handling & Resilience Matrix
+## 4. Component Responsibilities & Module Interfaces
+
+### 4.1 Ingestion & Manifest Engine (`src/evidence_rag/ingestion.py`)
+- Discovers documents listed in `data/manifest.json`.
+- Enforces strict corpus count (exactly 20 documents).
+- Validates all 8 metadata fields per document using Pydantic schemas.
+- Computes SHA-256 cryptographic hashes for document integrity and provenance tracking.
+- **Interface:** `IngestionEngine.load_corpus() -> List[Document]`
+
+### 4.2 Text Preprocessor & Sanitizer (`src/evidence_rag/cleaning.py`)
+- Executes 4 sequential cleaning stages:
+  1. Unicode NFKC normalization
+  2. Control character removal (preserving `\n`, `\t`)
+  3. Whitespace consolidation
+  4. Security tag stripping (`<script>`, HTML/XML injection vectors)
+- Redacts sensitive PII patterns (emails, tokens).
+- **Interface:** `clean_text(text: str, config: CleaningConfig) -> str`
+
+### 4.3 Boundary-Aware Chunker (`src/evidence_rag/chunking.py`)
+- Splits cleaned text into bounded passages (target 400 characters, 60-character sliding overlap).
+- Prioritizes paragraph double-newlines and sentence terminal punctuation (`.`, `!`, `?`).
+- Generates deterministic, sequential chunk IDs: `[DOCUMENT_ID]-C[SEQUENCE_3_DIGITS]`.
+- **Interface:** `Chunker.chunk_corpus(documents: List[Document]) -> List[Chunk]`
+
+### 4.4 Embedding & Vector Representation Engine (`src/evidence_rag/embeddings.py`)
+- Encodes textual passages and queries into high-dimensional geometric vectors.
+- Default engine: `HybridTfidfEmbeddingEngine` (512 dimensions, sublinear term frequency, character and word n-grams).
+- Optional neural engine: `DenseSentenceTransformerEngine` (`all-MiniLM-L6-v2`, 384 dimensions).
+- Enforces strict L2 unit-norm normalization ($\|\mathbf{v}\|_2 = 1.0$), ensuring cosine similarity simplifies to matrix-vector dot product.
+- **Interface:** `BaseEmbeddingEngine.encode(texts: List[str]) -> np.ndarray`
+
+### 4.5 Persistent Vector Index Store (`src/evidence_rag/indexing.py`)
+- Serializes vector coordinates to `data/index/vectors.npy` (binary NumPy array).
+- Serializes chunk text, document references, and metadata to `data/index/knowledge_index.json`.
+- Serializes vectorizer state to `data/index/embedding_model.pkl` for query projection consistency.
+- **Interface:** `VectorIndex.save(path)`, `VectorIndex.load(path) -> VectorIndex`
+
+### 4.6 Semantic Retriever & Confidence Calibrator (`src/evidence_rag/retrieval.py`)
+- Executes dot product search against indexed chunk vectors.
+- Applies lexical overlap calibration bonus for exact query key terms.
+- Evaluates evidence sufficiency: requires top similarity >= 0.20 and query term coverage >= 28% across retrieved context.
+- Breaks ties deterministically: document version precedence followed by chunk sequence order.
+- **Interface:** `Retriever.retrieve(query: str, top_k: int) -> List[RetrievedChunk]`
+
+### 4.7 Context Construction & Quarantining (`src/evidence_rag/context_builder.py`)
+- Limits total context length to 1,500 tokens (approximately 6,000 characters).
+- Encloses passages within structured delimiter envelopes to separate data from instructions.
+- **Interface:** `ContextBuilder.build_context(retrieved: List[RetrievedChunk]) -> Tuple[str, List[str]]`
+
+### 4.8 Cross-Document Conflict Detector (`src/evidence_rag/conflict_detection.py`)
+- Analyzes candidate passages retrieved from multiple documents for factual contradictions.
+- Detects known architectural contradiction pairs (specifically `DOC-009` baseline top-k=5/pool=20 vs. `DOC-020` revised top-k=10/pool=50).
+- Emits structured `ConflictEvidence` and sets response status to `CONFLICT_DETECTED`.
+- **Interface:** `ConflictDetector.detect_conflicts(query, retrieved_chunks) -> Optional[ConflictEvidence]`
+
+### 4.9 Grounded Answer Generator (`src/evidence_rag/generation.py`)
+- Decoupled generator architecture supporting multiple backends:
+  - `DeterministicMockGenerator`: Offline, zero-latency, bitwise-deterministic extraction directly from retrieved chunks. Used for automated testing and reproducible benchmarks.
+  - `GroqGenerator` / `GeminiGenerator`: Live cloud LLM synthesis via OpenAI-compatible Groq Cloud API or Google GenAI, configured with temperature=0.0 and strict evidence grounding.
+- **Interface:** `BaseGenerator.generate_answer(query, context, retrieved, conflict) -> Tuple[str, ResponseStatus]`
+
+### 4.10 Claim Citation Validator (`src/evidence_rag/evidence.py`)
+- Parses generated text for citations using regex `\[(DOC-\d{3})(?::([A-Za-z0-9\-_]+))?\]`.
+- Validates that every cited `document_id` and `chunk_id` is present in the actively retrieved candidate set.
+- **Interface:** `CitationValidator.validate_citations(text, retrieved_chunks) -> List[Citation]`
+
+---
+
+## 5. Failure Handling & Resilience Matrix
 
 | Failure Mode | Trigger Scenario | Architecture Response | Emitted Status |
 |---|---|---|---|
-| **Corpus Ingestion Error** | Missing manifest or file corruption | `CorpusError` raised with explicit missing path details | Pipeline halts before index build |
-| **Missing Index** | Retrieval attempted before build | Auto-triggers build or raises `IndexNotFoundError` | `GENERATION_UNAVAILABLE` |
-| **Input Violation** | Query empty, whitespace, or >500 chars | Early interception by `InputValidator` before vectorization | `INVALID_INPUT` |
-| **Out-of-Domain Query** | Query terms not found in corpus | Fails evidence sufficiency floor (<0.20 or <28% coverage) | `INSUFFICIENT_EVIDENCE` |
+| **Corpus Ingestion Error** | Manifest missing, count != 20, or hash failure | `CorpusError` raised with specific filepath and validation message | Pipeline halts before index build |
+| **Missing Index** | Retrieval executed before build | Auto-triggers build or raises `IndexNotFoundError` | `GENERATION_UNAVAILABLE` |
+| **Input Violation** | Query empty, whitespace-only, or >500 chars | Early rejection by `InputValidator` before embedding | `INVALID_INPUT` |
+| **Out-of-Domain Query** | Query terms absent from corpus | Fails evidence sufficiency floor (<0.20 or <28% coverage) | `INSUFFICIENT_EVIDENCE` |
 | **Contradictory Knowledge** | Query retrieves DOC-009 and DOC-020 | `ConflictDetector` intercepts before generation | `CONFLICT_DETECTED` |
-| **Gemini 403 / Quota Error** | External API permissions denied | Safe fallback to offline mode or informative message | `GENERATION_UNAVAILABLE` |
-| **Citation Hallucination** | Model outputs unretrieved Chunk ID | `CitationValidator` audits and flags citation as invalid | Marked in response metadata |
+| **External API Rate Limit / Failure** | Cloud provider returns HTTP 429 or 403 | Caught gracefully, informative message emitted | `GENERATION_UNAVAILABLE` |
+| **Citation Hallucination** | Model outputs unretrieved Chunk ID | `CitationValidator` audits citations, flags as invalid | Reflected in response metadata |

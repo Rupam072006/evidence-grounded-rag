@@ -1,52 +1,113 @@
 # AegisCore Evidence-Grounded RAG System — Integration Guide
 
-## 1. Module Interfaces and Programmatic Usage
+## 1. Module Connections and Pipeline Flow
 
-The `evidence_rag` package provides high-level programmatic interfaces for integration into larger software systems, agent frameworks, or web APIs.
+The `evidence_rag` package is organized as a modular, decoupled Python library. The components communicate using typed Pydantic models and immutable dataclasses:
 
-### 1.1 Basic Pipeline Execution
-```python
-from evidence_rag.pipeline import RAGPipeline
-from evidence_rag.config import load_config
-
-# Load configuration and initialize pipeline
-config = load_config("configs/default.yaml")
-pipeline = RAGPipeline(config=config)
-
-# Ensure vector index is built or loaded from disk
-pipeline.ensure_index()
-
-# Execute query
-response = pipeline.query("What character encoding is mandatory for all incoming documents in AegisCore?")
-
-print(f"Status: {response.status.value}")
-print(f"Confidence: {response.confidence}")
-print(f"Answer:\n{response.answer}")
-for cit in response.citations:
-    print(f"Citation: [{cit.document_id}:{cit.chunk_id}] Valid: {cit.is_valid}")
+```
+[data/documents/*.md] + [data/manifest.json]
+       │
+       ▼
+1. IngestionEngine (src/evidence_rag/ingestion.py)
+       │  Outputs: List[Document] (with DocumentMetadata & SHA-256 hash)
+       ▼
+2. Chunker (src/evidence_rag/chunking.py)
+       │  Outputs: List[Chunk] (with ChunkMetadata & sequential IDs)
+       ▼
+3. VectorIndex (src/evidence_rag/indexing.py)
+       │  Encodes via HybridTfidfEmbeddingEngine (512-dim unit norm)
+       │  Persists to: vectors.npy, knowledge_index.json, embedding_model.pkl
+       ▼
+4. Retriever (src/evidence_rag/retrieval.py)
+       │  Inputs: query (str)
+       │  Outputs: List[RetrievedChunk] (ranked with cosine similarity scores)
+       ▼
+5. ConflictDetector (src/evidence_rag/conflict_detection.py)
+       │  Inputs: query, List[RetrievedChunk]
+       │  Outputs: Optional[ConflictEvidence]
+       ▼
+6. ContextBuilder (src/evidence_rag/context_builder.py)
+       │  Inputs: List[RetrievedChunk]
+       │  Outputs: Formatted prompt context string within 1,500 token budget
+       ▼
+7. BaseGenerator (src/evidence_rag/generation.py)
+       │  Generators: DeterministicMockGenerator, GroqGenerator, GeminiGenerator
+       │  Outputs: answer (str), ResponseStatus
+       ▼
+8. CitationValidator (src/evidence_rag/evidence.py)
+       │  Inputs: answer, List[RetrievedChunk]
+       │  Outputs: List[Citation] (verifying [DOC-ID:CHUNK-ID] against retrieved context)
+       ▼
+RAGResponse (Final Structured Output Model)
 ```
 
 ---
 
-## 2. Structured Data Schemas (`schemas.py`)
+## 2. Programmatic Python API
 
-All cross-module communication relies on typed Pydantic v2 schemas:
-
-### 2.1 `ResponseStatus` (Enum)
+### 2.1 Basic Pipeline Execution
 ```python
-class ResponseStatus(str, Enum):
-    ANSWERED = "ANSWERED"
-    INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
-    CONFLICT_DETECTED = "CONFLICT_DETECTED"
-    INVALID_INPUT = "INVALID_INPUT"
-    GENERATION_UNAVAILABLE = "GENERATION_UNAVAILABLE"
+from pathlib import Path
+from evidence_rag.pipeline import RAGPipeline
+from evidence_rag.config import load_config
+
+# 1. Initialize pipeline with default or custom configuration
+config = load_config("configs/default.yaml")
+pipeline = RAGPipeline(config=config, base_dir=Path.cwd())
+
+# 2. Ensure vector index is built and loaded
+pipeline.ensure_index()
+
+# 3. Execute query
+response = pipeline.query("What character encoding is mandatory for all incoming documents in AegisCore?")
+
+# 4. Access structured fields
+print(f"Status: {response.status.value}")
+print(f"Confidence: {response.confidence:.4f}")
+print(f"Answer:\n{response.answer}")
+
+for cit in response.citations:
+    print(f"Citation: [{cit.document_id}:{cit.chunk_id}] Valid: {cit.is_valid}")
 ```
 
-### 2.2 `RAGResponse` (Unified Response Model)
+### 2.2 CLI Integration Points
+The project installs the `evidence-rag` command-line executable with four primary subcommands:
+```powershell
+# Rebuild the vector index from data/documents/ and data/manifest.json
+evidence-rag index
+
+# Verify corpus and index integrity (confirms 20 documents and persistent files)
+evidence-rag verify
+
+# Query the pipeline interactively
+evidence-rag query "What is the primary operational mission of AegisCore and what uptime SLA does it target?"
+
+# Run the 22-question automated evaluation benchmark
+evidence-rag evaluate
+```
+
+---
+
+## 3. Data Schemas and Serialization Formats
+
+### 3.1 Input Formats
+- **Knowledge Documents (`data/documents/*.md`):** Markdown files containing a `## Metadata` section with 8 required fields:
+  - `document_id`: String matching `DOC-001` through `DOC-020`.
+  - `title`: Descriptive document title.
+  - `source`: Relative filesystem path (e.g., `data/documents/doc_001_python_basics.md`).
+  - `source_type`: Category identifier (e.g., `programming_guide`, `technical_guide`).
+  - `version`: Semantic version string (e.g., `1.0.0`).
+  - `created_at`: ISO-8601 UTC timestamp.
+  - `updated_at`: ISO-8601 UTC timestamp.
+  - `topic`: Primary subject area.
+- **Corpus Manifest (`data/manifest.json`):** JSON dictionary mapping `documents` to metadata entries and declaring `total_documents: 20`.
+- **User Query:** String containing between 3 and 500 printable characters. Empty or whitespace-only queries are rejected with `INVALID_INPUT`.
+
+### 3.2 Output Model (`RAGResponse`)
 ```python
 class RAGResponse(BaseModel):
     query: str
-    status: ResponseStatus
+    status: ResponseStatus  # ANSWERED, INSUFFICIENT_EVIDENCE, CONFLICT_DETECTED, INVALID_INPUT, GENERATION_UNAVAILABLE
     answer: str
     evidence: List[RetrievedChunk]
     source_document_ids: List[str]
@@ -59,7 +120,7 @@ class RAGResponse(BaseModel):
     model_name: Optional[str] = None
 ```
 
-### 2.3 `Citation` (Attribution Model)
+### 3.3 Citation Schema
 ```python
 class Citation(BaseModel):
     document_id: str
@@ -71,32 +132,48 @@ class Citation(BaseModel):
 
 ---
 
-## 3. Provider Configuration: Offline Mock vs Google Gemini
+## 4. Configuration Variables & Environment Settings
 
-AegisCore explicitly separates semantic retrieval from generative LLM inference.
+Configuration is loaded hierarchically from `configs/default.yaml` and overridden by environment variables:
 
-### 3.1 Offline Deterministic Mock Mode (Default)
-- **Configuration:** Set `generation.mode: "mock"` in `configs/default.yaml` or set environment variable `RAG_GENERATION_MODE=mock`.
-- **Characteristics:**
-  - Fully offline, requires zero network connectivity.
-  - Generates verifiable factual extractions strictly from retrieved passages.
-  - Guaranteed 100% citation validity and deterministic reproducibility for testing.
-
-### 3.2 Google Gemini GenAI Integration
-- **Configuration:**
-  - Set `generation.mode: "gemini"` in `configs/default.yaml` or set environment variable `RAG_GENERATION_MODE=gemini`.
-  - Provide API key in environment:
-    ```powershell
-    $env:GEMINI_API_KEY="AIzaSyYourActualKeyHere"
-    ```
-- **Error Handling & 403 Isolation:**
-  - If the Google project has not enabled Gemini API access (resulting in `403 PERMISSION_DENIED`), the pipeline catches the error gracefully and returns status `GENERATION_UNAVAILABLE` rather than crashing.
+| Environment Variable | Default Value | Description |
+|---|---|---|
+| `RAG_GENERATION_MODE` | `mock` | Generation backend: `mock` (offline deterministic), `groq` (Groq Cloud), `gemini` (Google GenAI) |
+| `GROQ_API_KEY` | *(None)* | API key for Groq Cloud LLM inference (e.g., `gsk_...`) |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` | Target model name on Groq Cloud platform |
+| `GEMINI_API_KEY` | *(None)* | API key for Google Gemini GenAI integration |
+| `RAG_SIMILARITY_FLOOR` | `0.20` | Minimum cosine similarity threshold for passage consideration |
+| `RAG_TERM_COVERAGE_FLOOR` | `0.28` | Minimum fraction of query words that must appear in retrieved passages |
+| `RAG_MAX_CONTEXT_TOKENS` | `1500` | Context token cap (approx. 6,000 characters) |
+| `RAG_TOP_K` | `5` | Number of candidate chunks returned to generator |
+| `RAG_CANDIDATE_POOL` | `20` | Initial candidate retrieval pool size |
 
 ---
 
-## 4. Extension Points
+## 5. Integration Verification Steps
 
-1. **Custom Vector Stores:** Replace `VectorIndex` in `src/evidence_rag/indexing.py` with an external vector database connector (e.g. Qdrant, Chroma, PGVector) by implementing the `search(query_vector, top_k)` interface.
-2. **Dense Neural Embeddings:** Switch `embeddings.provider` to `"sentence_transformers"` and specify a HuggingFace model such as `all-MiniLM-L6-v2` or `bge-small-en-v1.5`.
-3. **Custom Conflict Rules:** Add domain contradiction patterns to `ConflictDetector.KNOWN_CONFLICT_PAIRS` or extend `_detect_numerical_parameter_discrepancy()` in `src/evidence_rag/conflict_detection.py`.
-4. **FastAPI Web Service:** Wrap `pipeline.query(req.query)` in a FastAPI POST endpoint `/api/v1/query` returning `response.model_dump()`.
+To verify that the integration is functioning correctly across all modules:
+
+1. **Verify Ingestion and Corpus:**
+   ```powershell
+   evidence-rag verify
+   ```
+   *Expected output:* `Corpus Check Passed: Exactly 20 documents validated.` and `Index Check Passed: Loaded index with 299 passages.`
+
+2. **Verify Offline Test Suite:**
+   ```powershell
+   python -m pytest tests -q
+   ```
+   *Expected output:* `46 passed in <1s`
+
+3. **Verify Refusal on Insufficient Evidence:**
+   ```powershell
+   evidence-rag query "What is the secret recipe for Aunt May's chocolate chip cookies?"
+   ```
+   *Expected status:* `INSUFFICIENT_EVIDENCE` with canonical refusal text.
+
+4. **Verify Conflict Detection:**
+   ```powershell
+   evidence-rag query "What is the default production top-k parameter and candidate pool size for the retrieval service?"
+   ```
+   *Expected status:* `CONFLICT_DETECTED` with both DOC-009 and DOC-020 cited.

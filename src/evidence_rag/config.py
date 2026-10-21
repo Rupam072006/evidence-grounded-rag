@@ -7,7 +7,12 @@ from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
 # Load .env if present
-load_dotenv()
+env_path = Path.cwd() / ".env"
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path, override=True)
+else:
+    load_dotenv(override=True)
+
 
 
 class CorpusConfig(BaseModel):

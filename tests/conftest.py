@@ -18,10 +18,19 @@ def project_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
+@pytest.fixture(autouse=True)
+def force_test_mock_mode(monkeypatch):
+    """Enforce deterministic offline mock mode for all tests."""
+    monkeypatch.setenv("RAG_GENERATION_MODE", "mock")
+
+
 @pytest.fixture(scope="session")
 def default_config() -> RAGConfig:
     """Load default pipeline configuration."""
-    return load_config()
+    cfg = load_config()
+    cfg.generation.mode = "mock"
+    return cfg
+
 
 
 @pytest.fixture

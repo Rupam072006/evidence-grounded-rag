@@ -17,10 +17,36 @@ console = Console()
 logger = setup_logger("evidence_rag.cli")
 
 
+def safe_text(text: str) -> str:
+    """Sanitize unicode characters for Windows terminals."""
+    if not text:
+        return text
+    replacements = {
+        "\u2011": "-",  # non-breaking hyphen
+        "\u2013": "-",  # en dash
+        "\u2014": "--", # em dash
+        "\u2018": "'",  # left single quote
+        "\u2019": "'",  # right single quote
+        "\u201c": '"',  # left double quote
+        "\u201d": '"',  # right double quote
+        "\u2026": "...", # ellipsis
+        "\u00a0": " ",  # non-breaking space
+    }
+    for k, v in replacements.items():
+        text = text.replace(k, v)
+    encoding = sys.stdout.encoding or "utf-8"
+    try:
+        text.encode(encoding)
+        return text
+    except UnicodeEncodeError:
+        return text.encode(encoding, errors="replace").decode(encoding)
+
+
 @click.group()
 def main():
     """AegisCore Evidence-Grounded RAG System CLI."""
     pass
+
 
 
 @main.command()
@@ -44,10 +70,13 @@ def index(config):
 @main.command()
 @click.argument("user_query")
 @click.option("--config", "-c", default=None, help="Path to custom YAML config file.")
+@click.option("--mode", "-m", default=None, type=click.Choice(["mock", "groq", "grok", "gemini"], case_sensitive=False), help="Generation mode: mock, groq, grok, or gemini.")
 @click.option("--json-out", is_flag=True, help="Output response in structured JSON format.")
-def query(user_query, config, json_out):
+def query(user_query, config, mode, json_out):
     """Query the RAG system with a question."""
     cfg = load_config(config)
+    if mode:
+        cfg.generation.mode = mode.lower()
     pipeline = RAGPipeline(config=cfg)
 
     response = pipeline.query(user_query)
@@ -67,7 +96,7 @@ def query(user_query, config, json_out):
         f"[bold]Status:[/bold] [{status_color}]{response.status.value}[/{status_color}]\n"
         f"[bold]Confidence:[/bold] {response.confidence:.2f}\n"
         f"[bold]Latency:[/bold] {response.latency_ms:.1f} ms\n\n"
-        f"[bold]Answer:[/bold]\n{response.answer}",
+        f"[bold]Answer:[/bold]\n{safe_text(response.answer)}",
         title="RAG Query Result",
         border_style=status_color
     ))
@@ -214,7 +243,7 @@ def demo():
             f"[bold]Status:[/bold] [{status_style}]{resp.status.value}[/{status_style}] | "
             f"[bold]Confidence:[/bold] {resp.confidence:.2f} | "
             f"[bold]Latency:[/bold] {resp.latency_ms:.1f} ms\n\n"
-            f"[bold]Output:[/bold]\n{resp.answer}",
+            f"[bold]Output:[/bold]\n{safe_text(resp.answer)}",
             border_style=status_style.split()[-1]
         ))
 

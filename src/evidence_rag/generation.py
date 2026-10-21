@@ -358,12 +358,22 @@ class GrokGenerator(OpenAICompatibleGenerator):
         model_name: str = "grok-beta",
         temperature: float = 0.0
     ):
-        key = api_key or os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
+        key = api_key or os.getenv("GROK_API_KEY") or os.getenv("GROQ_API_KEY") or os.getenv("XAI_API_KEY")
+        # Auto-detect if key is a Groq Cloud key (starts with gsk_)
+        if key and key.startswith("gsk_"):
+            base_url = "https://api.groq.com/openai/v1/chat/completions"
+            provider = "Groq Cloud"
+            model = "llama-3.3-70b-versatile" if model_name == "grok-beta" else model_name
+        else:
+            base_url = "https://api.x.ai/v1/chat/completions"
+            provider = "xAI Grok"
+            model = model_name
+
         super().__init__(
             api_key=key,
-            base_url="https://api.x.ai/v1/chat/completions",
-            model_name=model_name,
-            provider_name="xAI Grok",
+            base_url=base_url,
+            model_name=model,
+            provider_name=provider,
             temperature=temperature
         )
 
@@ -377,12 +387,22 @@ class GroqGenerator(OpenAICompatibleGenerator):
         model_name: str = "llama-3.3-70b-versatile",
         temperature: float = 0.0
     ):
-        key = api_key or os.getenv("GROQ_API_KEY")
+        key = api_key or os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
+        # Auto-detect if key is an xAI Grok key (starts with xai-)
+        if key and key.startswith("xai-"):
+            base_url = "https://api.x.ai/v1/chat/completions"
+            provider = "xAI Grok"
+            model = "grok-beta" if model_name == "llama-3.3-70b-versatile" else model_name
+        else:
+            base_url = "https://api.groq.com/openai/v1/chat/completions"
+            provider = "Groq Cloud"
+            model = model_name
+
         super().__init__(
             api_key=key,
-            base_url="https://api.groq.com/openai/v1/chat/completions",
-            model_name=model_name,
-            provider_name="Groq Cloud",
+            base_url=base_url,
+            model_name=model,
+            provider_name=provider,
             temperature=temperature
         )
 
@@ -390,7 +410,7 @@ class GroqGenerator(OpenAICompatibleGenerator):
 def create_generator(config: GenerationConfig) -> BaseGenerator:
     """Instantiate the configured generator."""
     mode = config.mode.lower()
-    if mode == "grok":
+    if mode in ("grok", "xai"):
         return GrokGenerator(
             model_name=config.grok_model,
             temperature=config.temperature
@@ -405,6 +425,19 @@ def create_generator(config: GenerationConfig) -> BaseGenerator:
             model_name=config.gemini_model,
             temperature=config.temperature
         )
+    elif mode in ("online", "auto"):
+        # Auto-detect provider based on available keys
+        groq_k = os.getenv("GROQ_API_KEY")
+        grok_k = os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
+        gemini_k = os.getenv("GEMINI_API_KEY")
+
+        if groq_k or (grok_k and grok_k.startswith("gsk_")):
+            return GroqGenerator(model_name=config.groq_model, temperature=config.temperature)
+        elif grok_k:
+            return GrokGenerator(model_name=config.grok_model, temperature=config.temperature)
+        elif gemini_k:
+            return GeminiGenerator(model_name=config.gemini_model, temperature=config.temperature)
 
     # Default is always deterministic offline mock generator
     return DeterministicMockGenerator()
+
