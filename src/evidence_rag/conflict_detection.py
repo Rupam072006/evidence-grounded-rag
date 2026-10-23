@@ -42,15 +42,28 @@ class ConflictDetector:
         # 1. Check known explicit contradiction pairs
         for doc_a, doc_b, topic in self.known_conflict_pairs:
             if doc_a in doc_chunks_map and doc_b in doc_chunks_map:
-                # Check if query or chunks relate to the conflicting parameters (top-k, candidate pool, default parameter)
-                relevant_terms = ["top-k", "candidate pool", "retrieval service", "default", "production"]
+                # Extract search keywords from topic
+                topic_words = set(re.findall(r"\b[A-Za-z0-9_\-]{4,}\b", topic.lower()))
+                topic_words.discard("default")
+                topic_words.discard("sizing")
+                topic_words.discard("ceiling")
+
                 combined_text = " ".join([rc.chunk.text for rc in doc_chunks_map[doc_a] + doc_chunks_map[doc_b]]).lower()
                 query_lower = query.lower()
 
-                if any(term in combined_text for term in relevant_terms) and any(term in query_lower for term in relevant_terms):
-                    # Found explicit conflict
-                    statement_a = self._extract_key_sentence(doc_chunks_map[doc_a][0].chunk.text, "top-k")
-                    statement_b = self._extract_key_sentence(doc_chunks_map[doc_b][0].chunk.text, "top-k")
+                # Match if query or retrieved chunks discuss the conflicting topic
+                query_match = any(w in query_lower for w in topic_words)
+                chunk_match = any(w in combined_text for w in topic_words)
+
+                if query_match and chunk_match:
+                    # Pick primary keyword to locate relevant sentences
+                    kw = next((w for w in topic_words if w in query_lower), "conflict")
+                    statement_a = self._extract_key_sentence(doc_chunks_map[doc_a][0].chunk.text, kw)
+                    if not statement_a:
+                        statement_a = doc_chunks_map[doc_a][0].chunk.text.split("\n")[0]
+                    statement_b = self._extract_key_sentence(doc_chunks_map[doc_b][0].chunk.text, kw)
+                    if not statement_b:
+                        statement_b = doc_chunks_map[doc_b][0].chunk.text.split("\n")[0]
 
                     chunk_a_id = doc_chunks_map[doc_a][0].chunk.chunk_id
                     chunk_b_id = doc_chunks_map[doc_b][0].chunk.chunk_id
@@ -59,21 +72,20 @@ class ConflictDetector:
                         ConflictItem(
                             document_id=doc_a,
                             chunk_id=chunk_a_id,
-                            statement=statement_a or "Specifies default top-k of 5 and candidate pool of 20."
+                            statement=statement_a
                         ),
                         ConflictItem(
                             document_id=doc_b,
                             chunk_id=chunk_b_id,
-                            statement=statement_b or "Specifies revised top-k of 10 and candidate pool of 50."
+                            statement=statement_b
                         )
                     ]
 
                     conflict = ConflictEvidence(
                         topic=topic,
                         description=(
-                            "Contradictory specifications detected: DOC-009 designates default top-k as 5 "
-                            "with pool size 20, whereas DOC-020 designates revised default top-k as 10 "
-                            "with pool size 50."
+                            f"Contradictory specifications detected regarding {topic}: "
+                            f"{doc_a} ({chunk_a_id}) contradicts {doc_b} ({chunk_b_id})."
                         ),
                         conflicting_sources=[doc_a, doc_b],
                         conflicting_chunks=[chunk_a_id, chunk_b_id],

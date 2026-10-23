@@ -177,3 +177,61 @@ To verify that the integration is functioning correctly across all modules:
    evidence-rag query "What is the default production top-k parameter and candidate pool size for the retrieval service?"
    ```
    *Expected status:* `CONFLICT_DETECTED` with both DOC-009 and DOC-020 cited.
+
+---
+
+## 6. Decision-Support Workflow Integration (Task 2)
+
+The decision-support workflow extends the core RAG pipeline into a governed recommendation system with an explicit human approval gate.
+
+### 6.1 Workflow Execution Flow
+```text
+WorkflowRequest -> Validation -> Retrieval -> Evidence Set -> Sufficiency Assessment -> Conflict Detection -> Grounded Recommendation Synthesis -> Awaiting Approval Gate -> Human Decision -> Audit Record
+```
+
+### 6.2 Python API Usage
+
+```python
+from evidence_rag.workflow import DecisionWorkflow
+from evidence_rag.workflow_schemas import WorkflowRequest
+
+# 1. Initialize workflow engine
+wf = DecisionWorkflow()
+
+# 2. Submit proposal request
+request = WorkflowRequest(
+    request_id="REQ-2026-001",
+    title="Q4 Enterprise LinkedIn Lead Gen Campaign",
+    proposal_text="Deploy targeted sponsored content on LinkedIn targeting technical decision makers, aiming for a 25 percent increase in SQLs with a budget of $30,000.",
+    department="Marketing",
+    requested_budget=30000.0,
+    submitted_by="growth_lead"
+)
+
+# 3. Evaluate proposal (stops at Human Approval Gate)
+record = wf.evaluate_proposal(request)
+print("Status:", record.status)  # WorkflowStatus.AWAITING_APPROVAL
+print("Recommended Action:", record.recommendation.recommended_action)  # APPROVE
+
+# 4. Human Approval Gate: Submit manager decision
+decision_record = wf.submit_approval(
+    request_id="REQ-2026-001",
+    decision="APPROVED",
+    reviewer="Rupam Patne",
+    notes="Proposal verified against Q4 budget ceilings ($50k) and lead targets."
+)
+print("Final Status:", decision_record.status)  # WorkflowStatus.APPROVED
+```
+
+### 6.3 Workflow Status Lifecycle
+
+| Status | Trigger Condition | Consequential Action Permitted |
+|---|---|---|
+| `INVALID_REQUEST` | Validation boundary failed (empty ID, short title, negative budget) | None (Rejected prior to retrieval) |
+| `INDEX_UNAVAILABLE` | Vector index corrupted, missing, or inaccessible | None (Safe degradation) |
+| `INSUFFICIENT_EVIDENCE` | Retrieval similarity below floor or domain not covered | None (Refusal emitted) |
+| `CONFLICT_DETECTED` | Material factual contradiction between policy sources | None (Contradiction surfaced for human review) |
+| `AWAITING_APPROVAL` | Recommendation synthesized; halted at human gate | **No external action without human sign-off** |
+| `APPROVED` | Explicit human reviewer approval recorded | Action authorized according to approved proposal |
+| `REJECTED` | Explicit human reviewer rejection recorded | Action halted and archived |
+

@@ -55,6 +55,11 @@ Thumbs.db
 # Antigravity system logs
 .system_generated/
 
+# Application logs
+logs/
+*.log
+
 # Evaluation run timestamped dumps
 evaluation/results/evaluation_run_*.json
+evaluation/results/latest_evaluation_run.json
 

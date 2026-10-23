@@ -1,0 +1,523 @@
+{
+  "REQ-001": {
+    "request_id": "REQ-001",
+    "status": "APPROVED",
+    "request": {
+      "request_id": "REQ-001",
+      "title": "Q4 Enterprise LinkedIn Lead Gen Campaign",
+      "proposal_text": "Launch targeted sponsored content on LinkedIn aiming for 25 percent increase in SQLs with a requested budget of ,000.",
+      "department": "Marketing",
+      "requested_budget": 35000.0,
+      "submitted_by": "analyst",
+      "created_at": "2026-10-23T12:40:13.669125+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C005",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 4,
+          "text": "sequently, active planned media spend cannot exceed $42,500.\n\n## 2. Channel Budget Caps\nPlanned expenditures must conform to channel-specific sub-allocations:\n- **Paid Search (Google Ads):** Capped at a maximum allocation of $20,000.\n- **Paid Social (LinkedIn Ads):** Capped at a maximum allocation of $15,000.\n- **Influencer and KOL Partnerships:** Allocated spend ceiling is set to $25,000.\n- **Content Production:** Capped at $7,500.",
+          "char_start": 875,
+          "char_end": 1311,
+          "token_count": 62,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2657,
+        "rank": 1,
+        "raw_similarity": 0.2349
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-001-C003",
+          "document_id": "DOC-MKT-001",
+          "chunk_index": 2,
+          "text": "cification for placement testing decision-support workflows.\n\nThe primary objective for Q4 is driving a 25% increase in sales-qualified enterprise leads (SQLs). All messaging must emphasize enterprise security, verified data grounding, and high-reliability operational tooling.",
+          "char_start": 638,
+          "char_end": 915,
+          "token_count": 34,
+          "metadata": {
+            "title": "Q4 Marketing Strategy and Growth Objectives",
+            "topic": "Campaign Strategy",
+            "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+            "version": "1.0.0",
+            "source_type": "strategy_specification"
+          }
+        },
+        "score": 0.2473,
+        "rank": 2,
+        "raw_similarity": 0.2288
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C006",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 5,
+          "text": "set to $25,000.\n- **Content Production:** Capped at $7,500.\n\nAll proposed budgets must be backed by unit economics and itemized channel estimates.",
+          "char_start": 1252,
+          "char_end": 1398,
+          "token_count": 22,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2203,
+        "rank": 3,
+        "raw_similarity": 0.1957
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C004",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 3,
+          "text": "ding $50,000 must be rejected immediately during validation.\n\nA mandatory 15% contingency reserve ($7,500 on a $50,000 budget) must remain unallocated to absorb ad auction price volatility. Consequently, active planned media spend cannot exceed $42,500.",
+          "char_start": 682,
+          "char_end": 935,
+          "token_count": 35,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2083,
+        "rank": 4,
+        "raw_similarity": 0.196
+      }
+    ],
+    "citations": [
+      {
+        "document_id": "DOC-MKT-002",
+        "chunk_id": "DOC-MKT-002-C005",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-MKT-001",
+        "chunk_id": "DOC-MKT-001-C003",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-MKT-002",
+        "chunk_id": "DOC-MKT-002-C006",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      }
+    ],
+    "conflict": null,
+    "recommendation": {
+      "summary": "Evaluated proposal 'Q4 Enterprise LinkedIn Lead Gen Campaign' against authoritative Q4 marketing strategy, financial policies, and compliance standards. Found 3 verified factual constraints.",
+      "verified_facts": [
+        {
+          "statement": "sequently, active planned media spend cannot exceed $42,500.",
+          "citation": {
+            "document_id": "DOC-MKT-002",
+            "chunk_id": "DOC-MKT-002-C005",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-MKT-002",
+          "source_chunk_id": "DOC-MKT-002-C005"
+        },
+        {
+          "statement": "cification for placement testing decision-support workflows.",
+          "citation": {
+            "document_id": "DOC-MKT-001",
+            "chunk_id": "DOC-MKT-001-C003",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-MKT-001",
+          "source_chunk_id": "DOC-MKT-001-C003"
+        },
+        {
+          "statement": "- **Content Production:** Capped at $7,500.",
+          "citation": {
+            "document_id": "DOC-MKT-002",
+            "chunk_id": "DOC-MKT-002-C006",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-MKT-002",
+          "source_chunk_id": "DOC-MKT-002-C006"
+        }
+      ],
+      "inferences": [
+        "Requested budget of $35,000.00 is within the policy maximum cap of $50,000.00 [DOC-MKT-002]."
+      ],
+      "assumptions": [
+        "Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [DOC-MKT-003].",
+        "Assumes third-party advertising platform auction rates remain stable over the planned execution window."
+      ],
+      "unknowns": [
+        "Vendor rate fluctuations: Specific real-time CPM pricing from ad exchanges is subject to auction dynamics."
+      ],
+      "risk_assessment": "Low Risk: Proposal aligns with documented Q4 growth targets and financial ceilings.",
+      "recommended_action": "APPROVE"
+    },
+    "approval": {
+      "request_id": "REQ-001",
+      "decision": "APPROVED",
+      "reviewer": "Rupam Patne",
+      "decision_notes": "Approved with condition to monitor weekly CAC.",
+      "decided_at": "2026-10-23T12:40:13.721138+00:00"
+    },
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-10-23T12:40:13.669181+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-10-23T12:40:13.708164+00:00"
+      },
+      {
+        "action": "RECOMMENDATION_SYNTHESIZED",
+        "action_proposed": "APPROVE",
+        "citations_count": 3,
+        "timestamp": "2026-10-23T12:40:13.710537+00:00"
+      },
+      {
+        "action": "AWAITING_HUMAN_APPROVAL",
+        "message": "Recommendation ready for human review. System cannot execute without sign-off.",
+        "timestamp": "2026-10-23T12:40:13.710566+00:00"
+      },
+      {
+        "action": "HUMAN_APPROVED",
+        "reviewer": "Rupam Patne",
+        "decision_notes": "Approved with condition to monitor weekly CAC.",
+        "timestamp": "2026-10-23T12:40:13.721138+00:00"
+      }
+    ],
+    "created_at": "2026-10-23T12:40:13.669181+00:00",
+    "updated_at": "2026-10-23T12:40:13.724567+00:00"
+  },
+  "REQ-002": {
+    "request_id": "REQ-002",
+    "status": "CONFLICT_DETECTED",
+    "request": {
+      "request_id": "REQ-002",
+      "title": "Q4 Influencer Partnership Strategy",
+      "proposal_text": "Allocate funds for influencer partnership spend ceiling and KOL endorsements across key tech accounts.",
+      "department": "Marketing",
+      "requested_budget": 18000.0,
+      "submitted_by": "analyst",
+      "created_at": "2026-10-23T12:41:43.232945+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-004-C005",
+          "document_id": "DOC-MKT-004",
+          "chunk_index": 4,
+          "text": "cy disclosures must reference enterprise retention policies.\n\n## 2. Channel Safety and Influencer Restrictions\nTo protect corporate brand reputation and mitigate third-party risk:\n- **Influencer and KOL Partnerships:** Maximum allowable spend is strictly capped at $10,000 per campaign to prevent excessive budget concentration. Any engagement requires legal review of influencer background history.\n- **Competitor Trademark Bidding:** Prohibited across all paid search ad networks.\n- **Mandatory Claims Substantiation:** Any claim asserting uptime, benchmark performance, or compliance certifications must cite verifiable public documentation.",
+          "char_start": 808,
+          "char_end": 1452,
+          "token_count": 81,
+          "metadata": {
+            "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+            "topic": "Channel Compliance",
+            "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+            "version": "1.0.0",
+            "source_type": "compliance_standard"
+          }
+        },
+        "score": 0.4251,
+        "rank": 1,
+        "raw_similarity": 0.3918
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C005",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 4,
+          "text": "sequently, active planned media spend cannot exceed $42,500.\n\n## 2. Channel Budget Caps\nPlanned expenditures must conform to channel-specific sub-allocations:\n- **Paid Search (Google Ads):** Capped at a maximum allocation of $20,000.\n- **Paid Social (LinkedIn Ads):** Capped at a maximum allocation of $15,000.\n- **Influencer and KOL Partnerships:** Allocated spend ceiling is set to $25,000.\n- **Content Production:** Capped at $7,500.",
+          "char_start": 875,
+          "char_end": 1311,
+          "token_count": 62,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2359,
+        "rank": 2,
+        "raw_similarity": 0.1959
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-003-C004",
+          "document_id": "DOC-MKT-003",
+          "chunk_index": 3,
+          "text": "tives. Synthetic demonstration data for workflow evaluation.\n\nAcross preceding quarters, enterprise acquisition campaigns yielded the following verified baseline metrics:\n- **Click-Through Rate (CTR):** Average baseline across paid search and social is 2.4%.\n- **Customer Acquisition Cost (CAC):** Historical average CAC is $32.00 per qualified lead, with an acceptable operational threshold of up to $35.00.\n- **Landing Page Conversion Rate:** 4.1% from unique visitor to demo request.\n- **Return on Ad Spend (ROAS):** Target baseline ROAS is 2.8x over a standard 90-day pipeline maturation window.",
+          "char_start": 538,
+          "char_end": 1137,
+          "token_count": 84,
+          "metadata": {
+            "title": "Historical Campaign Performance and ROI Benchmarks",
+            "topic": "Performance Benchmarks",
+            "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+            "version": "1.0.0",
+            "source_type": "analytics_benchmark"
+          }
+        },
+        "score": 0.1471,
+        "rank": 3,
+        "raw_similarity": 0.1338
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-001-C004",
+          "document_id": "DOC-MKT-001",
+          "chunk_index": 3,
+          "text": "ed data grounding, and high-reliability operational tooling.\n\n## 2. Approved Advertising Channels\nCampaign proposals must allocate spend across the following approved core acquisition channels:\n1. **Paid Search:** Google Ads targeting high-intent keywords relating to retrieval systems and enterprise AI tooling.\n2. **Paid Social:** LinkedIn Sponsored Content targeting Engineering Managers, VP of Engineering, and Chief Technology Officers.\n3. **Content Marketing:** Technical whitepapers, case studies, and engineering architecture briefs.\n4. **Email Nurture:** Segmented opt-in email campaigns targeting existing technical subscribers.",
+          "char_start": 855,
+          "char_end": 1493,
+          "token_count": 78,
+          "metadata": {
+            "title": "Q4 Marketing Strategy and Growth Objectives",
+            "topic": "Campaign Strategy",
+            "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+            "version": "1.0.0",
+            "source_type": "strategy_specification"
+          }
+        },
+        "score": 0.1352,
+        "rank": 4,
+        "raw_similarity": 0.1019
+      }
+    ],
+    "citations": [],
+    "conflict": {
+      "topic": "Influencer partnership spend ceiling ($25,000 vs $10,000)",
+      "description": "Contradictory specifications detected regarding Influencer partnership spend ceiling ($25,000 vs $10,000): DOC-MKT-002 (DOC-MKT-002-C005) contradicts DOC-MKT-004 (DOC-MKT-004-C005).",
+      "conflicting_sources": [
+        "DOC-MKT-002",
+        "DOC-MKT-004"
+      ],
+      "conflicting_chunks": [
+        "DOC-MKT-002-C005",
+        "DOC-MKT-004-C005"
+      ],
+      "items": [
+        {
+          "document_id": "DOC-MKT-002",
+          "chunk_id": "DOC-MKT-002-C005",
+          "statement": "- **Influencer and KOL Partnerships:** Allocated spend ceiling is set to $25,000."
+        },
+        {
+          "document_id": "DOC-MKT-004",
+          "chunk_id": "DOC-MKT-004-C005",
+          "statement": "Channel Safety and Influencer Restrictions\nTo protect corporate brand reputation and mitigate third-party risk:\n- **Influencer and KOL Partnerships:** Maximum allowable spend is strictly capped at $10,000 per campaign to prevent excessive budget concentration."
+        }
+      ]
+    },
+    "recommendation": null,
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-10-23T12:41:43.232961+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-10-23T12:41:43.248723+00:00"
+      },
+      {
+        "action": "CONFLICT_DETECTED",
+        "topic": "Influencer partnership spend ceiling ($25,000 vs $10,000)",
+        "sources": [
+          "DOC-MKT-002",
+          "DOC-MKT-004"
+        ],
+        "timestamp": "2026-10-23T12:41:43.249375+00:00"
+      }
+    ],
+    "created_at": "2026-10-23T12:41:43.232961+00:00",
+    "updated_at": "2026-10-23T12:41:43.251025+00:00"
+  },
+  "REQ-003": {
+    "request_id": "REQ-003",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "request": {
+      "request_id": "REQ-003",
+      "title": "Deep Sea Offshore Petroleum Drilling Campaign",
+      "proposal_text": "Allocate Q4 funds for deep-sea oil drilling rigs, offshore pipeline maintenance, and crude petroleum refining.",
+      "department": "Marketing",
+      "requested_budget": 30000.0,
+      "submitted_by": "analyst",
+      "created_at": "2026-10-23T12:42:04.971617+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C002",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 1,
+          "text": "pdated_at:** 2026-09-16T11:00:00Z\n- **topic:** Budget Policy\n\n## 1. Budget Ceilings and Financial Limits\nThis document defines binding budgetary guardrails for all Q4 campaign submissions. Synthetic demonstration policy for testing.",
+          "char_start": 325,
+          "char_end": 557,
+          "token_count": 29,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2414,
+        "rank": 1,
+        "raw_similarity": 0.2353
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-001-C003",
+          "document_id": "DOC-MKT-001",
+          "chunk_index": 2,
+          "text": "cification for placement testing decision-support workflows.\n\nThe primary objective for Q4 is driving a 25% increase in sales-qualified enterprise leads (SQLs). All messaging must emphasize enterprise security, verified data grounding, and high-reliability operational tooling.",
+          "char_start": 638,
+          "char_end": 915,
+          "token_count": 34,
+          "metadata": {
+            "title": "Q4 Marketing Strategy and Growth Objectives",
+            "topic": "Campaign Strategy",
+            "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+            "version": "1.0.0",
+            "source_type": "strategy_specification"
+          }
+        },
+        "score": 0.2302,
+        "rank": 2,
+        "raw_similarity": 0.224
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-001-C002",
+          "document_id": "DOC-MKT-001",
+          "chunk_index": 1,
+          "text": "ed_at:** 2026-09-15T10:00:00Z\n- **topic:** Campaign Strategy\n\n## 1. Overview and Core Objectives\nThis document sets the strategic objectives for enterprise B2B marketing initiatives in Q4. All campaign proposals must align with core corporate growth goals. Note: This document is a synthetic demonstration specification for placement testing decision-support workflows.",
+          "char_start": 329,
+          "char_end": 698,
+          "token_count": 48,
+          "metadata": {
+            "title": "Q4 Marketing Strategy and Growth Objectives",
+            "topic": "Campaign Strategy",
+            "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+            "version": "1.0.0",
+            "source_type": "strategy_specification"
+          }
+        },
+        "score": 0.1746,
+        "rank": 3,
+        "raw_similarity": 0.1685
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C003",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 2,
+          "text": "ign submissions. Synthetic demonstration policy for testing.\n\nThe absolute spending ceiling for any single Q4 campaign proposal is $50,000 USD. Any proposal requesting total funds exceeding $50,000 must be rejected immediately during validation.",
+          "char_start": 497,
+          "char_end": 742,
+          "token_count": 33,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.1698,
+        "rank": 4,
+        "raw_similarity": 0.1575
+      }
+    ],
+    "citations": [],
+    "conflict": null,
+    "recommendation": null,
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-10-23T12:42:04.971631+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-10-23T12:42:04.981743+00:00"
+      },
+      {
+        "action": "SUFFICIENCY_FAILED",
+        "reason": "Evidence below similarity floor or lacking relevant domain documentation.",
+        "timestamp": "2026-10-23T12:42:04.981916+00:00"
+      }
+    ],
+    "created_at": "2026-10-23T12:42:04.971631+00:00",
+    "updated_at": "2026-10-23T12:42:04.982357+00:00"
+  },
+  "": {
+    "request_id": "",
+    "status": "INVALID_REQUEST",
+    "request": {
+      "request_id": "",
+      "title": "Bad",
+      "proposal_text": "Short",
+      "department": "Marketing",
+      "requested_budget": -500.0,
+      "submitted_by": "analyst",
+      "created_at": "2026-10-23T12:42:22.122732+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [],
+    "citations": [],
+    "conflict": null,
+    "recommendation": null,
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-10-23T12:42:22.122756+00:00"
+      },
+      {
+        "action": "VALIDATION_FAILED",
+        "error": "Field 'request_id' is mandatory and cannot be empty.",
+        "timestamp": "2026-10-23T12:42:22.122756+00:00"
+      }
+    ],
+    "created_at": "2026-10-23T12:42:22.122756+00:00",
+    "updated_at": "2026-10-23T12:42:22.123619+00:00"
+  }
+}

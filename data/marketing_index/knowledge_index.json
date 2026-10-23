@@ -1,0 +1,363 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2026-10-23T12:39:41.413614+00:00",
+    "chunk_count": 22,
+    "vector_dimension": 256,
+    "corpus_fingerprint": "df043f7b04f03920"
+  },
+  "chunks": [
+    {
+      "chunk_id": "DOC-MKT-001-C001",
+      "document_id": "DOC-MKT-001",
+      "chunk_index": 0,
+      "text": "# Q4 Marketing Strategy and Growth Objectives\n\n## Metadata\n- **document_id:** DOC-MKT-001\n- **title:** Q4 Marketing Strategy and Growth Objectives\n- **source:** data/marketing_corpus/DOC-MKT-001_campaign_objectives.md\n- **source_type:** strategy_specification\n- **version:** 1.0.0\n- **created_at:** 2026-09-01T08:00:00Z\n- **updated_at:** 2026-09-15T10:00:00Z\n- **topic:** Campaign Strategy",
+      "char_start": 0,
+      "char_end": 389,
+      "token_count": 39,
+      "metadata": {
+        "title": "Q4 Marketing Strategy and Growth Objectives",
+        "topic": "Campaign Strategy",
+        "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+        "version": "1.0.0",
+        "source_type": "strategy_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-001-C002",
+      "document_id": "DOC-MKT-001",
+      "chunk_index": 1,
+      "text": "ed_at:** 2026-09-15T10:00:00Z\n- **topic:** Campaign Strategy\n\n## 1. Overview and Core Objectives\nThis document sets the strategic objectives for enterprise B2B marketing initiatives in Q4. All campaign proposals must align with core corporate growth goals. Note: This document is a synthetic demonstration specification for placement testing decision-support workflows.",
+      "char_start": 329,
+      "char_end": 698,
+      "token_count": 48,
+      "metadata": {
+        "title": "Q4 Marketing Strategy and Growth Objectives",
+        "topic": "Campaign Strategy",
+        "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+        "version": "1.0.0",
+        "source_type": "strategy_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-001-C003",
+      "document_id": "DOC-MKT-001",
+      "chunk_index": 2,
+      "text": "cification for placement testing decision-support workflows.\n\nThe primary objective for Q4 is driving a 25% increase in sales-qualified enterprise leads (SQLs). All messaging must emphasize enterprise security, verified data grounding, and high-reliability operational tooling.",
+      "char_start": 638,
+      "char_end": 915,
+      "token_count": 34,
+      "metadata": {
+        "title": "Q4 Marketing Strategy and Growth Objectives",
+        "topic": "Campaign Strategy",
+        "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+        "version": "1.0.0",
+        "source_type": "strategy_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-001-C004",
+      "document_id": "DOC-MKT-001",
+      "chunk_index": 3,
+      "text": "ed data grounding, and high-reliability operational tooling.\n\n## 2. Approved Advertising Channels\nCampaign proposals must allocate spend across the following approved core acquisition channels:\n1. **Paid Search:** Google Ads targeting high-intent keywords relating to retrieval systems and enterprise AI tooling.\n2. **Paid Social:** LinkedIn Sponsored Content targeting Engineering Managers, VP of Engineering, and Chief Technology Officers.\n3. **Content Marketing:** Technical whitepapers, case studies, and engineering architecture briefs.\n4. **Email Nurture:** Segmented opt-in email campaigns targeting existing technical subscribers.",
+      "char_start": 855,
+      "char_end": 1493,
+      "token_count": 78,
+      "metadata": {
+        "title": "Q4 Marketing Strategy and Growth Objectives",
+        "topic": "Campaign Strategy",
+        "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+        "version": "1.0.0",
+        "source_type": "strategy_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-001-C005",
+      "document_id": "DOC-MKT-001",
+      "chunk_index": 4,
+      "text": "in email campaigns targeting existing technical subscribers.\n\nProposals seeking to utilize unlisted channels (such as TikTok, radio broadcasting, or print billboards) require prior authorization and are currently categorized as unsupported channels.",
+      "char_start": 1433,
+      "char_end": 1682,
+      "token_count": 31,
+      "metadata": {
+        "title": "Q4 Marketing Strategy and Growth Objectives",
+        "topic": "Campaign Strategy",
+        "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+        "version": "1.0.0",
+        "source_type": "strategy_specification"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C001",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 0,
+      "text": "# Marketing Budget Allocation and Spending Policy\n\n## Metadata\n- **document_id:** DOC-MKT-002\n- **title:** Marketing Budget Allocation and Spending Policy\n- **source:** data/marketing_corpus/DOC-MKT-002_budget_guidelines.md\n- **source_type:** financial_policy\n- **version:** 1.0.0\n- **created_at:** 2026-09-01T09:00:00Z\n- **updated_at:** 2026-09-16T11:00:00Z\n- **topic:** Budget Policy",
+      "char_start": 0,
+      "char_end": 385,
+      "token_count": 39,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C002",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 1,
+      "text": "pdated_at:** 2026-09-16T11:00:00Z\n- **topic:** Budget Policy\n\n## 1. Budget Ceilings and Financial Limits\nThis document defines binding budgetary guardrails for all Q4 campaign submissions. Synthetic demonstration policy for testing.",
+      "char_start": 325,
+      "char_end": 557,
+      "token_count": 29,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C003",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 2,
+      "text": "ign submissions. Synthetic demonstration policy for testing.\n\nThe absolute spending ceiling for any single Q4 campaign proposal is $50,000 USD. Any proposal requesting total funds exceeding $50,000 must be rejected immediately during validation.",
+      "char_start": 497,
+      "char_end": 742,
+      "token_count": 33,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C004",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 3,
+      "text": "ding $50,000 must be rejected immediately during validation.\n\nA mandatory 15% contingency reserve ($7,500 on a $50,000 budget) must remain unallocated to absorb ad auction price volatility. Consequently, active planned media spend cannot exceed $42,500.",
+      "char_start": 682,
+      "char_end": 935,
+      "token_count": 35,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C005",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 4,
+      "text": "sequently, active planned media spend cannot exceed $42,500.\n\n## 2. Channel Budget Caps\nPlanned expenditures must conform to channel-specific sub-allocations:\n- **Paid Search (Google Ads):** Capped at a maximum allocation of $20,000.\n- **Paid Social (LinkedIn Ads):** Capped at a maximum allocation of $15,000.\n- **Influencer and KOL Partnerships:** Allocated spend ceiling is set to $25,000.\n- **Content Production:** Capped at $7,500.",
+      "char_start": 875,
+      "char_end": 1311,
+      "token_count": 62,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-002-C006",
+      "document_id": "DOC-MKT-002",
+      "chunk_index": 5,
+      "text": "set to $25,000.\n- **Content Production:** Capped at $7,500.\n\nAll proposed budgets must be backed by unit economics and itemized channel estimates.",
+      "char_start": 1252,
+      "char_end": 1398,
+      "token_count": 22,
+      "metadata": {
+        "title": "Marketing Budget Allocation and Spending Policy",
+        "topic": "Budget Policy",
+        "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+        "version": "1.0.0",
+        "source_type": "financial_policy"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C001",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 0,
+      "text": "# Historical Campaign Performance and ROI Benchmarks",
+      "char_start": 0,
+      "char_end": 52,
+      "token_count": 7,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C002",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 1,
+      "text": "# Historical Campaign Performance and ROI Benchmarks\n\n## Metadata\n- **document_id:** DOC-MKT-003\n- **title:** Historical Campaign Performance and ROI Benchmarks\n- **source:** data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md\n- **source_type:** analytics_benchmark\n- **version:** 1.0.0\n- **created_at:** 2026-09-02T10:00:00Z\n- **updated_at:** 2026-09-17T14:00:00Z\n- **topic:** Performance Benchmarks",
+      "char_start": 0,
+      "char_end": 413,
+      "token_count": 39,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C003",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 2,
+      "text": ":** 2026-09-17T14:00:00Z\n- **topic:** Performance Benchmarks\n\n## 1. Past Campaign Metrics\nThis document summarizes verified historical performance benchmarks from Q1-Q3 marketing initiatives. Synthetic demonstration data for workflow evaluation.",
+      "char_start": 353,
+      "char_end": 598,
+      "token_count": 28,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C004",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 3,
+      "text": "tives. Synthetic demonstration data for workflow evaluation.\n\nAcross preceding quarters, enterprise acquisition campaigns yielded the following verified baseline metrics:\n- **Click-Through Rate (CTR):** Average baseline across paid search and social is 2.4%.\n- **Customer Acquisition Cost (CAC):** Historical average CAC is $32.00 per qualified lead, with an acceptable operational threshold of up to $35.00.\n- **Landing Page Conversion Rate:** 4.1% from unique visitor to demo request.\n- **Return on Ad Spend (ROAS):** Target baseline ROAS is 2.8x over a standard 90-day pipeline maturation window.",
+      "char_start": 538,
+      "char_end": 1137,
+      "token_count": 84,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C005",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 4,
+      "text": "S is 2.8x over a standard 90-day pipeline maturation window.\n\n## 2. Gaps and Unverified Media\nHistorical performance data is strictly limited to Google Search, LinkedIn Ads, and technical whitepaper syndication.",
+      "char_start": 1077,
+      "char_end": 1288,
+      "token_count": 31,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-003-C006",
+      "document_id": "DOC-MKT-003",
+      "chunk_index": 5,
+      "text": "Search, LinkedIn Ads, and technical whitepaper syndication.\n\nNo corporate performance data, conversion benchmarks, or audience research exists for consumer video platforms (e.g. TikTok, Instagram Reels), linear television broadcasting, or print magazines. Proposals projecting returns on unverified media must note this as an unknown factor.",
+      "char_start": 1229,
+      "char_end": 1570,
+      "token_count": 44,
+      "metadata": {
+        "title": "Historical Campaign Performance and ROI Benchmarks",
+        "topic": "Performance Benchmarks",
+        "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+        "version": "1.0.0",
+        "source_type": "analytics_benchmark"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-004-C001",
+      "document_id": "DOC-MKT-004",
+      "chunk_index": 0,
+      "text": "# Advertising Compliance, Brand Safety, and Channel Caps",
+      "char_start": 0,
+      "char_end": 56,
+      "token_count": 8,
+      "metadata": {
+        "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+        "topic": "Channel Compliance",
+        "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-004-C002",
+      "document_id": "DOC-MKT-004",
+      "chunk_index": 1,
+      "text": "# Advertising Compliance, Brand Safety, and Channel Caps\n\n## Metadata\n- **document_id:** DOC-MKT-004\n- **title:** Advertising Compliance, Brand Safety, and Channel Caps\n- **source:** data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md\n- **source_type:** compliance_standard\n- **version:** 1.0.0\n- **created_at:** 2026-09-03T11:00:00Z\n- **updated_at:** 2026-09-18T16:00:00Z\n- **topic:** Channel Compliance",
+      "char_start": 0,
+      "char_end": 418,
+      "token_count": 41,
+      "metadata": {
+        "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+        "topic": "Channel Compliance",
+        "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-004-C003",
+      "document_id": "DOC-MKT-004",
+      "chunk_index": 2,
+      "text": "d_at:** 2026-09-18T16:00:00Z\n- **topic:** Channel Compliance\n\n## 1. Compliance and Data Privacy Mandates\nAll marketing initiatives must strictly adhere to enterprise data protection policies and brand safety guidelines. Synthetic demonstration compliance policy.",
+      "char_start": 358,
+      "char_end": 620,
+      "token_count": 32,
+      "metadata": {
+        "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+        "topic": "Channel Compliance",
+        "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-004-C004",
+      "document_id": "DOC-MKT-004",
+      "chunk_index": 3,
+      "text": "afety guidelines. Synthetic demonstration compliance policy.\n\nAny digital campaign collecting prospective customer contact data must include an unbundled, affirmative opt-in consent checkbox. Pre-checked consent boxes are strictly prohibited. Privacy disclosures must reference enterprise retention policies.",
+      "char_start": 560,
+      "char_end": 868,
+      "token_count": 35,
+      "metadata": {
+        "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+        "topic": "Channel Compliance",
+        "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_standard"
+      }
+    },
+    {
+      "chunk_id": "DOC-MKT-004-C005",
+      "document_id": "DOC-MKT-004",
+      "chunk_index": 4,
+      "text": "cy disclosures must reference enterprise retention policies.\n\n## 2. Channel Safety and Influencer Restrictions\nTo protect corporate brand reputation and mitigate third-party risk:\n- **Influencer and KOL Partnerships:** Maximum allowable spend is strictly capped at $10,000 per campaign to prevent excessive budget concentration. Any engagement requires legal review of influencer background history.\n- **Competitor Trademark Bidding:** Prohibited across all paid search ad networks.\n- **Mandatory Claims Substantiation:** Any claim asserting uptime, benchmark performance, or compliance certifications must cite verifiable public documentation.",
+      "char_start": 808,
+      "char_end": 1452,
+      "token_count": 81,
+      "metadata": {
+        "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+        "topic": "Channel Compliance",
+        "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+        "version": "1.0.0",
+        "source_type": "compliance_standard"
+      }
+    }
+  ]
+}

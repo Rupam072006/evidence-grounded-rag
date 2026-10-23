@@ -1,0 +1,52 @@
+# Decision-Support Workflow Configuration for Synthetic Marketing Evaluation
+corpus:
+  document_dir: "data/marketing_corpus"
+  manifest_path: "data/marketing_corpus/manifest.json"
+  required_count: 4
+
+cleaning:
+  normalize_unicode: true
+  collapse_whitespace: true
+  remove_control_characters: true
+  strip_external_tags: true
+
+chunking:
+  strategy: "paragraph_window"
+  chunk_size_chars: 400
+  chunk_overlap_chars: 60
+  min_chunk_chars: 40
+
+embeddings:
+  provider: "hybrid_tfidf"
+  model_name: "all-MiniLM-L6-v2"
+  dimension: 256
+
+indexing:
+  index_dir: "data/marketing_index"
+  index_file: "knowledge_index.json"
+  vectors_file: "vectors.npy"
+  similarity_metric: "cosine"
+
+retrieval:
+  top_k: 4
+  similarity_threshold: 0.10
+  evidence_sufficiency_floor: 0.18
+  margin_threshold: 0.05
+
+conflict_detection:
+  enabled: true
+
+generation:
+  mode: "mock"
+  grok_model: "grok-beta"
+  groq_model: "openai/gpt-oss-120b"
+  gemini_model: "gemini-1.5-flash"
+  temperature: 0.0
+  max_tokens: 512
+
+logging:
+  level: "INFO"
+  format: "json"
+  log_file: "logs/workflow.log"
+
+random_seed: 42

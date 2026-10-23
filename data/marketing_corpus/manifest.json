@@ -1,0 +1,47 @@
+{
+  "manifest_version": "1.0",
+  "total_documents": 4,
+  "generated_at": "2026-10-23T12:00:00.000000+00:00",
+  "documents": [
+    {
+      "document_id": "DOC-MKT-001",
+      "title": "Q4 Marketing Strategy and Growth Objectives",
+      "source": "data/marketing_corpus/DOC-MKT-001_campaign_objectives.md",
+      "source_type": "strategy_specification",
+      "version": "1.0.0",
+      "created_at": "2026-09-01T08:00:00Z",
+      "updated_at": "2026-09-15T10:00:00Z",
+      "topic": "Campaign Strategy"
+    },
+    {
+      "document_id": "DOC-MKT-002",
+      "title": "Marketing Budget Allocation and Spending Policy",
+      "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+      "source_type": "financial_policy",
+      "version": "1.0.0",
+      "created_at": "2026-09-01T09:00:00Z",
+      "updated_at": "2026-09-16T11:00:00Z",
+      "topic": "Budget Policy"
+    },
+    {
+      "document_id": "DOC-MKT-003",
+      "title": "Historical Campaign Performance and ROI Benchmarks",
+      "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+      "source_type": "analytics_benchmark",
+      "version": "1.0.0",
+      "created_at": "2026-09-02T10:00:00Z",
+      "updated_at": "2026-09-17T14:00:00Z",
+      "topic": "Performance Benchmarks"
+    },
+    {
+      "document_id": "DOC-MKT-004",
+      "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+      "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+      "source_type": "compliance_standard",
+      "version": "1.0.0",
+      "created_at": "2026-09-03T11:00:00Z",
+      "updated_at": "2026-09-18T16:00:00Z",
+      "topic": "Channel Compliance"
+    }
+  ]
+}

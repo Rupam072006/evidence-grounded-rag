@@ -4,6 +4,24 @@ All notable changes and engineering milestones for the Evidence-Grounded RAG Sys
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-dev] - 2026-10-23
+
+### Task 2 Day 1 — Baseline Audit and Verified Defect Corrections
+- **Clean Environment Dependency Fix:** Added missing `httpx>=0.24.0` dependency to `pyproject.toml` and `requirements.txt`.
+- **Corpus Fingerprinting Overhaul:** Replaced single-document hash with stable SHA-256 over all sorted document hashes. Added `compute_corpus_fingerprint()`, `is_index_stale()`, and staleness checking in `ensure_index()`.
+- **Semantic Error Status Distinction:** Added `ResponseStatus.INDEX_UNAVAILABLE` to `schemas.py` and returned it on index load failure instead of conflated `GENERATION_UNAVAILABLE`.
+- **Citation Bracket Resilience:** Updated `CITATION_PATTERN` in `evidence.py` to match unicode lenticular brackets `【DOC-XXX】` and hyphen delimiters in addition to standard `[DOC-XXX:CHUNK-YYY]`.
+- **Cloud LLM 429 Retry Backoff:** Implemented 3-attempt exponential backoff retry in `OpenAICompatibleGenerator` for HTTP 429 rate limit responses.
+- **Dynamic Conflict Detection:** Made `ConflictDetector` extensible with `register_conflict_pair()` and topic keyword parsing.
+- **Audit Verification Suite:** Added `scripts/day1_audit.py` passing 16/16 checks, with results recorded in `evidence_packet/audit_raw_output.json`. Added `TASK2_BASELINE.md` and `evidence_packet/defect_register.md`.
+
+### Task 2 Day 2 — End-to-End Decision-Support Workflow & Human Approval Gate
+- **Workflow Schemas (`workflow_schemas.py`):** Added `WorkflowStatus`, `WorkflowRequest`, `VerifiedFact`, `RecommendationReport`, `ApprovalDecision`, and `WorkflowRecord`.
+- **Persistent Record Store (`record_store.py`):** Implemented thread-safe, atomic audit record store (`data/workflow_records/records.json`) with automated secret scrubbing.
+- **Decision Engine (`workflow.py`):** Built `DecisionWorkflow` executing: Validation -> Retrieval -> Evidence Set -> Sufficiency Assessment -> Conflict Detection -> Grounded Recommendation Synthesis -> Human Approval Gate.
+- **Synthetic Marketing Corpus (`data/marketing_corpus/`):** Added 4 controlled documents (`DOC-MKT-001` through `DOC-MKT-004`) covering campaign strategy, budget ceilings ($50k), past benchmarks (CTR 2.4%, CAC $32), compliance, and intentional influencer spend conflict ($25k vs $10k).
+- **Automated Workflow Tests (`tests/functional/test_workflow.py`):** Added 8 automated tests covering valid proposals, approval gate execution, budget rejection, conflict detection, out-of-domain handling, invalid input rejection, and secret scrubbing. Test suite expanded to 55 passing tests.
+
 ---
 
 ## [1.1.0] - 2026-10-21
