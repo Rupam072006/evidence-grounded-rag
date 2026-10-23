@@ -22,6 +22,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Synthetic Marketing Corpus (`data/marketing_corpus/`):** Added 4 controlled documents (`DOC-MKT-001` through `DOC-MKT-004`) covering campaign strategy, budget ceilings ($50k), past benchmarks (CTR 2.4%, CAC $32), compliance, and intentional influencer spend conflict ($25k vs $10k).
 - **Automated Workflow Tests (`tests/functional/test_workflow.py`):** Added 8 automated tests covering valid proposals, approval gate execution, budget rejection, conflict detection, out-of-domain handling, invalid input rejection, and secret scrubbing. Test suite expanded to 55 passing tests.
 
+### Task 2 Day 3 — Integration, CLI Exposure, and Comprehensive Failure Testing
+- **CLI Workflow Interface (`cli.py`):** Extended Click CLI with `workflow` subcommand group (`workflow evaluate`, `workflow approve`, `workflow show`, `workflow list`) with Rich terminal panels and tables.
+- **Automatic Staleness Checking Default (`pipeline.py`):** Updated `ensure_index(check_staleness=True)` by default to ensure any modification, addition, or removal in the corpus immediately synchronizes vector storage.
+- **10-Scenario Failure and Integration Suite (`tests/functional/test_day3_scenarios.py`):** Added 10 dedicated automated test scenarios covering:
+  1. Valid request with sufficient evidence (`AWAITING_APPROVAL`).
+  2. Out-of-domain request with no adequate evidence (`INSUFFICIENT_EVIDENCE`).
+  3. Conflicting source documents (`CONFLICT_DETECTED`).
+  4. Malformed request / negative budget rejection (`INVALID_REQUEST`).
+  5. Prompt-injection attempt inside input (prompt takeover prevented, non-approved).
+  6. Unsupported factual claim / bad citation detection.
+  7. Empty corpus or unavailable index handling (`INDEX_UNAVAILABLE`).
+  8. Generation service offline / safe deterministic fallback.
+  9. Corpus update followed by automatic index rebuild.
+  10. Strict human approval boundary enforcement (zero autonomous action).
+- **Automated Scenario Matrix & Audit Output (`scripts/run_day3_scenarios.py`):** Live execution generating `evidence_packet/day3_scenario_matrix.md` and `evidence_packet/day3_raw_output.json`.
+- **Total Test Suite:** 65/65 tests passing across all test categories in 0.63s.
+
 ---
 
 ## [1.1.0] - 2026-10-21

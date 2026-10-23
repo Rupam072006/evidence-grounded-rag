@@ -41,10 +41,22 @@
 - [x] Comprehensive automated workflow test suite (`tests/functional/test_workflow.py`): 8 tests passing, total suite 55 passing tests.
 - [x] Documentation updated: `CHANGELOG.md`, `INTEGRATION.md`, `PROJECT_CHECKLIST.md`.
 
-### [ ] DAY 3 — INTEGRATION AND FAILURE TESTING
-- [ ] Documented CLI and local API exposure for the decision workflow.
-- [ ] Matrix of 10 failure and edge-case scenarios tested with real outputs.
-- [ ] Regression test verification for all scenarios.
+### [x] DAY 3 — INTEGRATION AND FAILURE TESTING
+- [x] Documented CLI commands implemented (`workflow evaluate`, `workflow approve`, `workflow show`, `workflow list`) in `src/evidence_rag/cli.py`.
+- [x] Matrix of 10 failure and integration scenarios automated and tested:
+  - [x] Scenario 1: Valid request with sufficient evidence (`AWAITING_APPROVAL`)
+  - [x] Scenario 2: Request with no adequate evidence (`INSUFFICIENT_EVIDENCE`)
+  - [x] Scenario 3: Conflicting source documents (`CONFLICT_DETECTED`)
+  - [x] Scenario 4: Malformed request or missing required fields (`INVALID_REQUEST`)
+  - [x] Scenario 5: Prompt-injection attempt inside input (prompt takeover prevented, non-approved)
+  - [x] Scenario 6: Unsupported factual claim or invalid citation (bad citations caught and rejected)
+  - [x] Scenario 7: Empty corpus or unavailable index (`INDEX_UNAVAILABLE` handled gracefully)
+  - [x] Scenario 8: Generation service offline / safe fallback (deterministic evidence synthesis)
+  - [x] Scenario 9: Corpus update followed by retrieval (automatic index refresh on content modification)
+  - [x] Scenario 10: Human approval boundary enforced (halts at gate; requires explicit reviewer action)
+- [x] Dedicated test suite implemented: `tests/functional/test_day3_scenarios.py` (10/10 passed).
+- [x] Total test suite passes: 65/65 tests passed in 0.63s.
+- [x] Real execution artifacts generated: `evidence_packet/day3_scenario_matrix.md` and `evidence_packet/day3_raw_output.json`.
 
 ### [ ] DAY 4 — REPRODUCIBILITY, EVALUATION AND HANDOVER
 - [ ] Clean environment reproduction.

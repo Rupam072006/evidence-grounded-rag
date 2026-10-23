@@ -99,7 +99,7 @@ class RAGPipeline:
         self.index = VectorIndex.load(str(index_dir), embedding_engine=embedding_engine)
         return self.index
 
-    def ensure_index(self, check_staleness: bool = False) -> VectorIndex:
+    def ensure_index(self, check_staleness: bool = True) -> VectorIndex:
         """Ensure an index is loaded, attempting to load from disk or build if absent or stale."""
         if self.index is not None:
             if check_staleness and self.is_index_stale(self.index):
