@@ -6,10 +6,11 @@
 - **Repository Corpus:** `Rupam072006/evidence-grounded-rag`
 - **Architecture Philosophy:** Zero-trust evidence grounding, claim-level attribution, anti-hallucination sufficiency floors, and automated conflict detection.
 - **Current State:** Fully operational, tested, and verified.
-  - **Knowledge Base:** Exactly 20 standardized knowledge documents in `data/documents/` indexed in `data/manifest.json`.
-  - **Vector Index:** 299 chunk passages embedded into 512-dimensional vector space persisted in `data/index/`.
-  - **Test Suite:** 46 automated tests passing across 6 tiers in <0.3s.
-  - **Evaluation Suite:** 22 benchmark questions covering answerable, multi-document, ambiguous, unanswerable, conflicting, adversarial, and boundary categories.
+  - **Knowledge Base:** Exactly 20 standardized knowledge documents in `data/documents/` + 4 marketing workflow policy documents in `data/marketing_corpus/`.
+  - **Vector Indices:** Technical index (301 chunks) + Marketing workflow index (22 chunks) persisted in `data/index/` and `data/marketing_index/`.
+  - **Test Suite:** 65 automated tests passing across unit, functional, integration, boundary, security, and regression tiers in <0.8s.
+  - **Evaluation Suite:** 25 benchmark questions covering answerable, multi-document, ambiguous, unanswerable, conflicting, adversarial, and boundary categories.
+  - **Workflow Engine:** `DecisionWorkflow` with human governance approval gate and secret-scrubbed JSON ledger.
 - **Runtime Environment:** Windows 10/11 (PowerShell), Python 3.10 to 3.13 (verified on Python 3.13.1).
 
 ---
@@ -121,22 +122,37 @@ The system reads settings from `configs/default.yaml` and environment variables:
 
 ---
 
-## 5. Known Limitations & Unresolved Issues
+## 5. Operational Runbooks & Common Tasks
 
-1. **Groq Cloud Rate Limiting on Batch Bursts:**
-   The Groq on-demand free tier enforces an 8,000 Tokens-Per-Minute (TPM) quota. Running all 22 evaluation benchmark questions in rapid succession without throttling causes HTTP 429 rate limit errors for several questions. Use `mock` mode for instant, quota-free evaluations.
-2. **Context Window Ceiling:**
-   Total prompt context is constrained to 1,500 tokens (approx. 6,000 characters). Queries requiring evidence spanning more than 10 documents will omit lower-scoring passages.
-3. **Lexical Reliance in Hybrid TF-IDF:**
-   The hybrid embedding engine uses sublinear TF-IDF with character and word n-grams (512 dimensions). While fast and deterministic, highly abstract queries using zero overlapping terms may fail to meet the 28% query term coverage floor.
+### 5.1 Running the Decision Workflow via CLI
+```powershell
+# Evaluate a proposal
+python -m evidence_rag.cli workflow evaluate --title "..." --proposal "..." --budget 20000
+
+# View pending or approved proposal
+python -m evidence_rag.cli workflow show <request_id>
+
+# Submit human approval or rejection
+python -m evidence_rag.cli workflow approve <request_id> --decision APPROVED --reviewer "Name" --notes "Audited"
+
+# List all stored records
+python -m evidence_rag.cli workflow list
+```
+
+### 5.2 Re-Indexing After Corpus Changes
+Whenever documents in `data/documents/` or `data/marketing_corpus/` are modified, added, or deleted, AegisCore automatically detects the change via SHA-256 corpus fingerprinting on the next query. To force an immediate manual re-index:
+```powershell
+python -m evidence_rag.cli index
+```
 
 ---
 
-## 6. Recommended Next Steps
+## 6. Known Limitations & Production Roadmap
 
-1. **Add Request Throttling / Exponential Backoff for Online Cloud Mode:**
-   Implement an automated 2-second pacing delay between queries when running batch evaluations against public rate-limited cloud APIs (Groq / Gemini).
-2. **Approximate Nearest Neighbor (ANN) Indexing for Scale:**
-   For knowledge bases expanding beyond 10,000 chunks, integrate FAISS or HNSWlib into `src/evidence_rag/indexing.py` to maintain sub-millisecond retrieval.
-3. **Cross-Encoder Re-Ranking:**
-   Add a secondary re-ranking stage using a compact cross-encoder (e.g., `cross-encoder/ms-marco-MiniLM-L-6-v2`) to jointly score query and passage attention before context formatting.
+1. **Multi-Hop Synthesis Under Single-Pass Retrieval:**
+   Queries spanning multiple disparate documents (e.g. Q11 connecting chunking with token budgets) retrieve both source documents, but individual chunk term overlap can fall below the strict single-passage sufficiency floor (28%). The system chooses canonical refusal over hallucination. Recommendation: Implement sub-query decomposition.
+2. **Local Record Store Concurrency:**
+   Workflow proposal records are stored in `data/workflow_records/records.json` using atomic disk write-replace. Suitable for single-instance or small team operations. For large-scale distributed deployments, migrate `RecordStore` to an ACID relational database (e.g., PostgreSQL).
+3. **Automated Rate Limit Handling (Resolved in Task 2):**
+   Groq Cloud HTTP 429 rate limits are now automatically mitigated via a 3-attempt exponential backoff retry mechanism in `OpenAICompatibleGenerator`.
+

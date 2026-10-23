@@ -39,6 +39,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Automated Scenario Matrix & Audit Output (`scripts/run_day3_scenarios.py`):** Live execution generating `evidence_packet/day3_scenario_matrix.md` and `evidence_packet/day3_raw_output.json`.
 - **Total Test Suite:** 65/65 tests passing across all test categories in 0.63s.
 
+### Task 2 Day 4 — Reproducibility, 25-Question Benchmark & Handover
+- **Expanded 25-Question Evaluation Suite (`evaluation/questions.jsonl`):** Added Q23 (data preparation/deduplication), Q24 (cryogenic physics unanswerable), and Q25 (short query length boundary).
+- **Empirical Evaluation Benchmark (`EVALUATION.md`):** Executed 25 questions achieving 100% retrieval success (19/19), 88% status accuracy (22/25), 100% failure detection rate (8/8), and 100% citation validity rate (28/28 verified citations, 0 hallucinations).
+- **Reviewer Assessment Packet (`REVIEW_PACKET.md`):** Comprehensive placement test review packet mapping requirements to verified implementations, test breakdowns, and risk assessments.
+- **Code Packet Documentation (`evidence_packet/code_packet.md`):** Deep inspection of critical paths, entry points, state machines, and key excerpts.
+- **Architecture & Handover Updates (`ARCHITECTURE.md`, `HANDOVER.md`, `INTEGRATION.md`):** Updated with complete decision workflow diagrams, runbooks, and failure matrices.
+
 ---
 
 ## [1.1.0] - 2026-10-21

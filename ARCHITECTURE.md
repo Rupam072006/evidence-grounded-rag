@@ -151,10 +151,48 @@ The system's non-parametric knowledge corpus resides in `data/documents/` and is
 
 | Failure Mode | Trigger Scenario | Architecture Response | Emitted Status |
 |---|---|---|---|
-| **Corpus Ingestion Error** | Manifest missing, count != 20, or hash failure | `CorpusError` raised with specific filepath and validation message | Pipeline halts before index build |
-| **Missing Index** | Retrieval executed before build | Auto-triggers build or raises `IndexNotFoundError` | `GENERATION_UNAVAILABLE` |
-| **Input Violation** | Query empty, whitespace-only, or >500 chars | Early rejection by `InputValidator` before embedding | `INVALID_INPUT` |
+| **Corpus Ingestion Error** | Manifest missing, count != required, or hash failure | `CorpusError` raised with specific filepath and validation message | Pipeline halts before index build |
+| **Missing Index** | Retrieval executed before build or index corrupt | Auto-triggers build or raises `IndexNotFoundError` | `INDEX_UNAVAILABLE` |
+| **Input Violation** | Query empty, whitespace-only, or >500 chars | Early rejection by `InputValidator` before embedding | `INVALID_INPUT` / `INVALID_REQUEST` |
 | **Out-of-Domain Query** | Query terms absent from corpus | Fails evidence sufficiency floor (<0.20 or <28% coverage) | `INSUFFICIENT_EVIDENCE` |
-| **Contradictory Knowledge** | Query retrieves DOC-009 and DOC-020 | `ConflictDetector` intercepts before generation | `CONFLICT_DETECTED` |
-| **External API Rate Limit / Failure** | Cloud provider returns HTTP 429 or 403 | Caught gracefully, informative message emitted | `GENERATION_UNAVAILABLE` |
-| **Citation Hallucination** | Model outputs unretrieved Chunk ID | `CitationValidator` audits citations, flags as invalid | Reflected in response metadata |
+| **Contradictory Knowledge** | Query retrieves conflicting documents | `ConflictDetector` intercepts before generation | `CONFLICT_DETECTED` |
+| **External API Rate Limit / Failure** | Cloud provider returns HTTP 429 | Caught with 3-attempt exponential retry backoff | `GENERATION_UNAVAILABLE` (fallback available) |
+| **Citation Hallucination** | Model outputs unretrieved Chunk ID | `CitationValidator` audits citations, flags as invalid | `is_valid: False` (excluded from verified facts) |
+
+---
+
+## 6. Task 2 Decision-Support Workflow Architecture
+
+AegisCore extends standard question-answering into an asynchronous, auditable decision workflow for organizational proposals (demonstrated via marketing campaign governance).
+
+```mermaid
+flowchart TD
+    REQ["WorkflowRequest\n(title, proposal, budget, department)"] --> V{"Schema & Budget Validation"}
+    V -->|Negative Budget / Empty| INV["WorkflowStatus: INVALID_REQUEST"]
+    V -->|Valid| R["Retriever: Marketing Index Search"]
+    R --> S{"Evidence Sufficiency Assessment"}
+    S -->|Score < 0.20| INS["WorkflowStatus: INSUFFICIENT_EVIDENCE\n(Recommends REJECT)"]
+    S -->|Sufficient| C{"Cross-Document Conflict Detector"}
+    C -->|Contradiction Found\ne.g. DOC-MKT-002 vs 004| CNF["WorkflowStatus: CONFLICT_DETECTED\n(Surfaces Dual Citations)"]
+    C -->|No Conflict| SYN["Recommendation Synthesis\n(Facts, Inferences, Assumptions, Unknowns)"]
+    
+    SYN --> GATE["HUMAN APPROVAL GATE\nWorkflowStatus: AWAITING_APPROVAL\n(Zero autonomous external action)"]
+    
+    GATE --> REV{"Human Manager Review\n(submit_approval)"}
+    REV -->|Decision: APPROVED| APP["WorkflowStatus: APPROVED\n(Recorded with reviewer signature & notes)"]
+    REV -->|Decision: REJECTED| REJ["WorkflowStatus: REJECTED\n(Recorded with reviewer signature & notes)"]
+    
+    INV -.-> STORE[("RecordStore: records.json\n(Automated Secret Scrubbing)")]
+    INS -.-> STORE
+    CNF -.-> STORE
+    GATE -.-> STORE
+    APP -.-> STORE
+    REJ -.-> STORE
+```
+
+### Component Responsibilities:
+1. **`workflow_schemas.py`:** Enforces immutable schemas for `WorkflowRequest`, `VerifiedFact`, `RecommendationReport`, `ApprovalDecision`, and `WorkflowRecord`.
+2. **`workflow.py` (`DecisionWorkflow`):** Coordinates validation, index integrity, retrieval, evidence auditing, recommendation formulation, and approval submission.
+3. **`record_store.py` (`RecordStore`):** Provides thread-safe, atomic disk persistence with automated regex scrubbing to prevent any secret tokens or API credentials from reaching persistent disk files.
+4. **`cli.py` (`workflow` group):** Provides rich terminal UI commands for proposing, evaluating, listing, showing, and approving decisions.
+

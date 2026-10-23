@@ -235,3 +235,29 @@ print("Final Status:", decision_record.status)  # WorkflowStatus.APPROVED
 | `APPROVED` | Explicit human reviewer approval recorded | Action authorized according to approved proposal |
 | `REJECTED` | Explicit human reviewer rejection recorded | Action halted and archived |
 
+### 6.4 CLI Workflow Execution Commands
+
+The decision workflow is directly operable via Click CLI subcommands:
+
+```powershell
+# 1. Evaluate a business proposal against policy
+python -m evidence_rag.cli workflow evaluate `
+  --title "Q4 Search Optimization" `
+  --proposal "Allocate $15,000 for Google Ads search optimization targeting enterprise buyers." `
+  --budget 15000 `
+  --submitted-by "analyst"
+
+# 2. List all stored workflow records
+python -m evidence_rag.cli workflow list
+
+# 3. View audit details for a specific proposal
+python -m evidence_rag.cli workflow show REQ-001
+
+# 4. Submit binding human managerial approval or rejection
+python -m evidence_rag.cli workflow approve REQ-001 `
+  --decision APPROVED `
+  --reviewer "Rupam Patne" `
+  --notes "Budget is compliant with channel limits."
+```
+
+
