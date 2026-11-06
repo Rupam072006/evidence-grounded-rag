@@ -24,6 +24,10 @@ class DocumentMetadata(BaseModel):
     created_at: str = Field(..., description="ISO 8601 creation timestamp")
     updated_at: str = Field(..., description="ISO 8601 update timestamp")
     topic: str = Field(..., description="Primary topic or subject matter")
+    category: Optional[str] = Field(
+        default=None,
+        description="Logical domain category (e.g., python, sql, machine_learning, business_proposal, budget_policy, marketing_performance, business_approval_policy)"
+    )
 
 
 class Document(BaseModel):
@@ -42,6 +46,7 @@ class Chunk(BaseModel):
     char_start: int = Field(default=0)
     char_end: int = Field(default=0)
     token_count: int = Field(default=0)
+    category: Optional[str] = Field(default=None, description="Logical domain category")
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 

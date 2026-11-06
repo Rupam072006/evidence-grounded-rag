@@ -43,11 +43,13 @@ class IngestionEngine:
         raw_docs = manifest_data.get("documents", [])
         total_in_manifest = manifest_data.get("total_documents", len(raw_docs))
 
-        # Check required document count
-        if len(raw_docs) != self.config.required_count:
+        # Check required document count if specified
+        if self.config.required_count is not None and len(raw_docs) != self.config.required_count:
             raise CorpusError(
                 f"Expected exactly {self.config.required_count} documents in manifest, but found {len(raw_docs)}."
             )
+        if len(raw_docs) == 0:
+            raise CorpusError("Corpus manifest contains zero documents.")
 
         ingested_documents: List[Document] = []
         seen_ids = set()

@@ -1,0 +1,36 @@
+=== Clean Installation Verification ===
+Date: 2026-11-05T07:21:32.566157+00:00
+Platform: Windows 10/11 (PowerShell)
+
+Steps performed:
+1. git clone https://github.com/Rupam072006/evidence-grounded-rag.git RAG_CLEAN
+2. cd RAG_CLEAN
+3. python -m venv .venv_new
+4. .venv_new\Scripts\activate
+5. pip install -r requirements.txt
+6. python -m evidence_rag.cli verify
+7. python -m evidence_rag.cli index
+8. python -m pytest tests -v
+9. python -m evidence_rag.cli workflow evaluate --preset growth
+
+Expected output for step 6 (verify):
+  Corpus Check Passed: Exactly 26 documents validated.
+  Index Check Passed: Loaded index with 348 passages.
+  All system integrity checks PASSED successfully!
+
+Dependencies verified:
+  pydantic>=2.0.0      PRESENT
+  numpy>=1.24.0        PRESENT
+  scikit-learn>=1.3.0  PRESENT
+  httpx>=0.24.0        PRESENT (Correction 1 fix)
+  click>=8.0.0         PRESENT
+  rich>=13.0.0         PRESENT
+  python-dotenv>=1.0.0 PRESENT
+  PyYAML>=6.0          PRESENT
+
+Final test result (Task 1+2+3 combined): 116 passed in 1.64s
+
+LLM API Key notes:
+  - System works fully offline with mock generator (default)
+  - For online mode: set GOOGLE_API_KEY or GROQ_API_KEY in .env
+  - Mock mode is deterministic and does not require any API keys

@@ -1,0 +1,228 @@
+{
+  "generated_at": "2026-11-05T07:19:36.554084+00:00",
+  "total_tests": 20,
+  "passed": 20,
+  "failed": 0,
+  "results": [
+    {
+      "test_id": "S01",
+      "scenario": "Prompt injection inside retrieved documents",
+      "expected_behavior": "Injection not propagated to output",
+      "actual_behavior": "Mock generator extracts grounded sentences only",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s01_prompt_injection_in_retrieved_docs PASSED",
+      "correction": "Context isolation via DeterministicMockGenerator sentence extraction",
+      "regression_test": "tests/task3/test_task3_security.py::test_s01"
+    },
+    {
+      "test_id": "S02",
+      "scenario": "Instructions attempting to override system rules",
+      "expected_behavior": "INSUFFICIENT_EVIDENCE returned",
+      "actual_behavior": "CANONICAL_REFUSAL returned",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s02_instruction_override_attempt PASSED",
+      "correction": "Empty context check in generator",
+      "regression_test": "tests/task3/test_task3_security.py::test_s02"
+    },
+    {
+      "test_id": "S03",
+      "scenario": "Malicious source documents with false claims",
+      "expected_behavior": "Treated as ordinary evidence",
+      "actual_behavior": "Generator extracts only sentences relevant to query",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s03_malicious_source_document PASSED",
+      "correction": "Query-grounded sentence selection",
+      "regression_test": "tests/task3/test_task3_security.py::test_s03"
+    },
+    {
+      "test_id": "S04",
+      "scenario": "Invalid citations to nonexistent chunks",
+      "expected_behavior": "is_valid=False for unknown chunk IDs",
+      "actual_behavior": "CitationValidator marks unknown chunk as invalid",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s04_invalid_citation_to_nonexistent_chunk PASSED",
+      "correction": "validate_citations() checks retrieved context",
+      "regression_test": "tests/task3/test_task3_security.py::test_s04"
+    },
+    {
+      "test_id": "S05",
+      "scenario": "Citations to nonexistent documents",
+      "expected_behavior": "is_valid=False for unknown document IDs",
+      "actual_behavior": "CitationValidator marks unknown document as invalid",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s05_citations_to_nonexistent_documents PASSED",
+      "correction": "valid_doc_ids check in CitationValidator",
+      "regression_test": "tests/task3/test_task3_security.py::test_s05"
+    },
+    {
+      "test_id": "S06",
+      "scenario": "Contradictory source documents",
+      "expected_behavior": "CONFLICT_DETECTED status and both sources cited",
+      "actual_behavior": "ConflictDetector returns ConflictEvidence with both doc IDs",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s06_contradictory_source_documents PASSED",
+      "correction": "Known conflict pairs + heuristic detection",
+      "regression_test": "tests/task3/test_task3_security.py::test_s06"
+    },
+    {
+      "test_id": "S07",
+      "scenario": "Missing evidence (no retrieval)",
+      "expected_behavior": "INSUFFICIENT_EVIDENCE with canonical refusal",
+      "actual_behavior": "CANONICAL_REFUSAL returned, status=INSUFFICIENT_EVIDENCE",
+      "status": "PASS",
+      "severity": "LOW",
+      "evidence": "test_s07_missing_evidence_produces_refusal PASSED",
+      "correction": "Empty retrieved_chunks check in generator",
+      "regression_test": "tests/task3/test_task3_security.py::test_s07"
+    },
+    {
+      "test_id": "S08",
+      "scenario": "Insufficient evidence (low relevance)",
+      "expected_behavior": "INSUFFICIENT_EVIDENCE or grounded ANSWERED",
+      "actual_behavior": "Generator returns evidence-based status",
+      "status": "PASS",
+      "severity": "LOW",
+      "evidence": "test_s08_insufficient_evidence_low_relevance PASSED",
+      "correction": "Confidence threshold and sufficiency floor",
+      "regression_test": "tests/task3/test_task3_security.py::test_s08"
+    },
+    {
+      "test_id": "S09",
+      "scenario": "LLM provider unavailable",
+      "expected_behavior": "GENERATION_UNAVAILABLE returned",
+      "actual_behavior": "Mock returns GENERATION_UNAVAILABLE",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s09_llm_provider_unavailable PASSED",
+      "correction": "GenerationProviderError handled in pipeline",
+      "regression_test": "tests/task3/test_task3_security.py::test_s09"
+    },
+    {
+      "test_id": "S10",
+      "scenario": "HTTP 429 rate limiting",
+      "expected_behavior": "Bounded exponential backoff, not infinite retry",
+      "actual_behavior": "generation.py has retry logic with max_retries config",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s10_http_429_bounded_retry PASSED",
+      "correction": "httpx with bounded retry and backoff",
+      "regression_test": "tests/task3/test_task3_security.py::test_s10"
+    },
+    {
+      "test_id": "S11",
+      "scenario": "Corrupted vector index",
+      "expected_behavior": "IndexNotFoundError raised, not unhandled crash",
+      "actual_behavior": "Exception raised on corrupt numpy file",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s11_corrupted_vector_index PASSED",
+      "correction": "try/except in VectorIndex.load()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s11"
+    },
+    {
+      "test_id": "S12",
+      "scenario": "Missing vector index directory",
+      "expected_behavior": "IndexNotFoundError raised",
+      "actual_behavior": "IndexNotFoundError raised immediately",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s12_missing_vector_index PASSED",
+      "correction": "Path existence check in VectorIndex.load()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s12"
+    },
+    {
+      "test_id": "S13",
+      "scenario": "API key / secret leakage in records",
+      "expected_behavior": "Secrets replaced with [REDACTED_SECRET]",
+      "actual_behavior": "RecordStore.SECRET_PATTERNS regex scrubs before write",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "evidence": "test_s13_secret_leakage_in_records PASSED",
+      "correction": "RecordStore._write_store() secret pattern scrubbing",
+      "regression_test": "tests/task3/test_task3_security.py::test_s13"
+    },
+    {
+      "test_id": "S14",
+      "scenario": "Invalid user input (empty query)",
+      "expected_behavior": "InputValidationError raised before pipeline",
+      "actual_behavior": "Pipeline raises InputValidationError for empty input",
+      "status": "PASS",
+      "severity": "LOW",
+      "evidence": "test_s14_invalid_empty_input PASSED",
+      "correction": "Input validation in pipeline.query()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s14"
+    },
+    {
+      "test_id": "S15",
+      "scenario": "Oversized input query",
+      "expected_behavior": "INVALID_INPUT status returned",
+      "actual_behavior": "Pipeline returns INVALID_INPUT for 10001-char query",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s15_oversized_input_rejected PASSED",
+      "correction": "max_query_length config check in pipeline",
+      "regression_test": "tests/task3/test_task3_security.py::test_s15"
+    },
+    {
+      "test_id": "S16",
+      "scenario": "Unauthorized approval (empty reviewer)",
+      "expected_behavior": "ValueError raised",
+      "actual_behavior": "RecordStore raises ValueError for empty reviewer",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s16_unauthorized_approval_empty_reviewer PASSED",
+      "correction": "Task 3 DEFECT-003: reviewer validation added to record_decision()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s16"
+    },
+    {
+      "test_id": "S17",
+      "scenario": "Duplicate request submission (same ID)",
+      "expected_behavior": "Second submission overwrites safely",
+      "actual_behavior": "RecordStore safely replaces existing record",
+      "status": "PASS",
+      "severity": "LOW",
+      "evidence": "test_s17_duplicate_request_id_overwrites_safely PASSED",
+      "correction": "Atomic write in RecordStore._write_store()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s17"
+    },
+    {
+      "test_id": "S18",
+      "scenario": "Duplicate approval on finalized record",
+      "expected_behavior": "ValueError raised with already finalized message",
+      "actual_behavior": "RecordStore raises ValueError for APPROVED/REJECTED records",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s18_duplicate_approval_on_finalized_record PASSED",
+      "correction": "Task 3 DEFECT-003: duplicate prevention in record_decision()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s18"
+    },
+    {
+      "test_id": "S19",
+      "scenario": "Corrupted workflow records",
+      "expected_behavior": "Returns empty list, does not crash",
+      "actual_behavior": "list_records() catches exception and returns []",
+      "status": "PASS",
+      "severity": "MEDIUM",
+      "evidence": "test_s19_corrupted_workflow_records_safe_read PASSED",
+      "correction": "try/except in RecordStore._read_store()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s19"
+    },
+    {
+      "test_id": "S20",
+      "scenario": "Record modification after approval",
+      "expected_behavior": "ValueError raised for finalized record",
+      "actual_behavior": "Task 3 state machine prevents any re-decision",
+      "status": "PASS",
+      "severity": "HIGH",
+      "evidence": "test_s20_record_modification_after_approval_prevented PASSED",
+      "correction": "FINAL_STATUSES guard in record_decision()",
+      "regression_test": "tests/task3/test_task3_security.py::test_s20"
+    }
+  ]
+}

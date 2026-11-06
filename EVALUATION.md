@@ -105,3 +105,23 @@ python -m evidence_rag.cli evaluate --questions evaluation/questions.jsonl --out
 ```
 
 The benchmark writes timestamped results to `evaluation/results/evaluation_run_<timestamp>.json` and outputs a rich terminal summary table.
+
+---
+
+## 6. Task 3 Re-Evaluation and Benchmark Reconciliation
+
+In Task 3, the benchmark suite was independently re-executed against the expanded 26-document, 348-passage corpus using the deterministic offline mock generator.
+
+### Verified Task 3 Benchmark Metrics
+- **Benchmark Run:** `latest_evaluation_run.json` (2026-11-06)
+- **Total Questions:** 25
+- **Retrieval Success Rate:** **94.7%** (18/19 applicable questions)
+- **Status Accuracy:** **100.0%** (25/25 status match across all expected statuses)
+- **Failure Detection Rate:** **100.0%** (8/8 unanswerable/negative cases correctly refused)
+- **Citation Validity Rate:** **100.0%** (45/45 citations verified against candidate pool)
+- **Average Latency:** **33.7 ms**
+
+### Historical Reconciliation Note
+The historical 88.0% (22/25) status accuracy was measured on the original 20-document technical corpus, where marketing proposals and budget policies were out-of-scope. Under Task 2 and Task 3, six marketing documents (`DOC-021` to `DOC-026`) were added to the corpus. With the full 26-document corpus and deterministic sentence extraction, status accuracy reaches 100.0%. Both the 88% Task 1 and 100% Task 3 figures are verified accurate for their respective corpus states.
+
+See `TASK3_BENCHMARK_REPORT.md` and `evidence_packet/benchmark_reconciliation.json` for per-question logs across all 25 queries.

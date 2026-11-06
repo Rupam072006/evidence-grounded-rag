@@ -96,12 +96,14 @@ class Chunker:
                 char_start=char_start,
                 char_end=char_end,
                 token_count=token_count,
+                category=doc.metadata.category,
                 metadata={
                     "title": doc.metadata.title,
                     "topic": doc.metadata.topic,
                     "source": doc.metadata.source,
                     "version": doc.metadata.version,
                     "source_type": doc.metadata.source_type,
+                    "category": doc.metadata.category,
                 }
             )
             chunk_objects.append(chunk_obj)

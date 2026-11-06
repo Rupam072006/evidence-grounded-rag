@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-06T05:59:00.000000+00:00",
+  "total_scenarios": 5,
+  "all_scenarios_verified": true,
+  "scenarios": [
+    {
+      "scenario_id": "E2E-01",
+      "title": "Valid Campaign Proposal (Growth Preset)",
+      "input": {
+        "preset": "growth",
+        "request_id": "REQ-GROWTH-01",
+        "title": "Q4 Enterprise Growth Initiative",
+        "proposal": "Allocate $35,000 across Google search ads and content syndication aiming for 450 conversions with target CTR of 2.4%.",
+        "budget": 35000.0,
+        "department": "Marketing"
+      },
+      "command": "python -m evidence_rag.cli workflow evaluate --preset growth",
+      "expected_status": "AWAITING_APPROVAL",
+      "actual_status": "AWAITING_APPROVAL",
+      "evidence_retrieved": [
+        "DOC-021",
+        "DOC-023"
+      ],
+      "citations": [
+        "DOC-023-C004",
+        "DOC-023-C007",
+        "DOC-021-C007"
+      ],
+      "budget_verification": "PASS - Requested $35,000.00 is below the $50,000.00 corporate spending limit (DOC-022)",
+      "policy_verification": "PASS - Complies with digital acquisition standards",
+      "recommendation": "APPROVE",
+      "human_approval_gate_enforced": true,
+      "automatic_spending_authorized": false,
+      "execution_timestamp": "2026-11-06T05:52:49.385369+00:00",
+      "outcome": "PASS - System correctly halted at AWAITING_APPROVAL gate. No external spend triggered.",
+      "notes": "Verified CLI output: Human Approval Boundary: PAUSED AT APPROVAL GATE (No external action taken)."
+    },
+    {
+      "scenario_id": "E2E-02",
+      "title": "Insufficient Evidence Handling (Incomplete Preset)",
+      "input": {
+        "preset": "incomplete",
+        "request_id": "REQ-INCOMPLETE-01",
+        "title": "Exploratory Channel Experiment",
+        "proposal": "Evaluate experimental multi-channel expansion proposal for incomplete draft testing with missing channels and unknown timeline.",
+        "budget": 18000.0,
+        "department": "Marketing"
+      },
+      "command": "python -m evidence_rag.cli workflow evaluate --preset incomplete",
+      "expected_status": "AWAITING_APPROVAL",
+      "actual_status": "AWAITING_APPROVAL",
+      "evidence_retrieved": [
+        "DOC-026"
+      ],
+      "citations": [
+        "DOC-026-C005",
+        "DOC-026-C008",
+        "DOC-026-C003"
+      ],
+      "missing_evidence_surfaced": [
+        "Missing Target Audience Demographics: Proposal does not specify target buyer persona, company size, or geographic region [DOC-026]",
+        "Missing Execution Timeline: Flight dates, project milestones, and schedules are undefined [DOC-026]",
+        "Missing Channel Breakdown: Allocation across ad networks, creator fees, and tooling is unspecified [DOC-026]"
+      ],
+      "unsupported_recommendation_avoided": true,
+      "automatic_spending_authorized": false,
+      "execution_timestamp": "2026-11-06T05:53:25.000000+00:00",
+      "outcome": "PASS - Correctly identified 3 critical unknown variables and surfaced them to reviewer.",
+      "notes": "Missing evidence prevents reckless automated execution; requires human reviewer intervention."
+    },
+    {
+      "scenario_id": "E2E-03",
+      "title": "Conflicting Evidence Detection (Conflict Preset)",
+      "input": {
+        "preset": "conflict",
+        "request_id": "REQ-CONFLICT-01",
+        "title": "Influencer Creator Sponsorship Program",
+        "proposal": "Allocate funds for influencer marketing creator sponsorships across social platforms.",
+        "budget": 20000.0,
+        "department": "Marketing"
+      },
+      "command": "python -m evidence_rag.cli workflow evaluate --preset conflict",
+      "expected_status": "CONFLICT_DETECTED",
+      "actual_status": "CONFLICT_DETECTED",
+      "conflicting_documents": [
+        "DOC-024",
+        "DOC-025"
+      ],
+      "conflict_description": "Factual conflict between DOC-024 ($25,000 standard influencer spending limit) and DOC-025 ($10,000 restricted governance policy limit)",
+      "both_sources_cited": true,
+      "uncertainty_communicated": true,
+      "human_review_required": true,
+      "automatic_spending_authorized": false,
+      "execution_timestamp": "2026-11-06T05:53:43.000000+00:00",
+      "outcome": "PASS - Material conflict detected and logged; system set status to CONFLICT_DETECTED.",
+      "notes": "No auto-resolution. Both sources cited with discrepancy surfaced for human governance review."
+    },
+    {
+      "scenario_id": "E2E-04",
+      "title": "Generation or Index Failure Graceful Degradation",
+      "input": {
+        "scenario": "Corrupt or missing index file path",
+        "test_target": "VectorIndex.load('/nonexistent_path')"
+      },
+      "command": "python -m pytest tests/task3/test_task3_security.py::test_s11_corrupted_vector_index tests/task3/test_task3_security.py::test_s12_missing_vector_index",
+      "expected_status": "INDEX_UNAVAILABLE / IndexNotFoundError",
+      "actual_status": "IndexNotFoundError gracefully raised",
+      "failure_detected": true,
+      "fabricated_recommendation": false,
+      "false_success_record": false,
+      "recovery_documented": true,
+      "execution_timestamp": "2026-11-06T05:36:09.000000+00:00",
+      "outcome": "PASS - Failure detected immediately; no false positive responses or corrupted records generated.",
+      "notes": "tests/task3/test_task3_security.py S11 and S12 pass; pipeline returns INDEX_UNAVAILABLE on missing index."
+    },
+    {
+      "scenario_id": "E2E-05",
+      "title": "Human Approval and Rejection Lifecycle",
+      "approval_path": {
+        "command": "python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer Lead_Auditor --notes 'Approved for Q4 flight based on verified metrics'",
+        "expected_status": "APPROVED",
+        "actual_status": "APPROVED",
+        "reviewer_recorded": "Lead_Auditor",
+        "timestamp_stored": "2026-11-06T05:54:17.852052+00:00",
+        "duplicate_prevented": true,
+        "duplicate_command": "python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer Attacker",
+        "duplicate_error": "ValueError: Request REQ-GROWTH-01 is already finalized with status 'APPROVED'. Duplicate decisions are not permitted."
+      },
+      "rejection_path": {
+        "command": "python -m evidence_rag.cli workflow reject REQ-CONFLICT-01 --reviewer Risk_Manager --reason 'Material policy conflict between DOC-024 and DOC-025'",
+        "expected_status": "REJECTED",
+        "actual_status": "REJECTED",
+        "reviewer_recorded": "Risk_Manager",
+        "timestamp_stored": "2026-11-06T05:55:24.589360+00:00",
+        "rejection_reason_stored": "Material policy conflict between DOC-024 and DOC-025",
+        "duplicate_prevented": true
+      },
+      "decision_history_preserved": true,
+      "outcome": "PASS - Both approval and rejection paths executed and verified with immutable state transitions.",
+      "notes": "12/12 approval integrity tests passing. Duplicate finalization strictly blocked."
+    }
+  ]
+}

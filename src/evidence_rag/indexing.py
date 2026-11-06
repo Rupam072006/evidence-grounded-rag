@@ -65,7 +65,8 @@ class VectorIndex:
         self,
         query_vector: np.ndarray,
         top_k: int = 5,
-        filter_doc_ids: Optional[List[str]] = None
+        filter_doc_ids: Optional[List[str]] = None,
+        filter_categories: Optional[List[str]] = None
     ) -> List[Tuple[Chunk, float, float]]:
         """Perform cosine similarity search against indexed chunks.
 
@@ -86,6 +87,15 @@ class VectorIndex:
             allowed_ids = set(filter_doc_ids)
             candidate_indices = np.array([
                 i for i in candidate_indices if self.chunks[i].document_id in allowed_ids
+            ])
+            if len(candidate_indices) == 0:
+                return []
+
+        if filter_categories:
+            allowed_cats = set(c.lower() for c in filter_categories)
+            candidate_indices = np.array([
+                i for i in candidate_indices
+                if str(getattr(self.chunks[i], "category", None) or self.chunks[i].metadata.get("category") or "").lower() in allowed_cats
             ])
             if len(candidate_indices) == 0:
                 return []

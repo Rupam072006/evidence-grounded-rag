@@ -20,31 +20,89 @@ class Retriever:
         "defined", "describe", "according", "between"
     }
 
+    DOMAIN_KEYWORDS = {
+        "python": [
+            "python", "def ", "class ", "functions", "exception", "exceptions",
+            "try", "except", "finally", "raise", "numpy", "pandas", "dataframe",
+            "matplotlib", "data cleaning", "vectorization", "module", "list", "dict"
+        ],
+        "sql": [
+            "sql", "relational", "database", "select ", "join", "joins", "inner join",
+            "left join", "right join", "group by", "order by", "table", "schema",
+            "foreign key", "primary key", "where "
+        ],
+        "machine_learning": [
+            "machine learning", "ml", "supervised", "unsupervised", "model evaluation",
+            "classification", "regression", "precision", "recall", "f1", "auc", "roc",
+            "train", "test split", "embedding", "embeddings", "vector search",
+            "chunking", "prompt injection", "observability", "rag", "dense", "metric"
+        ],
+        "business_proposal": [
+            "proposal", "campaign proposal", "growth campaign", "initiative",
+            "expansion proposal", "incomplete proposal", "preliminary budget"
+        ],
+        "budget_policy": [
+            "budget", "budget policy", "spending policy", "spending cap", "reserve",
+            "spend cap", "50,000", "50000", "financial boundaries", "contingency", "cost cap"
+        ],
+        "marketing_performance": [
+            "ctr", "cac", "cvr", "conversion", "conversions", "click-through",
+            "acquisition cost", "benchmark", "benchmarks", "performance metrics", "marketing metrics"
+        ],
+        "business_approval_policy": [
+            "influencer", "influencers", "creator", "creators", "approval gate",
+            "approval policy", "governance policy", "spending limit", "partnership policy"
+        ]
+    }
+
     def __init__(self, index: VectorIndex, config: RetrievalConfig = None):
         self.index = index
         self.config = config or RetrievalConfig()
+
+    def detect_query_domains(self, query: str) -> List[str]:
+        """Detect relevant domain categories from query vocabulary."""
+        q_lower = f" {query.lower()} "
+        matched = []
+        for domain, kw_list in self.DOMAIN_KEYWORDS.items():
+            for kw in kw_list:
+                # Word boundary check for short words, substring for phrases
+                if len(kw) <= 3:
+                    if re.search(rf"\b{re.escape(kw.strip())}\b", q_lower):
+                        matched.append(domain)
+                        break
+                else:
+                    if kw in q_lower:
+                        matched.append(domain)
+                        break
+        return matched
 
     def retrieve(
         self,
         query: str,
         top_k: Optional[int] = None,
-        filter_doc_ids: Optional[List[str]] = None
+        filter_doc_ids: Optional[List[str]] = None,
+        filter_categories: Optional[List[str]] = None,
+        auto_domain_route: bool = True
     ) -> List[RetrievedChunk]:
-        """Execute semantic search, calibration, and candidate ranking."""
+        """Execute semantic search, domain-aware routing, calibration, and candidate ranking."""
         k = top_k or self.config.top_k
         if not query or not query.strip():
             return []
 
+        # Detect domain signals for domain-aware scoring
+        detected_domains = self.detect_query_domains(query) if auto_domain_route else []
+
         try:
             # 1. Encode query
             query_vector = self.index.embedding_engine.encode_query(query)
+
             # 2. Retrieve candidates from index
-            # Retrieve slightly more candidates for re-ranking pool
-            pool_k = min(len(self.index.chunks), max(k * 2, 10))
+            pool_k = min(len(self.index.chunks), max(k * 4, 30))
             raw_candidates = self.index.search(
                 query_vector=query_vector,
                 top_k=pool_k,
-                filter_doc_ids=filter_doc_ids
+                filter_doc_ids=filter_doc_ids,
+                filter_categories=filter_categories
             )
         except Exception as e:
             logger.error(f"Retrieval error during search: {e}")
@@ -56,11 +114,28 @@ class Retriever:
         # 3. Extract meaningful query terms for lexical calibration
         query_terms = self._extract_query_terms(query)
 
+        # Check domain classification
+        is_biz_query = any(d in {"business_proposal", "budget_policy", "marketing_performance", "business_approval_policy"} for d in detected_domains)
+        is_tech_query = any(d in {"python", "sql", "machine_learning"} for d in detected_domains)
+
         calibrated_results = []
         for chunk, raw_sim, _ in raw_candidates:
-            # Heuristic calibration: reward key term overlap
             boost = self._calculate_keyword_boost(query_terms, chunk.text)
-            calibrated_score = min(1.0, raw_sim + boost)
+            chunk_cat = str(getattr(chunk, "category", None) or chunk.metadata.get("category") or "").lower()
+
+            # Domain awareness scoring
+            domain_multiplier = 1.0
+            if detected_domains:
+                if chunk_cat in detected_domains:
+                    boost += 0.05
+                elif is_biz_query and not is_tech_query and chunk_cat in {"python", "sql", "machine_learning"}:
+                    # Prevent irrelevant technical documents from polluting pure business queries
+                    domain_multiplier = 0.60
+                elif is_tech_query and not is_biz_query and chunk_cat in {"business_proposal", "budget_policy", "marketing_performance", "business_approval_policy"}:
+                    # Prevent business policy documents from polluting pure technical queries
+                    domain_multiplier = 0.60
+
+            calibrated_score = min(1.0, (raw_sim + boost) * domain_multiplier)
 
             # Apply candidate similarity threshold
             if calibrated_score >= self.config.similarity_threshold:

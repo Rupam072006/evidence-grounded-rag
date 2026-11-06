@@ -71,19 +71,28 @@ for cit in response.citations:
 ```
 
 ### 2.2 CLI Integration Points
-The project installs the `evidence-rag` command-line executable with four primary subcommands:
+The project installs the `evidence-rag` command-line executable with core query and decision-support subcommands:
 ```powershell
-# Rebuild the vector index from data/documents/ and data/manifest.json
+# Rebuild the vector index from data/documents/ and data/manifest.json (26 documents)
 evidence-rag index
 
-# Verify corpus and index integrity (confirms 20 documents and persistent files)
+# Verify corpus and index integrity (confirms 26 documents and 348 passages)
 evidence-rag verify
 
 # Query the pipeline interactively
 evidence-rag query "What is the primary operational mission of AegisCore and what uptime SLA does it target?"
 
-# Run the 22-question automated evaluation benchmark
+# Run the 25-question automated evaluation benchmark
 evidence-rag evaluate
+
+# Workflow Decision-Support: Evaluate a campaign proposal
+python -m evidence_rag.cli workflow evaluate --preset growth
+
+# Submit a binding human approval decision
+python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer "Lead_Auditor"
+
+# Replay and verify a past proposal against the current index
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01
 ```
 
 ---
@@ -92,15 +101,15 @@ evidence-rag evaluate
 
 ### 3.1 Input Formats
 - **Knowledge Documents (`data/documents/*.md`):** Markdown files containing a `## Metadata` section with 8 required fields:
-  - `document_id`: String matching `DOC-001` through `DOC-020`.
+  - `document_id`: String matching `DOC-001` through `DOC-026`.
   - `title`: Descriptive document title.
   - `source`: Relative filesystem path (e.g., `data/documents/doc_001_python_basics.md`).
-  - `source_type`: Category identifier (e.g., `programming_guide`, `technical_guide`).
+  - `source_type`: Category identifier (e.g., `programming_guide`, `technical_guide`, `business_proposal`, `budget_policy`).
   - `version`: Semantic version string (e.g., `1.0.0`).
   - `created_at`: ISO-8601 UTC timestamp.
   - `updated_at`: ISO-8601 UTC timestamp.
   - `topic`: Primary subject area.
-- **Corpus Manifest (`data/manifest.json`):** JSON dictionary mapping `documents` to metadata entries and declaring `total_documents: 20`.
+- **Corpus Manifest (`data/manifest.json`):** JSON dictionary mapping `documents` to metadata entries and declaring `total_documents: 26`.
 - **User Query:** String containing between 3 and 500 printable characters. Empty or whitespace-only queries are rejected with `INVALID_INPUT`.
 
 ### 3.2 Output Model (`RAGResponse`)

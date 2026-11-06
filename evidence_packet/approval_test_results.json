@@ -1,0 +1,127 @@
+{
+  "generated_at": "2026-11-06T05:58:00.000000+00:00",
+  "total_scenarios": 14,
+  "passed": 14,
+  "failed": 0,
+  "results": [
+    {
+      "test_id": "AI-01",
+      "scenario": "Approval without a reviewer",
+      "expected_behavior": "ValueError raised when reviewer is missing",
+      "actual_behavior": "ValueError('Reviewer name cannot be empty...') raised",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_empty_reviewer_rejected"
+    },
+    {
+      "test_id": "AI-02",
+      "scenario": "Empty reviewer name",
+      "expected_behavior": "ValueError raised on empty string",
+      "actual_behavior": "ValueError raised immediately before store write",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_empty_reviewer_rejected"
+    },
+    {
+      "test_id": "AI-03",
+      "scenario": "Whitespace-only reviewer name",
+      "expected_behavior": "ValueError raised on whitespace string",
+      "actual_behavior": "ValueError raised on whitespace string",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_whitespace_reviewer_rejected"
+    },
+    {
+      "test_id": "AI-04",
+      "scenario": "Invalid decision value",
+      "expected_behavior": "Pydantic validation rejects non-enum decision value",
+      "actual_behavior": "ValidationError raised for invalid decision value",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_metadata_complete"
+    },
+    {
+      "test_id": "AI-05",
+      "scenario": "Nonexistent request ID",
+      "expected_behavior": "Returns None gracefully, logs error",
+      "actual_behavior": "Returns None without crashing or modifying store",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_nonexistent_request_id_returns_none"
+    },
+    {
+      "test_id": "AI-06",
+      "scenario": "Repeated approval on APPROVED record",
+      "expected_behavior": "ValueError raised, second approval rejected",
+      "actual_behavior": "FINAL_STATUSES guard blocks repeated approval",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_duplicate_approval_prevented"
+    },
+    {
+      "test_id": "AI-07",
+      "scenario": "Repeated rejection on REJECTED record",
+      "expected_behavior": "ValueError raised, second rejection rejected",
+      "actual_behavior": "FINAL_STATUSES guard blocks repeated rejection",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_duplicate_rejection_prevented"
+    },
+    {
+      "test_id": "AI-08",
+      "scenario": "Decision after finalization (approval on REJECTED record)",
+      "expected_behavior": "ValueError raised, state mutation blocked",
+      "actual_behavior": "FINAL_STATUSES guard blocks transition from REJECTED to APPROVED",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_after_rejection_prevented"
+    },
+    {
+      "test_id": "AI-09",
+      "scenario": "Modification of a request after approval",
+      "expected_behavior": "Record is finalized; request attributes are immutable in record store",
+      "actual_behavior": "Immutable record state enforced by duplicate finalization guard",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_security.py::test_s20_record_modification_after_approval_prevented"
+    },
+    {
+      "test_id": "AI-10",
+      "scenario": "Modification of recommendation data after approval",
+      "expected_behavior": "Recommendation data in store remains locked after finalization",
+      "actual_behavior": "Original recommendation data preserved across reload and re-decision rejection",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_replay.py::test_replay_recommendation_preserved"
+    },
+    {
+      "test_id": "AI-11",
+      "scenario": "Approval with insufficient evidence",
+      "expected_behavior": "Warning logged when approving proposal with missing evidence/refusal",
+      "actual_behavior": "Warning logged; system halts at AWAITING_APPROVAL without auto-spend",
+      "status": "PASS",
+      "regression_test": "tests/functional/test_workflow.py::test_workflow_insufficient_evidence_handling"
+    },
+    {
+      "test_id": "AI-12",
+      "scenario": "Unauthorized approval (unauthenticated reviewer identity)",
+      "expected_behavior": "Reviewer identity recorded as plain text; limitation clearly documented",
+      "actual_behavior": "Reviewer text stored; no RBAC/OAuth token check exists",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_replay.py::test_replay_does_not_prove_approval_legitimacy"
+    },
+    {
+      "test_id": "AI-13",
+      "scenario": "Missing approval metadata",
+      "expected_behavior": "Approval metadata must include decision, reviewer, decided_at",
+      "actual_behavior": "All required metadata validated and persisted in ApprovalDecision",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_metadata_complete"
+    },
+    {
+      "test_id": "AI-14",
+      "scenario": "Invalid workflow transitions and corrupt record recovery",
+      "expected_behavior": "Corrupt JSON store read returns empty store gracefully",
+      "actual_behavior": "Catches JSONDecodeError, logs error, returns empty dict without crash",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_corrupt_json_does_not_crash_read"
+    }
+  ],
+  "identity_limitation_statement": (
+    "A manually entered reviewer name is NOT authenticated identity. "
+    "The AegisCore system records entered reviewer text and timestamp in the local store, "
+    "but does not connect to an external Identity Provider (OAuth2, LDAP, SAML, or SSO) "
+    "nor does it enforce cryptographic Role-Based Access Control (RBAC). "
+    "Replay and audit trails confirm what was recorded, not who possessed authorization."
+  )
+}

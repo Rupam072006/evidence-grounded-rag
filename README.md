@@ -3,14 +3,15 @@
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-77%20passed-success.svg)]()
+[![Tests](https://img.shields.io/badge/tests-116%20passed-success.svg)]()
 [![Retrieval Success Rate](https://img.shields.io/badge/Retrieval%20Rate-94.74%25-brightgreen.svg)]()
+[![Status Accuracy](https://img.shields.io/badge/Status%20Accuracy-100%25-brightgreen.svg)]()
 [![Citation Validity Rate](https://img.shields.io/badge/Citation%20Validity-100%25-brightgreen.svg)]()
 
 > **Project Author:** Rupam Patne (Computer Science Engineering, AI/ML Specialization)  
 > **Repository:** `evidence-grounded-rag`  
 > **Target Environment:** Windows 10/11 / PowerShell / Python 3.10 – 3.13 (Tested on Python 3.13.1)  
-> **System Status:** Fully Tested (**77/77 Passed in 1.35s**), Benchmarked (25 Questions), 100% Deterministic Offline & Live Cloud LLM Support.
+> **System Status:** Fully Tested (**116/116 Passed in 6.35s**), Benchmarked (25 Questions: 100% Status Accuracy), 100% Deterministic Offline & Live Cloud LLM Support.
 
 ---
 
@@ -429,20 +430,45 @@ tests/unit/test_confidence.py ..                                         [ 90%]
 tests/unit/test_embeddings.py ....                                       [ 96%]
 tests/unit/test_schemas.py ...                                           [100%]
 
-============================= 77 passed in 1.35s ==============================
+============================= 116 passed in 6.35s ==============================
 ```
 
 ### 2. Standardized Benchmark Results (25 Questions)
 Run the automated benchmark across the combined multi-domain corpus:
 ```powershell
-python -m evidence_rag.evaluation
+python -m evidence_rag.cli evaluate
 ```
-- **Retrieval Success Rate:** **94.74% (18/19)** (authoritative source retrieved in top-k candidates).
-- **Status Accuracy:** **88.0% (22/25)** (matches expected response status across all test types).
+- **Retrieval Success Rate:** **94.7% (18/19)** (authoritative source retrieved in top-k candidates).
+- **Status Accuracy:** **100.0% (25/25)** (matches expected response status across all 25 questions).
 - **Failure Detection Rate:** **100.0% (8/8)** (100% of out-of-domain, unanswerable, or conflicting questions correctly intercepted without hallucination).
-- **Citation Validity Rate:** **100.0% (27/27)** (100% of generated claims verified against retrieved passages).
+- **Citation Validity Rate:** **100.0% (45/45)** (100% of generated claims verified against retrieved passages).
+- **Average Latency:** **33.7 ms** (sub-second offline SLA).
 
+---
 
+# SECTION C: TASK 3 — Complete Project Audit, Security, Replay & Submission
+
+### 1. Mandatory Reconciliation Audit
+Task 3 resolved all historical discrepancies across test counts (46 -> 47 -> 77 -> 116), corpus counts (20 -> 26 docs), vector counts (301/299 -> 348/348), embedding dimensions (512 dimensions verified), and benchmark metrics. See `TASK3_RECONCILIATION_REPORT.md`.
+
+### 2. Security Hardening & Approval Integrity
+- **Duplicate Approval Finalization Guard:** Blocks duplicate decisions on `APPROVED` or `REJECTED` proposals with `ValueError`.
+- **Reviewer Validation:** Blocks empty or whitespace reviewer strings.
+- **Adversarial Security (20 Scenarios):** Automated suite in `tests/task3/test_task3_security.py` covering prompt injection, citation spoofing, service degradation, index corruption, secret leakage, and post-approval modification.
+
+### 3. Deterministic Proposal Replay
+Run proposal replay and verify audit parity against current index:
+```powershell
+# Replay past proposal
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01
+
+# Replay with JSON audit output
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01 --json-out
+```
+
+### 4. 11 Task 3 Main Reports & Evidence Packet
+- **Reports:** `TASK3_INITIAL_AUDIT.md`, `TASK3_RECONCILIATION_REPORT.md`, `TASK3_BASELINE.md`, `TASK3_BENCHMARK_REPORT.md`, `TASK3_REPRODUCIBILITY_REPORT.md`, `TASK3_SECURITY_REPORT.md`, `TASK3_APPROVAL_INTEGRITY.md`, `TASK3_RECORD_INTEGRITY.md`, `TASK3_REPLAY_REPORT.md`, `TASK3_END_TO_END_DEMO.md`, `TASK3_FINAL_REPORT.md`.
+- **Evidence Packet (12 Files):** All raw test logs, CSV inventories, and execution JSONs in `evidence_packet/`.
 
 ---
 
@@ -466,7 +492,7 @@ RAG/
 │   │   ├── doc_025_influencer_policy_restricted.md (Restricted Influencer: DOC-025)
 │   │   └── doc_026_incomplete_proposal.md (Incomplete Proposal: DOC-026)
 │   ├── index/                     # Unified persistent index storage (348 passages)
-│   │   ├── vectors.npy            # Binary matrix of 348 unit-normalized vectors
+│   │   ├── vectors.npy            # Binary matrix of 348 unit-normalized vectors (512 dimensions)
 │   │   ├── knowledge_index.json   # Chunk catalog, metadata, categories, and fingerprints
 │   │   └── embedding_model.pkl    # Serialized hybrid vectorizer state
 │   ├── manifest.json              # Authoritative unified corpus manifest (26 document records)
@@ -474,11 +500,24 @@ RAG/
 ├── evaluation/
 │   ├── questions.jsonl            # 25 standardized evaluation questions
 │   └── results/                   # Evaluation benchmark execution logs (JSON)
+├── evidence_packet/               # Complete Task 3 verification evidence packet (12 files)
+│   ├── test_inventory.csv         # Inventory of all 116 tests with requirements & statuses
+│   ├── test_execution_summary.json# Pytest execution summary (116 passed)
+│   ├── clean_test_output.txt      # Raw untruncated pytest -v output
+│   ├── reconciliation_summary.json# 11 discrepancy resolution records
+│   ├── benchmark_reconciliation.json # Per-question log across all 25 queries
+│   ├── corpus_index_manifest.json # Verified document, chunk, and vector manifest
+│   ├── clean_install_output.txt   # Fresh install reproduction log
+│   ├── security_test_results.json # 20 adversarial security scenario results
+│   ├── approval_test_results.json # 14 human approval integrity test results
+│   ├── record_integrity_results.json # 15 record integrity test results
+│   ├── replay_comparison.json     # Proposal replay parity comparison
+│   └── end_to_end_results.json    # 5 end-to-end scenario execution results
 ├── src/evidence_rag/              # Core application package
 │   ├── ingestion.py               # Manifest validation & SHA-256 fingerprinting
 │   ├── cleaning.py                # 4-stage text preprocessing & sanitization
 │   ├── chunking.py                # Boundary-aware paragraph chunker (400 chars, 60 overlap)
-│   ├── embeddings.py              # Hybrid TF-IDF and neural embedding engines
+│   ├── embeddings.py              # Hybrid TF-IDF and neural embedding engines (512 dimensions)
 │   ├── indexing.py                # Persistent vector index management & category filtering
 │   ├── retrieval.py               # Domain-aware retrieval, routing, & sufficiency floors
 │   ├── conflict_detection.py      # Cross-document contradiction detection engine
@@ -486,17 +525,30 @@ RAG/
 │   ├── generation.py              # Generation engines (Deterministic Mock, Groq, Gemini)
 │   ├── evidence.py                # Post-generation citation verification engine
 │   ├── pipeline.py                # End-to-end RAG question answering pipeline
-│   ├── workflow.py                # Task 2 DecisionWorkflow engine with human approval gate
+│   ├── workflow.py                # DecisionWorkflow engine with human approval gate
 │   ├── workflow_schemas.py        # Pydantic schemas for proposals, facts, and approval records
-│   ├── record_store.py            # Persistent audit store with automated secret scrubbing
-│   └── cli.py                     # Rich CLI interface (index, query, workflow commands)
-├── tests/                         # Automated Test Suite (77 tests across 7 tiers)
-│   ├── boundary/                  # Empty index, corrupt manifest, query input validation
-│   ├── functional/                # Pipeline QA, Task 2 multi-domain suite, workflow, day 3 scenarios
-│   ├── integration/               # Ingestion, indexing, retrieval, context builder
-│   ├── regression/                # Benchmark regression suite
-│   ├── security/                  # Prompt injection defense and secret leakage protection
-│   └── unit/                      # Chunking, cleaning, confidence, embeddings, schemas
+│   ├── record_store.py            # Persistent audit store with atomic writes & duplicate blocking
+│   └── cli.py                     # Rich CLI interface (index, query, workflow, replay commands)
+├── tests/                         # Automated Test Suite (116 tests across 8 tiers)
+│   ├── boundary/                  # Empty index, corrupt manifest, query input validation (7 tests)
+│   ├── functional/                # Pipeline QA, Task 2 multi-domain suite, workflow, day 3 scenarios (35 tests)
+│   ├── integration/               # Ingestion, indexing, retrieval, context builder (10 tests)
+│   ├── regression/                # Benchmark regression suite (1 test)
+│   ├── security/                  # Prompt injection defense and secret leakage protection (2 tests)
+│   ├── task3/                     # Task 3 security (20 tests), approval (12 tests), replay (7 tests)
+│   └── unit/                      # Chunking, cleaning, confidence, embeddings, schemas (19 tests)
 ├── pyproject.toml                 # Packaging metadata & CLI entry points
+├── requirements.txt               # Pinned package dependencies
+├── TASK3_INITIAL_AUDIT.md         # Phase 1 initial audit report
+├── TASK3_RECONCILIATION_REPORT.md # Phase 2 historical reconciliation report
+├── TASK3_BASELINE.md              # Phase 3 Day 1 baseline report
+├── TASK3_BENCHMARK_REPORT.md      # Phase 3 Day 1 benchmark verification report
+├── TASK3_REPRODUCIBILITY_REPORT.md# Phase 4 fresh installation reproducibility report
+├── TASK3_SECURITY_REPORT.md       # Phase 5 adversarial security testing report
+├── TASK3_APPROVAL_INTEGRITY.md    # Phase 6 human approval integrity report
+├── TASK3_RECORD_INTEGRITY.md      # Phase 7 workflow record integrity report
+├── TASK3_REPLAY_REPORT.md         # Phase 8 deterministic replay verification report
+├── TASK3_END_TO_END_DEMO.md       # Phase 9 5-scenario end-to-end demonstration report
+├── TASK3_FINAL_REPORT.md          # Phase 10 comprehensive 22-section final report
 └── README.md                      # Complete project documentation manual
 ```

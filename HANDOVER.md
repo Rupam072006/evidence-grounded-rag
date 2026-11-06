@@ -5,12 +5,12 @@
 - **Project Name:** AegisCore Evidence-Grounded RAG System
 - **Repository Corpus:** `Rupam072006/evidence-grounded-rag`
 - **Architecture Philosophy:** Zero-trust evidence grounding, claim-level attribution, anti-hallucination sufficiency floors, and automated conflict detection.
-- **Current State:** Fully operational, tested, and verified.
-  - **Knowledge Base:** Exactly 20 standardized knowledge documents in `data/documents/` + 4 marketing workflow policy documents in `data/marketing_corpus/`.
-  - **Vector Indices:** Technical index (301 chunks) + Marketing workflow index (22 chunks) persisted in `data/index/` and `data/marketing_index/`.
-  - **Test Suite:** 65 automated tests passing across unit, functional, integration, boundary, security, and regression tiers in <0.8s.
-  - **Evaluation Suite:** 25 benchmark questions covering answerable, multi-document, ambiguous, unanswerable, conflicting, adversarial, and boundary categories.
-  - **Workflow Engine:** `DecisionWorkflow` with human governance approval gate and secret-scrubbed JSON ledger.
+- **Current State:** Fully operational, audited, tested, and verified.
+  - **Knowledge Base:** Exactly 26 standardized knowledge and policy documents in `data/documents/` (DOC-001 through DOC-026).
+  - **Vector Indices:** Unified index containing 348 passages (512 dimensions) persisted in `data/index/`.
+  - **Test Suite:** 116 automated tests passing across unit, functional, integration, boundary, security, approval integrity, replay, and regression tiers in ~6.3s.
+  - **Evaluation Suite:** 25 benchmark questions achieving 100.0% status accuracy, 94.7% retrieval success, and 100% citation validity.
+  - **Workflow Engine:** `DecisionWorkflow` with human governance approval gate, duplicate decision prevention, reviewer validation, deterministic replay, and secret-scrubbed JSON ledger.
 - **Runtime Environment:** Windows 10/11 (PowerShell), Python 3.10 to 3.13 (verified on Python 3.13.1).
 
 ---
@@ -22,16 +22,17 @@ RAG/
 ├── configs/
 │   └── default.yaml               # Pipeline hyperparameters (top-k, chunk size, floors)
 ├── data/
-│   ├── documents/                 # Exactly 20 knowledge base Markdown documents
+│   ├── documents/                 # Exactly 26 knowledge and policy Markdown documents
 │   │   ├── doc_001_python_basics.md to doc_008_sql_basics.md (DOC-001 to DOC-008)
 │   │   ├── doc_009_machine_learning_intro.md to doc_012_train_test_split.md (DOC-009 to DOC-012)
 │   │   ├── doc_013_embeddings.md to doc_018_evaluation_methods.md (DOC-013 to DOC-018)
-│   │   └── doc_019_metadata_management.md, doc_020_evidence_and_citations.md (DOC-019 to DOC-020)
+│   │   ├── doc_019_metadata_management.md, doc_020_evidence_and_citations.md (DOC-019 to DOC-020)
+│   │   └── doc_021_campaign_proposal.md to doc_026_incomplete_proposal.md (DOC-021 to DOC-026)
 │   ├── index/                     # Persistent index artifacts
-│   │   ├── vectors.npy            # Binary matrix of 299 unit-normalized vectors
+│   │   ├── vectors.npy            # Binary matrix of 348 unit-normalized 512-dim vectors
 │   │   ├── knowledge_index.json   # Chunk catalog, metadata, and SHA-256 fingerprints
 │   │   └── embedding_model.pkl    # Serialized vectorizer state
-│   └── manifest.json              # Authoritative corpus manifest (20 document records)
+│   └── manifest.json              # Authoritative corpus manifest (26 document records)
 ├── evaluation/
 │   ├── questions.jsonl            # 22 standardized evaluation questions
 │   └── results/                   # Evaluation execution reports (JSON)
@@ -77,13 +78,13 @@ Whenever documents in `data/documents/` are modified or added:
 ```powershell
 evidence-rag index
 ```
-This parses `data/manifest.json`, ingests the 20 documents, chunks them into passages, fits the vectorizer, and serializes the index to `data/index/`.
+This parses `data/manifest.json`, ingests the 26 documents, chunks them into 348 passages, fits the vectorizer, and serializes the 512-dimensional index to `data/index/`.
 
 ### Step 3: Verifying System Integrity
 ```powershell
 evidence-rag verify
 ```
-This confirms that exactly 20 documents are present, all 8 metadata fields are valid, file hashes match, and the index contains all chunks.
+This confirms that exactly 26 documents are present, all metadata fields are valid, SHA-256 file hashes match, and the index contains all 348 chunks.
 
 ### Step 4: Running Interactive Queries
 ```powershell
@@ -97,17 +98,24 @@ evidence-rag query "What is the default production top-k parameter and candidate
 evidence-rag query "What is the secret recipe for Aunt May's chocolate chip cookies?"
 ```
 
-### Step 5: Executing the Automated Test Suite (46 Tests)
+### Step 5: Executing the Automated Test Suite (116 Tests)
 ```powershell
-python -m pytest tests -q
+python -m pytest tests -v
 ```
-All 46 tests should pass in under 1 second.
+All 116 tests pass across boundary, functional, integration, regression, security, approval integrity, replay, and unit tiers.
 
 ### Step 6: Executing the Evaluation Benchmark
 ```powershell
 # Run benchmark in deterministic mock mode (offline, reproducible, zero API cost)
 $env:RAG_GENERATION_MODE="mock"
 evidence-rag evaluate
+```
+Produces 100.0% status accuracy across all 25 benchmark questions.
+
+### Step 7: Proposal Replay & Audit Verification
+```powershell
+# Replay and verify past proposal against current index
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01
 ```
 
 ---

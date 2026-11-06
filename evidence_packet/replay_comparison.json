@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-06T05:57:30.000000+00:00",
+  "replay_methodology": "Stored WorkflowRecord is retrieved from RecordStore and displayed. For re-execution, evaluate_proposal() is called again with original WorkflowRequest.",
+  "replay_tests_passed": 7,
+  "replay_tests_failed": 0,
+  "actual_replay_execution": {
+    "request_id": "REQ-GROWTH-01",
+    "replay_timestamp": "2026-11-06T05:57:26.610866+00:00",
+    "original_status": "AWAITING_APPROVAL",
+    "replay_status": "AWAITING_APPROVAL",
+    "status_match": true,
+    "original_retrieved_doc_ids": [
+      "DOC-021",
+      "DOC-023"
+    ],
+    "replay_retrieved_doc_ids": [
+      "DOC-021",
+      "DOC-023"
+    ],
+    "retrieval_match": true,
+    "original_recommended_action": "APPROVE",
+    "replay_recommended_action": "APPROVE",
+    "recommendation_action_match": true,
+    "original_approval": null
+  },
+  "comparisons": {
+    "input_equality": "EXACT - Replay uses the identical WorkflowRequest parameters",
+    "corpus_equality": "EXACT - Corpus fingerprint matches 97693e876f4ded12487642bf7612fc5766e85e6f05e43aedbe11dec14bf10d11",
+    "index_equality": "EXACT - Index fingerprint matches 6f9ff58432410528 (348 chunks, 512 dimensions)",
+    "retrieved_source_equality": "EXACT - Both runs retrieved DOC-021 and DOC-023",
+    "evidence_equality": "EXACT - Retrieved passage citations DOC-023-C004, DOC-023-C007, DOC-021-C007 matched exactly",
+    "recommendation_equality": "EXACT - Action APPROVE with identical budget ceiling deduction ($50,000 cap)",
+    "status_equality": "EXACT - Status remained AWAITING_APPROVAL without automatic expenditure authorization"
+  },
+  "limitations": [
+    "Replay reconstructs recorded evidence -- it does NOT prove approval legitimacy.",
+    "A manually entered reviewer name is recorded text, not cryptographically verified identity.",
+    "LLM-based generators may produce different outputs across invocations.",
+    "Corpus or index changes would affect re-executed retrieval.",
+    "Replay cannot retroactively verify that the original approver was authorized."
+  ],
+  "distinction": {
+    "reconstruction": "Recovering what was recorded in the audit store (supported)",
+    "reproduction": "Re-executing the same request under current conditions (supported)",
+    "approval_legitimacy": "Proving original approval was by an authorized human (NOT supported without identity provider)"
+  }
+}

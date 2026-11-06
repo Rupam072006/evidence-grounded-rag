@@ -6,19 +6,19 @@ import yaml
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
-# Load .env if present
+# Load .env if present (do not override explicitly set environment variables)
 env_path = Path.cwd() / ".env"
 if env_path.exists():
-    load_dotenv(dotenv_path=env_path, override=True)
+    load_dotenv(dotenv_path=env_path, override=False)
 else:
-    load_dotenv(override=True)
+    load_dotenv(override=False)
 
 
 
 class CorpusConfig(BaseModel):
     document_dir: str = "data/documents"
     manifest_path: str = "data/manifest.json"
-    required_count: int = 20
+    required_count: Optional[int] = None
 
 
 class CleaningConfig(BaseModel):

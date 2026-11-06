@@ -12,7 +12,9 @@ class ConflictDetector:
 
     # Default known contradictory pairings in our corpus (extensible)
     DEFAULT_KNOWN_CONFLICT_PAIRS = [
-        ("DOC-009", "DOC-020", "Retrieval default top-k and candidate pool sizing")
+        ("DOC-009", "DOC-020", "Retrieval default top-k and candidate pool sizing"),
+        ("DOC-024", "DOC-025", "Influencer marketing spending limit ($25,000 vs $10,000)"),
+        ("DOC-MKT-002", "DOC-MKT-004", "Influencer partnership spend ceiling ($25,000 vs $10,000)")
     ]
     # Backward compatibility alias
     KNOWN_CONFLICT_PAIRS = DEFAULT_KNOWN_CONFLICT_PAIRS

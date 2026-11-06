@@ -4,7 +4,7 @@ version: "1.0"
 corpus:
   document_dir: "data/documents"
   manifest_path: "data/manifest.json"
-  required_count: 20
+  required_count: 26
 
 cleaning:
   normalize_unicode: true

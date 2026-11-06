@@ -17,7 +17,7 @@ The AegisCore Retrieval-Augmented Generation (RAG) system is engineered around a
 ```mermaid
 flowchart TD
     subgraph Offline_Corpus_Preparation ["Phase 1: Ingestion & Vector Indexing"]
-        A["20 Knowledge Base Documents\n(data/documents/*.md)"] --> B["Ingestion Engine & Manifest Validator\n(data/manifest.json)"]
+        A["26 Knowledge Base Documents\n(data/documents/*.md)"] --> B["Ingestion Engine & Manifest Validator\n(data/manifest.json)"]
         B --> C["Cryptographic SHA-256 Provenance & Schema Check"]
         C --> D["Text Cleaner & Sanitizer\n(Unicode NFKC / Tag Stripping / Whitespace)"]
         D --> E["Boundary-Aware Chunker\n(Target: 400 chars, Overlap: 60 chars)"]
@@ -45,7 +45,7 @@ flowchart TD
 
 ---
 
-## 3. The 20 Ingested Knowledge Base Documents
+## 3. The 26 Ingested Knowledge Base Documents
 
 The system's non-parametric knowledge corpus resides in `data/documents/` and is strictly registered in `data/manifest.json`. Every document implements the 8 mandatory schema attributes (`document_id`, `title`, `source`, `source_type`, `version`, `created_at`, `updated_at`, `topic`):
 
@@ -76,6 +76,14 @@ The system's non-parametric knowledge corpus resides in `data/documents/` and is
 ### Metadata and Evidence Group
 19. **`doc_019_metadata_management.md` (`DOC-019`):** The 8 mandatory metadata fields, schema preservation across ingestion/chunking/indexing/retrieval, the 46-test test suite, and 22-question evaluation benchmark.
 20. **`doc_020_evidence_and_citations.md` (`DOC-020`):** Claim-level attribution, citation verification, platform deployment profile (minimum 4GB RAM, CPU inference, 99.95% SLA), and revised retrieval parameters (top-k=10, candidate pool=50) that deliberately contradict DOC-009.
+
+### Marketing & Decision-Support Group (Task 2 & 3 Additions)
+21. **`doc_021_campaign_proposal.md` (`DOC-021`):** Enterprise Growth Marketing Campaign Proposal, target conversions (450), channels (Search Ads, Content Syndication), and audience demographics.
+22. **`doc_022_budget_policy.md` (`DOC-022`):** Corporate Marketing Budget Constraints and Spending Policy, establishing the $50,000.00 quarterly campaign ceiling.
+23. **`doc_023_performance_metrics.md` (`DOC-023`):** Marketing Campaign Performance Metrics and Acquisition Benchmarks (CTR 2.4%, CAC $32.00, conversion yield rates).
+24. **`doc_024_influencer_policy_standard.md` (`DOC-024`):** Influencer Marketing Spending and Partnership Policy (Standard), establishing standard $25,000.00 sponsorship limit.
+25. **`doc_025_influencer_policy_restricted.md` (`DOC-025`):** Influencer Marketing Spending and Governance Policy (Restricted), establishing restricted $10,000.00 limit (intentional contradiction pair with DOC-024).
+26. **`doc_026_incomplete_proposal.md` (`DOC-026`):** Experimental Multi-Channel Expansion Proposal (Incomplete), omitting flight timelines, audience personas, and network allocations.
 
 ---
 

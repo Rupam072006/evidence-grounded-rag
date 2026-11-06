@@ -1,7 +1,7 @@
 {
   "manifest_version": "1.0",
-  "total_documents": 20,
-  "generated_at": "2026-10-21T07:15:00.000000+00:00",
+  "total_documents": 26,
+  "generated_at": "2026-10-25T14:40:00.000000+00:00",
   "documents": [
     {
       "document_id": "DOC-001",
@@ -11,7 +11,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Python Basics"
+      "topic": "Python Basics",
+      "category": "python"
     },
     {
       "document_id": "DOC-002",
@@ -21,7 +22,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:30:00Z",
       "updated_at": "2026-01-16T09:15:00Z",
-      "topic": "Python Functions"
+      "topic": "Python Functions",
+      "category": "python"
     },
     {
       "document_id": "DOC-003",
@@ -31,7 +33,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-11T09:00:00Z",
       "updated_at": "2026-01-17T11:00:00Z",
-      "topic": "Python Exceptions"
+      "topic": "Python Exceptions",
+      "category": "python"
     },
     {
       "document_id": "DOC-004",
@@ -41,7 +44,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-11T10:00:00Z",
       "updated_at": "2026-01-18T14:20:00Z",
-      "topic": "NumPy Basics"
+      "topic": "NumPy Basics",
+      "category": "python"
     },
     {
       "document_id": "DOC-005",
@@ -51,7 +55,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-12T08:00:00Z",
       "updated_at": "2026-01-19T10:00:00Z",
-      "topic": "Pandas Basics"
+      "topic": "Pandas Basics",
+      "category": "python"
     },
     {
       "document_id": "DOC-006",
@@ -61,7 +66,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-12T09:30:00Z",
       "updated_at": "2026-01-20T11:45:00Z",
-      "topic": "Data Cleaning"
+      "topic": "Data Cleaning",
+      "category": "python"
     },
     {
       "document_id": "DOC-007",
@@ -71,7 +77,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-13T08:15:00Z",
       "updated_at": "2026-01-21T13:00:00Z",
-      "topic": "Data Visualization"
+      "topic": "Data Visualization",
+      "category": "python"
     },
     {
       "document_id": "DOC-008",
@@ -81,7 +88,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-13T10:00:00Z",
       "updated_at": "2026-01-22T09:30:00Z",
-      "topic": "Relational Queries"
+      "topic": "Relational Queries",
+      "category": "sql"
     },
     {
       "document_id": "DOC-009",
@@ -91,7 +99,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Machine Learning Introduction"
+      "topic": "Machine Learning Introduction",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-010",
@@ -101,7 +110,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Supervised Learning"
+      "topic": "Supervised Learning",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-011",
@@ -111,7 +121,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Model Evaluation"
+      "topic": "Model Evaluation",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-012",
@@ -121,7 +132,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Train-Test Split and Grounding"
+      "topic": "Train-Test Split and Grounding",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-013",
@@ -131,7 +143,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Embeddings and Semantic Representation"
+      "topic": "Embeddings and Semantic Representation",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-014",
@@ -141,7 +154,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Vector Search and Retrieval"
+      "topic": "Vector Search and Retrieval",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-015",
@@ -151,7 +165,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "RAG Fundamentals"
+      "topic": "RAG Fundamentals",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-016",
@@ -161,7 +176,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Document Chunking and Security"
+      "topic": "Document Chunking and Security",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-017",
@@ -171,7 +187,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Prompt Injection and Input Validation"
+      "topic": "Prompt Injection and Input Validation",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-018",
@@ -181,7 +198,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "RAG Evaluation and Observability"
+      "topic": "RAG Evaluation and Observability",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-019",
@@ -191,7 +209,8 @@
       "version": "1.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-01-15T10:30:00Z",
-      "topic": "Metadata Management and Testing"
+      "topic": "Metadata Management and Testing",
+      "category": "machine_learning"
     },
     {
       "document_id": "DOC-020",
@@ -201,7 +220,74 @@
       "version": "2.0.0",
       "created_at": "2026-01-10T08:00:00Z",
       "updated_at": "2026-02-01T14:00:00Z",
-      "topic": "Evidence Grounding and Deployment"
+      "topic": "Evidence Grounding and Deployment",
+      "category": "machine_learning"
+    },
+    {
+      "document_id": "DOC-021",
+      "title": "Enterprise Growth Marketing Campaign Proposal",
+      "source": "data/documents/doc_021_campaign_proposal.md",
+      "source_type": "business_proposal",
+      "version": "1.0.0",
+      "created_at": "2026-03-01T09:00:00Z",
+      "updated_at": "2026-03-05T14:30:00Z",
+      "topic": "Marketing Campaign Proposal",
+      "category": "business_proposal"
+    },
+    {
+      "document_id": "DOC-022",
+      "title": "Corporate Marketing Budget Constraints and Spending Policy",
+      "source": "data/documents/doc_022_budget_policy.md",
+      "source_type": "corporate_policy",
+      "version": "1.0.0",
+      "created_at": "2026-02-15T10:00:00Z",
+      "updated_at": "2026-03-01T11:30:00Z",
+      "topic": "Budget Constraints and Spending Policy",
+      "category": "budget_policy"
+    },
+    {
+      "document_id": "DOC-023",
+      "title": "Marketing Campaign Performance Metrics and Acquisition Benchmarks",
+      "source": "data/documents/doc_023_performance_metrics.md",
+      "source_type": "analytics_report",
+      "version": "1.0.0",
+      "created_at": "2026-02-20T08:30:00Z",
+      "updated_at": "2026-03-02T16:00:00Z",
+      "topic": "Marketing Performance Metrics",
+      "category": "marketing_performance"
+    },
+    {
+      "document_id": "DOC-024",
+      "title": "Influencer Marketing Spending and Partnership Policy (Standard)",
+      "source": "data/documents/doc_024_influencer_policy_standard.md",
+      "source_type": "corporate_policy",
+      "version": "1.0.0",
+      "created_at": "2026-02-10T11:00:00Z",
+      "updated_at": "2026-02-28T14:00:00Z",
+      "topic": "Influencer Marketing Spending Limits",
+      "category": "business_approval_policy"
+    },
+    {
+      "document_id": "DOC-025",
+      "title": "Influencer Marketing Spending and Governance Policy (Restricted)",
+      "source": "data/documents/doc_025_influencer_policy_restricted.md",
+      "source_type": "corporate_policy",
+      "version": "1.0.0",
+      "created_at": "2026-02-12T13:00:00Z",
+      "updated_at": "2026-03-01T15:00:00Z",
+      "topic": "Influencer Marketing Spending Limits",
+      "category": "business_approval_policy"
+    },
+    {
+      "document_id": "DOC-026",
+      "title": "Experimental Multi-Channel Expansion Proposal (Incomplete)",
+      "source": "data/documents/doc_026_incomplete_proposal.md",
+      "source_type": "business_proposal",
+      "version": "1.0.0",
+      "created_at": "2026-03-10T10:00:00Z",
+      "updated_at": "2026-03-10T10:00:00Z",
+      "topic": "Channel Expansion Proposal",
+      "category": "business_proposal"
     }
   ]
 }

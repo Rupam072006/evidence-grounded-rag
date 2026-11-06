@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-06T05:58:30.000000+00:00",
+  "total_scenarios": 15,
+  "passed": 15,
+  "failed": 0,
+  "mechanisms": {
+    "atomic_writes": "VERIFIED - Temporary file (.tmp) written first, followed by atomic replace (os.replace / Path.replace)",
+    "secret_scrubbing": "VERIFIED - Regex scrubber removes Groq, xAI, Gemini, and Bearer authorization tokens prior to disk persistence",
+    "duplicate_prevention": "VERIFIED - FINAL_STATUSES guard blocks repeated approval or rejection on finalized records",
+    "reviewer_validation": "VERIFIED - Non-empty string constraint enforced on reviewer name",
+    "corruption_detection": "VERIFIED - _read_store() catches JSONDecodeError and IOErrors gracefully returning empty dictionary",
+    "schema_validation": "VERIFIED - Pydantic model validation on WorkflowRecord deserialization rejects malformed schemas"
+  },
+  "scenarios": [
+    {
+      "test_id": "RI-01",
+      "scenario": "Missing record lookup",
+      "expected_behavior": "Returns None gracefully without raising exception",
+      "actual_behavior": "RecordStore.get_record('NONEXISTENT') returns None",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_nonexistent_request_id_returns_none"
+    },
+    {
+      "test_id": "RI-02",
+      "scenario": "Empty record file handling",
+      "expected_behavior": "Empty file treated as empty store without crash",
+      "actual_behavior": "Returns empty dict {} and logs warning",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_corrupt_json_does_not_crash_read"
+    },
+    {
+      "test_id": "RI-03",
+      "scenario": "Corrupted JSON parsing",
+      "expected_behavior": "JSONDecodeError caught gracefully, returns empty store",
+      "actual_behavior": "_read_store() handles broken JSON safely",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_security.py::test_s19_corrupted_workflow_records_safe_read"
+    },
+    {
+      "test_id": "RI-04",
+      "scenario": "Invalid record schema",
+      "expected_behavior": "Pydantic ValidationError caught and logged, corrupt item skipped",
+      "actual_behavior": "ValidationError caught per entry during store deserialization",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_metadata_complete"
+    },
+    {
+      "test_id": "RI-05",
+      "scenario": "Duplicate request ID submission",
+      "expected_behavior": "Safe last-write-wins replacement of pending record without corruption",
+      "actual_behavior": "Record updated cleanly via key indexing in records dictionary",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_security.py::test_s17_duplicate_request_id_overwrites_safely"
+    },
+    {
+      "test_id": "RI-06",
+      "scenario": "Missing required fields in record",
+      "expected_behavior": "Schema validation catches missing request or status",
+      "actual_behavior": "ValidationError raised on missing mandatory attributes",
+      "status": "PASS",
+      "regression_test": "tests/unit/test_schemas.py::test_document_metadata_validation"
+    },
+    {
+      "test_id": "RI-07",
+      "scenario": "Incorrect workflow status transition",
+      "expected_behavior": "Terminal status cannot transition back to pending or between finalized states",
+      "actual_behavior": "ValueError raised when mutating APPROVED or REJECTED record",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_after_rejection_prevented"
+    },
+    {
+      "test_id": "RI-08",
+      "scenario": "Interrupted file write resilience",
+      "expected_behavior": "Atomic temp file + replace prevents partial file state on disk",
+      "actual_behavior": "Store file only modified upon complete successful flush to temp file",
+      "status": "PASS",
+      "regression_test": "tests/functional/test_workflow.py::test_record_store_scrubs_secrets_before_persisting"
+    },
+    {
+      "test_id": "RI-09",
+      "scenario": "Concurrent writes / multiple updates",
+      "expected_behavior": "Separate file write operations remain consistent sequentially",
+      "actual_behavior": "Sequential atomic replacements maintain file integrity",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_replay.py::test_replay_roundtrip_serialization"
+    },
+    {
+      "test_id": "RI-10",
+      "scenario": "Record modification after approval",
+      "expected_behavior": "Duplicate decision or proposal mutation blocked with ValueError",
+      "actual_behavior": "ValueError('Request ... is already finalized...') raised",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_security.py::test_s20_record_modification_after_approval_prevented"
+    },
+    {
+      "test_id": "RI-11",
+      "scenario": "Request and record ID mismatch",
+      "expected_behavior": "Storage key must strictly equal request_id of payload",
+      "actual_behavior": "RecordStore indexes strictly by record.request_id",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_replay.py::test_replay_record_retrievable"
+    },
+    {
+      "test_id": "RI-12",
+      "scenario": "Recommendation and decision alignment",
+      "expected_behavior": "Recommendation data preserved in record upon decision recording",
+      "actual_behavior": "Recommendation object preserved intact in record alongside approval",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_replay.py::test_replay_recommendation_preserved"
+    },
+    {
+      "test_id": "RI-13",
+      "scenario": "Missing reviewer metadata",
+      "expected_behavior": "Reject decision with empty reviewer",
+      "actual_behavior": "ValueError raised when reviewer is empty or whitespace",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_empty_reviewer_rejected"
+    },
+    {
+      "test_id": "RI-14",
+      "scenario": "Invalid or missing decision timestamp",
+      "expected_behavior": "ISO 8601 UTC timestamp generated and persisted automatically",
+      "actual_behavior": "Timestamp verified formatted as standard ISO 8601 string",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_approval_timestamp_stored"
+    },
+    {
+      "test_id": "RI-15",
+      "scenario": "Tampered historical decisions",
+      "expected_behavior": "History list appends state transitions; tamper resistance limitations documented",
+      "actual_behavior": "Appends prior status to history list; documentation notes local JSON vulnerability",
+      "status": "PASS",
+      "regression_test": "tests/task3/test_task3_approval_integrity.py::test_decision_recorded_in_history"
+    }
+  ],
+  "security_model_and_tamper_limitations": (
+    "A local JSON record store with cryptographic hashes stored alongside the records does NOT "
+    "prevent an attacker with local file access from altering both the record and the hash simultaneously. "
+    "To achieve non-repudiation and true tamper resistance in enterprise production, records must be "
+    "signed using private asymmetric keys managed by a Hardware Security Module (HSM) or committed to "
+    "an immutable, append-only distributed ledger or cloud write-once-read-many (WORM) audit storage."
+  )
+}

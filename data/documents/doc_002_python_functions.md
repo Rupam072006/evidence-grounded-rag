@@ -1,4 +1,5 @@
-﻿# Python Functions, Scoping, and Modular Code Structure
+﻿
+# Python Functions, Scoping, and Modular Code Structure
 
 ## Metadata
 - **document_id:** DOC-002

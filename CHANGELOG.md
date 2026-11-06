@@ -4,6 +4,21 @@ All notable changes and engineering milestones for the Evidence-Grounded RAG Sys
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-11-06
+
+### Task 3 — Complete Project Audit, Reconciliation, Security, Replay & Final Submission
+- **Full Historical Reconciliation:** Reconciled test count progression (46 -> 47 -> 77 -> 116), corpus expansion (20 -> 26 docs), chunk/vector alignment (348 chunks, 348 vectors, 0 orphans), embedding dimensions (512 dimensions verified via TF-IDF SVD), and benchmark metrics (100% status accuracy, 94.7% retrieval success, 100% citation validity). Recorded in `TASK3_RECONCILIATION_REPORT.md` and `evidence_packet/reconciliation_summary.json`.
+- **Approval Integrity & State Machine Enforcement (`record_store.py`):** Added `FINAL_STATUSES = (WorkflowStatus.APPROVED, WorkflowStatus.REJECTED)` guard in `record_decision()` to block duplicate finalization with `ValueError`. Enforced non-empty reviewer validation. Added `tests/task3/test_task3_approval_integrity.py` (12 tests passing). Recorded in `TASK3_APPROVAL_INTEGRITY.md` and `evidence_packet/approval_test_results.json`.
+- **Deterministic Proposal Replay (`cli.py`, `workflow.py`):** Implemented `workflow replay <request_id>` CLI command with `--json-out` support. Compares original status, retrieved documents, and recommendations against current index state, while documenting the distinction between reconstruction, reproduction, and approval legitimacy. Added `tests/task3/test_task3_replay.py` (7 tests passing). Recorded in `TASK3_REPLAY_REPORT.md` and `evidence_packet/replay_comparison.json`.
+- **Adversarial Security Suite (`tests/task3/test_task3_security.py`):** Implemented 20 automated adversarial tests covering prompt injection, instruction override, malicious context, citation spoofing, cross-document conflict, out-of-scope refusal, service timeouts, index corruption, secret leakage, and post-approval modification. Recorded in `TASK3_SECURITY_REPORT.md` and `evidence_packet/security_test_results.json`.
+- **Windows Terminal Unicode Sanitization (`cli.py`):** Replaced non-ASCII arrows and warning glyphs with safe ASCII representations (`->`, `--`, `[!]`) and updated `safe_text()` to prevent `UnicodeEncodeError` on Windows `cp1252` PowerShell consoles.
+- **Environment Precedence Refinement (`config.py`):** Updated `load_dotenv` with `override=False` to respect shell/test environment variables.
+- **25-Question Benchmark Re-Run:** Executed canonical benchmark achieving 100.0% status accuracy (25/25), 94.7% retrieval success, 100.0% failure detection, and 100.0% citation validity with 33.7 ms average latency. Generated full per-question mapping in `TASK3_BENCHMARK_REPORT.md` and `evidence_packet/benchmark_reconciliation.json`.
+- **End-to-End Validation (5 Scenarios):** Executed and verified valid proposal (`growth`), insufficient evidence (`incomplete`), conflicting evidence (`conflict`), service degradation, and approval/rejection lifecycle. Recorded in `TASK3_END_TO_END_DEMO.md` and `evidence_packet/end_to_end_results.json`.
+- **Clean-Install Reproducibility:** Documented 10-step fresh environment setup and verified independence from developer machines in `TASK3_REPRODUCIBILITY_REPORT.md` and `evidence_packet/clean_install_output.txt`.
+- **Total Test Suite:** 116/116 tests passing across 24 test files in 6.35s. Complete inventory in `evidence_packet/test_inventory.csv` and `evidence_packet/test_execution_summary.json`.
+- **Comprehensive Final Deliverables:** Published all 11 required audit reports (`TASK3_*.md`) and complete 12-file evidence packet in `evidence_packet/`.
+
 ## [2.0.0-dev] - 2026-10-23
 
 ### Task 2 Day 1 — Baseline Audit and Verified Defect Corrections

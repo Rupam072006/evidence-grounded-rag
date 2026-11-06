@@ -1,0 +1,175 @@
+{
+  "generated_at": "2026-11-05T07:11:19.983969+00:00",
+  "commit_hash": "3703c514418f76586a08a30cf341c6d14f441fff",
+  "document_count": 26,
+  "chunk_count": 348,
+  "vector_count": 348,
+  "vector_dimension": 512,
+  "embedding_model": "HybridTfidfEmbeddingEngine",
+  "index_version": "1.0.0",
+  "index_created_at": "2026-11-05T07:09:49.496527+00:00",
+  "corpus_fingerprint": "97693e876f4ded12487642bf7612fc5766e85e6f05e43aedbe11dec14bf10d11",
+  "index_fingerprint": "6f9ff58432410528",
+  "missing_vectors": 0,
+  "orphan_vectors": 0,
+  "vectors_match_chunks": true,
+  "validation_status": "VALID",
+  "documents": [
+    {
+      "document_id": "DOC-001",
+      "title": "Python Basics and Core Programming Fundamentals",
+      "category": "python",
+      "source_hash": "4e1ab47fa16f54706419df1c2f24add86cfb7f3ffe6995e2e3ed351141e8b244"
+    },
+    {
+      "document_id": "DOC-002",
+      "title": "Python Functions, Modular Design, and Scope Resolution",
+      "category": "python",
+      "source_hash": "d1921cd82f4095f19cfd9e4e54fbd6d9cd6a363baf49236d4b244937ba331a91"
+    },
+    {
+      "document_id": "DOC-003",
+      "title": "Python Exception Handling and Fault Resilience",
+      "category": "python",
+      "source_hash": "a9e3a10f103f1e49e7c7b5bef402d024de9b3577b7c488ca7be371ee26e9ca49"
+    },
+    {
+      "document_id": "DOC-004",
+      "title": "NumPy Basics, Array Operations, and Vector Computation",
+      "category": "python",
+      "source_hash": "533f4bdcf44564135091035d56f51f0493b09086863712329b624b41d83e98a6"
+    },
+    {
+      "document_id": "DOC-005",
+      "title": "Pandas Basics, DataFrames, and Structural Ingestion",
+      "category": "python",
+      "source_hash": "42f00edf4dadd6a32aa9959d190543a3470fa011e9d103fb6258e6c667a59701"
+    },
+    {
+      "document_id": "DOC-006",
+      "title": "Pandas Data Cleaning, Normalization, and Missing Value Handling",
+      "category": "python",
+      "source_hash": "91381a361f60723a9907b7999c41c3d56a652da06ef10d7f1ca4e14b88f8a191"
+    },
+    {
+      "document_id": "DOC-007",
+      "title": "Matplotlib Basics, Data Visualization, and Vector Charting",
+      "category": "python",
+      "source_hash": "14d2ab5d2dbd74723762512edc3a5ccc42c9c674c9dfdcb7b23b79e5bb7f82e0"
+    },
+    {
+      "document_id": "DOC-008",
+      "title": "SQL Basics, Relational Queries, and Storage Indexing",
+      "category": "sql",
+      "source_hash": "b13f2678753e204d84a6ab4d96b8e871ecd5ad44c7134053ec099e7d92d1483f"
+    },
+    {
+      "document_id": "DOC-009",
+      "title": "Machine Learning Introduction and Fundamentals",
+      "category": "machine_learning",
+      "source_hash": "079211b2b55683cac03263c1060dcc74febbc768b184d97add57ffcf99d3f32b"
+    },
+    {
+      "document_id": "DOC-010",
+      "title": "Supervised Learning and Algorithmic Classification",
+      "category": "machine_learning",
+      "source_hash": "930cc2a3b53538e5c47c7e8fa4121134ae08654bc04113e04ed7499eca0a345e"
+    },
+    {
+      "document_id": "DOC-011",
+      "title": "Model Evaluation Metrics and Performance Assessment",
+      "category": "machine_learning",
+      "source_hash": "9376373c7ddc4c309b6972434d47e4a6a40741a6537f423cf13ca4269fd0b692"
+    },
+    {
+      "document_id": "DOC-012",
+      "title": "Dataset Partitioning, Validation Splits, and Grounding Contracts",
+      "category": "machine_learning",
+      "source_hash": "ea414ba2cdc8795773a7e3c005b0d7d189d9b866c4c05b47869f3207c487fa17"
+    },
+    {
+      "document_id": "DOC-013",
+      "title": "Dense Text Embeddings, Semantic Representation, and Citation Rules",
+      "category": "machine_learning",
+      "source_hash": "efd06d0a559aa7ed96a820f8f9036e066fe1eef392e62275297486f9974990c7"
+    },
+    {
+      "document_id": "DOC-014",
+      "title": "Vector Search, Indexing Architectures, and Confidence Calibration",
+      "category": "machine_learning",
+      "source_hash": "f914bc3238464b556e4542acb45704d9af1a8cf9cfb6d49dba9878fb770b0332"
+    },
+    {
+      "document_id": "DOC-015",
+      "title": "Retrieval-Augmented Generation (RAG) Fundamentals and Exception Architecture",
+      "category": "machine_learning",
+      "source_hash": "21ac538240100f8e6228d8ddcbb1653c1890e149036a4887edaecca03c68c666"
+    },
+    {
+      "document_id": "DOC-016",
+      "title": "Document Chunking Strategies, Boundary Preservation, and Security Controls",
+      "category": "machine_learning",
+      "source_hash": "6bdb8beca6e4494d41a69f03c7d88c99cf08b8a0fe7ff186348384a15f7d4aca"
+    },
+    {
+      "document_id": "DOC-017",
+      "title": "Prompt Injection Defense, Untrusted Context, and Input Validation",
+      "category": "machine_learning",
+      "source_hash": "9092ffadfc5a63bc45d471fac0e39dfa8ff59f8ac7bfa5cc169b693dccf7d7ba"
+    },
+    {
+      "document_id": "DOC-018",
+      "title": "RAG Evaluation Methodologies, Groundedness, and Observability",
+      "category": "machine_learning",
+      "source_hash": "2e86848c730fce18c8b6371277cb765ea8a87a0a6d429b4642f9f7fcb1cc7db2"
+    },
+    {
+      "document_id": "DOC-019",
+      "title": "Metadata Management, Schema Preservation, and Testing Framework",
+      "category": "machine_learning",
+      "source_hash": "4af360961fcbd3957a4515442301e0dad0833070bd30089e1a6707dd47596119"
+    },
+    {
+      "document_id": "DOC-020",
+      "title": "Evidence Grounding, Citation Traceability, and Deployment Sizing",
+      "category": "machine_learning",
+      "source_hash": "88810bd567a14340504e36e2f600fd8759edbbdf3f43a017116c3449b1917926"
+    },
+    {
+      "document_id": "DOC-021",
+      "title": "Enterprise Growth Marketing Campaign Proposal",
+      "category": "business_proposal",
+      "source_hash": "1390d16b842e0d074719842069cbb612958dd758ad6757bfba7759e72b949274"
+    },
+    {
+      "document_id": "DOC-022",
+      "title": "Corporate Marketing Budget Constraints and Spending Policy",
+      "category": "budget_policy",
+      "source_hash": "632f686920ffd0eb6fd13f819ab78967b81f358961ea9a209a51a8c6494b0567"
+    },
+    {
+      "document_id": "DOC-023",
+      "title": "Marketing Campaign Performance Metrics and Acquisition Benchmarks",
+      "category": "marketing_performance",
+      "source_hash": "2176c28707a16346b6f7b90c581b058b2130a147d31ca733ef8bce66603519a7"
+    },
+    {
+      "document_id": "DOC-024",
+      "title": "Influencer Marketing Spending and Partnership Policy (Standard)",
+      "category": "business_approval_policy",
+      "source_hash": "2ce5d693435619cfce9c2665a6be2f701b90f5d1862f7202603c81c04e499887"
+    },
+    {
+      "document_id": "DOC-025",
+      "title": "Influencer Marketing Spending and Governance Policy (Restricted)",
+      "category": "business_approval_policy",
+      "source_hash": "01a6e879c32741041cb344906e6142dbc730c30db87987203f3638bf30fa5dfd"
+    },
+    {
+      "document_id": "DOC-026",
+      "title": "Experimental Multi-Channel Expansion Proposal (Incomplete)",
+      "category": "business_proposal",
+      "source_hash": "1101de2c7c52b98491b18519a722d360d1f093d30bfa8ac81179218ba1f6ed9b"
+    }
+  ]
+}

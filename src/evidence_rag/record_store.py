@@ -85,11 +85,27 @@ class RecordStore:
         request_id: str,
         decision: ApprovalDecision
     ) -> Optional[WorkflowRecord]:
-        """Update an existing record with a human manager approval or rejection."""
+        """Update an existing record with a human manager approval or rejection.
+
+        Task 3 — DEFECT-003 fix: Prevents duplicate decisions on already-finalized records.
+        A reviewer name must be non-empty to record a decision.
+        """
+        # Validate reviewer name is not empty (Task 3 approval integrity)
+        if not decision.reviewer or not decision.reviewer.strip():
+            raise ValueError("Reviewer name cannot be empty when recording an approval decision.")
+
         record = self.get_record(request_id)
         if record is None:
             logger.error(f"Cannot record approval decision: Request ID {request_id} not found.")
             return None
+
+        # Task 3 DEFECT-003: Prevent duplicate finalization
+        FINAL_STATUSES = (WorkflowStatus.APPROVED, WorkflowStatus.REJECTED)
+        if record.status in FINAL_STATUSES:
+            raise ValueError(
+                f"Request {request_id} is already finalized with status "
+                f"'{record.status.value}'. Duplicate decisions are not permitted."
+            )
 
         # Verify that record was in an approvable state
         if record.status not in (WorkflowStatus.AWAITING_APPROVAL, WorkflowStatus.RECOMMENDATION_READY):

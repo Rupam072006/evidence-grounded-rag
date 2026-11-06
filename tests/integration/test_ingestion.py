@@ -7,14 +7,14 @@ from evidence_rag.schemas import CorpusError
 from evidence_rag.config import CorpusConfig
 
 
-def test_ingestion_loads_exactly_20_documents(project_root):
+def test_ingestion_loads_complete_multi_domain_corpus(project_root):
     engine = IngestionEngine(base_dir=project_root)
     documents = engine.load_corpus()
 
-    assert len(documents) == 20
-    # Verify IDs from DOC-001 to DOC-020
+    assert len(documents) == 26
+    # Verify IDs from DOC-001 to DOC-026
     doc_ids = {d.metadata.document_id for d in documents}
-    expected_ids = {f"DOC-{i:03d}" for i in range(1, 21)}
+    expected_ids = {f"DOC-{i:03d}" for i in range(1, 27)}
     assert doc_ids == expected_ids
 
 
@@ -32,6 +32,8 @@ def test_ingestion_validates_all_metadata_fields(project_root):
         assert len(meta.created_at) > 0
         assert len(meta.updated_at) > 0
         assert len(meta.topic) > 0
+        assert meta.category is not None
+        assert len(meta.category) > 0
         assert len(doc.content_hash) == 64  # SHA-256
 
 
@@ -64,6 +66,6 @@ def test_ingestion_fails_on_count_mismatch(temp_dir):
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest_data, f)
 
-    engine = IngestionEngine(base_dir=temp_dir)
+    engine = IngestionEngine(config=CorpusConfig(required_count=20), base_dir=temp_dir)
     with pytest.raises(CorpusError, match="Expected exactly 20 documents"):
         engine.load_corpus()

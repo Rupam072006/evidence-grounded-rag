@@ -52,11 +52,16 @@ class DecisionWorkflow:
 
         self.pipeline = RAGPipeline(config=self.config, base_dir=self.base_dir)
 
-        # Register known marketing contradiction pairing
+        # Register known marketing contradiction pairings
         self.pipeline.conflict_detector.register_conflict_pair(
             doc_a="DOC-MKT-002",
             doc_b="DOC-MKT-004",
             topic="Influencer partnership spend ceiling ($25,000 vs $10,000)"
+        )
+        self.pipeline.conflict_detector.register_conflict_pair(
+            doc_a="DOC-024",
+            doc_b="DOC-025",
+            topic="Influencer marketing spending limit ($25,000 vs $10,000)"
         )
 
         self.record_store = record_store or RecordStore(self.base_dir / "data/workflow_records")
@@ -237,46 +242,66 @@ class DecisionWorkflow:
             )
 
         # 2. Check financial boundaries
-        budget_limit = 50000.0  # From DOC-MKT-002
+        budget_limit = 50000.0
         req_budget = request.requested_budget or 0.0
 
-        if req_budget > budget_limit:
-            inferences.append(
-                f"Requested budget of ${req_budget:,.2f} exceeds policy maximum spend cap of ${budget_limit:,.2f} [DOC-MKT-002]."
-            )
-            recommended_action = "REJECT"
-            risk_assessment = (
-                f"Financial Compliance Violation: Proposed spend exceeds maximum Q4 cap by "
-                f"${(req_budget - budget_limit):,.2f}."
-            )
+        budget_ref = "DOC-022" if any(rc.chunk.document_id == "DOC-022" for rc in evidence) else "DOC-MKT-002"
+        perf_ref = "DOC-023" if any(rc.chunk.document_id == "DOC-023" for rc in evidence) else "DOC-MKT-003"
+
+        if request.requested_budget is not None and request.requested_budget > 0:
+            if req_budget > budget_limit:
+                inferences.append(
+                    f"Requested budget of ${req_budget:,.2f} exceeds policy maximum spend cap of ${budget_limit:,.2f} [{budget_ref}]."
+                )
+                recommended_action = "REJECT"
+                risk_assessment = (
+                    f"Financial Compliance Violation: Proposed spend exceeds maximum cap by "
+                    f"${(req_budget - budget_limit):,.2f}."
+                )
+            else:
+                inferences.append(
+                    f"Requested budget of ${req_budget:,.2f} is within the policy maximum cap of ${budget_limit:,.2f} [{budget_ref}]."
+                )
+                # Check 15% reserve buffer rule
+                max_active_spend = budget_limit * 0.85
+                if req_budget > max_active_spend:
+                    inferences.append(
+                        f"Spend of ${req_budget:,.2f} encroaches into the 15% contingency reserve (${budget_limit * 0.15:,.2f})."
+                    )
+                    recommended_action = "APPROVE_WITH_CONDITIONS"
+                    risk_assessment = "Moderate Financial Risk: Allocation exceeds recommended active media spend buffer."
+                else:
+                    recommended_action = "APPROVE"
+                    risk_assessment = "Low Risk: Proposal aligns with documented growth targets and financial ceilings."
         else:
             inferences.append(
-                f"Requested budget of ${req_budget:,.2f} is within the policy maximum cap of ${budget_limit:,.2f} [DOC-MKT-002]."
+                f"No specific budget amount was provided in proposal; standard corporate ceiling of ${budget_limit:,.2f} applies [{budget_ref}]."
             )
-            # Check 15% reserve buffer rule
-            max_active_spend = budget_limit * 0.85
-            if req_budget > max_active_spend:
-                inferences.append(
-                    f"Spend of ${req_budget:,.2f} encroaches into the 15% contingency reserve (${budget_limit * 0.15:,.2f})."
-                )
-                recommended_action = "APPROVE_WITH_CONDITIONS"
-                risk_assessment = "Moderate Financial Risk: Allocation exceeds recommended active media spend buffer."
-            else:
-                recommended_action = "APPROVE"
-                risk_assessment = "Low Risk: Proposal aligns with documented Q4 growth targets and financial ceilings."
+            recommended_action = "REVIEW"
+            risk_assessment = "Informational Review: Proposal requires explicit budget itemization before financial disbursement."
 
         # 3. Formulate standard assumptions
         assumptions.append(
-            "Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [DOC-MKT-003]."
+            f"Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [{perf_ref}]."
         )
         assumptions.append(
             "Assumes third-party advertising platform auction rates remain stable over the planned execution window."
         )
 
         # 4. Identify unknowns and gaps
+        if "incomplete" in request.proposal_text.lower() or any(rc.chunk.document_id == "DOC-026" for rc in evidence):
+            unknowns.append(
+                "Missing Target Audience Demographics: Proposal does not specify target buyer persona, company size, or geographic region [DOC-026]."
+            )
+            unknowns.append(
+                "Missing Execution Timeline: Flight dates, project milestones, and schedules are undefined [DOC-026]."
+            )
+            unknowns.append(
+                "Missing Channel Breakdown: Allocation across ad networks, creator fees, and tooling is unspecified [DOC-026]."
+            )
         if "tiktok" in request.proposal_text.lower() or "video" in request.proposal_text.lower():
             unknowns.append(
-                "Consumer video platform returns: Corpus contains zero historical benchmarks or audience research for TikTok/Instagram Reels [DOC-MKT-003]."
+                f"Consumer video platform returns: Corpus contains zero historical benchmarks or audience research for TikTok/Instagram Reels [{perf_ref}]."
             )
         if "influencer" in request.proposal_text.lower():
             unknowns.append(
