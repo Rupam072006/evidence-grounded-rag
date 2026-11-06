@@ -2338,7 +2338,7 @@
   },
   "REQ-GROWTH-01": {
     "request_id": "REQ-GROWTH-01",
-    "status": "AWAITING_APPROVAL",
+    "status": "APPROVED",
     "request": {
       "request_id": "REQ-GROWTH-01",
       "title": "Q4 Enterprise Growth Initiative",
@@ -2520,7 +2520,13 @@
       "risk_assessment": "Low Risk: Proposal aligns with documented growth targets and financial ceilings.",
       "recommended_action": "APPROVE"
     },
-    "approval": null,
+    "approval": {
+      "request_id": "REQ-GROWTH-01",
+      "decision": "APPROVED",
+      "reviewer": "Rupam Patne",
+      "decision_notes": "Audited against DOC-022 ceiling; approved.",
+      "decided_at": "2026-11-06T12:05:55.218838+00:00"
+    },
     "history": [
       {
         "action": "REQUEST_SUBMITTED",
@@ -2542,10 +2548,16 @@
         "action": "AWAITING_HUMAN_APPROVAL",
         "message": "Recommendation ready for human review. System cannot execute without sign-off.",
         "timestamp": "2026-11-06T11:54:33.631360+00:00"
+      },
+      {
+        "action": "HUMAN_APPROVED",
+        "reviewer": "Rupam Patne",
+        "decision_notes": "Audited against DOC-022 ceiling; approved.",
+        "timestamp": "2026-11-06T12:05:55.218838+00:00"
       }
     ],
     "created_at": "2026-11-06T11:54:33.607608+00:00",
-    "updated_at": "2026-11-06T11:54:33.633250+00:00"
+    "updated_at": "2026-11-06T12:05:55.224243+00:00"
   },
   "REQ-OVERSPEND-01": {
     "request_id": "REQ-OVERSPEND-01",
