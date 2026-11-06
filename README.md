@@ -552,3 +552,471 @@ RAG/
 ├── TASK3_FINAL_REPORT.md          # Phase 10 comprehensive 22-section final report
 └── README.md                      # Complete project documentation manual
 ```
+
+
+---
+
+# CLI Commands & Execution Guide
+
+This comprehensive execution manual provides an end-to-end, verified guide to running AegisCore on **Windows PowerShell**. Every command, argument, and output format documented in this guide has been verified against the actual application source code and test suite.
+
+---
+
+## PART 1 — PROJECT SETUP
+
+Follow these steps to configure your environment and verify your installation before running the system.
+
+### 1. Open the Project Folder
+Open Windows PowerShell and navigate to the project root directory:
+```powershell
+cd c:\Users\rupam\OneDrive\Desktop\RAG
+```
+* **What it does:** Sets the current working directory to the AegisCore repository root.
+* **Expected output:** The PowerShell prompt displays `PS C:\Users\rupam\OneDrive\Desktop\RAG>`.
+
+### 2. Activate the Virtual Environment
+Activate the pre-configured Python virtual environment:
+```powershell
+.\.venv_audit\Scripts\activate
+```
+* **What it does:** Directs your shell to use the dedicated Python 3.13 virtual environment with all pinned dependencies.
+* **Expected output:** The command prompt will show the prefix `(.venv_audit)`, confirming activation:
+  ```powershell
+  (.venv_audit) PS C:\Users\rupam\OneDrive\Desktop\RAG>
+  ```
+* **Common Issue & Fix:** If you see `Execution of scripts is disabled on this system`, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` in your PowerShell window and re-activate.
+
+### 3. Install Dependencies (If Required)
+If setting up on a new machine or fresh environment:
+```powershell
+pip install -r requirements.txt
+```
+* **What it does:** Installs pinned dependencies including Click, Rich, Pydantic, scikit-learn, numpy, pytest, PyYAML, and python-dotenv.
+
+### 4. Configure Environment Variables
+AegisCore runs 100% offline and deterministically by default using the built-in mock generation engine. No external API keys are required for testing or evaluation.
+* Ensure your `.env` file contains:
+  ```bash
+  RAG_GENERATION_MODE=mock
+  ```
+* Optionally, enforce this in your current PowerShell session:
+  ```powershell
+  $env:RAG_GENERATION_MODE="mock"
+  ```
+* If you wish to use live cloud LLMs, add your API key to `.env`:
+  ```bash
+  # Optional Cloud Providers
+  GROQ_API_KEY="gsk_your_groq_api_key_here"
+  GEMINI_API_KEY="AIzaSy_your_gemini_api_key_here"
+  ```
+
+### 5. Verify the Project Setup
+Run the system integrity verification command:
+```powershell
+python -m evidence_rag.cli verify
+```
+* **What it does:** Verifies corpus manifest completeness (checks all 26 documents and SHA-256 hashes) and validates the vector index (348 chunks across 512 dimensions).
+* **Expected output:**
+  ```text
+  Verifying AegisCore System Integrity...
+  Corpus Check Passed: Exactly 26 documents validated.
+  Index Check Passed: Loaded index with 348 passages.
+  All system integrity checks PASSED successfully!
+  ```
+
+### 6. Start the Application / Run Interactive Demo
+Experience an automated live demonstration of the key capabilities:
+```powershell
+python -m evidence_rag.cli demo
+```
+* **What it does:** Executes three canonical query scenarios:
+  1. *Factual Answerable Query:* Precisions factual retrieval with verified claim citations.
+  2. *Contradiction Query:* Intercepts document conflict between DOC-009 and DOC-020.
+  3. *Unanswerable Query:* Canonical refusal without hallucination for out-of-domain input.
+
+---
+
+## PART 2 — TASK 1: EVIDENCE-GROUNDED RAG CLI
+
+Task 1 provides high-assurance question-answering over technical documentation with zero hallucination.
+
+### 1. Ingesting Documents & Verifying Manifest
+```powershell
+python -m evidence_rag.cli verify
+```
+* **What it does:** Validates that every document listed in `data/manifest.json` exists on disk, matches its registered SHA-256 fingerprint, and meets required metadata schemas.
+* **When to run:** After pulling changes or modifying any document in `data/documents/`.
+* **Output:** Displays document count and verification status for both corpus and vector index.
+
+### 2. Building and Rebuilding the Vector Index
+```powershell
+python -m evidence_rag.cli index
+```
+* **What it does:** Executes the complete data preparation pipeline:
+  1. Ingestion: Reads all 26 documents from `data/documents/`.
+  2. 4-Stage Cleaning: Normalizes Unicode (NFKC), removes control characters, standardizes whitespace, and strips security tags.
+  3. Boundary-Aware Chunking: Splits text into 400-character chunks with 60-character sliding overlap while preserving sentence boundaries.
+  4. Hybrid TF-IDF Vectorization: Computes 512-dimensional word and character n-gram vectors normalized to unit L2 norm ($\|\mathbf{v}\|_2 = 1.0$).
+  5. Index Serialization: Persists `vectors.npy`, `knowledge_index.json`, and `embedding_model.pkl` in `data/index/`.
+* **Important Options:**
+  * `-c, --config <path>`: Specify custom configuration file (default: `configs/default.yaml`).
+* **Expected output:**
+  ```text
+  Rebuilding vector index...
+  Successfully indexed 348 passages across 26 documents into data/index
+  ```
+
+### 3. Querying the Knowledge Base
+Ask any technical question through the command line:
+```powershell
+python -m evidence_rag.cli query "What does the existing Python documentation say about exception handling?"
+```
+* **What it does:** Runs dense vector retrieval, checks evidence sufficiency floor ($\ge 0.20$ score, $\ge 28\%$ keyword coverage), synthesizes grounded answer, and verifies claim citations.
+* **Important Options:**
+  * `-m, --mode [mock|groq|grok|gemini]`: Select generation backend (default: `mock`).
+  * `-c, --config <path>`: Path to YAML config.
+  * `--json-out`: Output complete response schema as structured JSON.
+* **Expected output:**
+  * Rich Panel displaying `Status` (`ANSWERED`), `Confidence`, `Latency`, and the grounded `Answer`.
+  * Table of `Retrieved Evidence Passages` (Rank, Chunk ID, Document, Similarity Score, Excerpt).
+  * Table of `Claim Citations` with verification status (`YES`/`NO`).
+* **Interactive Mode:** Run without arguments to enter an interactive prompt:
+  ```powershell
+  python -m evidence_rag.cli query
+  ```
+
+### 4. Evaluating Retrieval & Answer Quality
+Execute the 25-question standardized benchmark:
+```powershell
+python -m evidence_rag.cli evaluate
+```
+* **What it does:** Runs the evaluation suite defined in `evaluation/questions.jsonl`, computing key performance metrics across factual, boundary, contradiction, and unanswerable queries.
+* **Important Options:**
+  * `-q, --questions <path>`: Custom questions JSONL file (default: `evaluation/questions.jsonl`).
+  * `-o, --output <dir>`: Results output directory (default: `evaluation/results`).
+* **Expected Metrics Output:**
+  ```text
+  ┌──────────────────────────────────────────────────┐
+  │           Benchmark Evaluation Metrics           │
+  ├────────────────────────────┬─────────────────────┤
+  │ Metric                     │       Score / Value │
+  ├────────────────────────────┼─────────────────────┤
+  │ Total Questions            │                  25 │
+  │ Retrieval Success Rate     │               94.7% │
+  │ Status Accuracy            │              100.0% │
+  │ Failure Detection Rate     │              100.0% │
+  │ Citation Validity Rate     │              100.0% │
+  │ Average Latency            │             18.4 ms │
+  └────────────────────────────┴─────────────────────┘
+  ```
+
+---
+
+## PART 3 — TASK 2: DECISION-SUPPORT ASSISTANT
+
+Task 2 transforms the RAG engine into an enterprise decision-support system for evaluating business and marketing proposals against organizational policies.
+
+> [!IMPORTANT]
+> **Strict Command Separation:**
+> * `workflow ask`: Use for **informational questions** about policies and documents. Does NOT prompt for budget, does NOT create proposal records, and does NOT open approval gates.
+> * `workflow evaluate`: Use for **evaluating business proposals**. Executes the 7-stage evaluation pipeline, checks budgets against policy caps, creates an `AWAITING_APPROVAL` audit record, and pauses at the Human Approval Gate.
+
+---
+
+### A. Ask Policy Questions (`workflow ask`)
+To inquire about company policies, rules, or benchmarks without submitting a proposal:
+```powershell
+python -m evidence_rag.cli workflow ask "What is the budget ceiling in DOC-022?"
+```
+* **What it does:** Directs query to the policy corpus, returns grounded answer with exact chunk citations and evidence snippets.
+* **Output:** Displays status (`ANSWERED`), confidence score, citation table (`[DOC-022:DOC-022-C004]`), and retrieved policy passages.
+* **Behavior:**
+  * Does NOT prompt for requested budget.
+  * Does NOT create a proposal record in `records.json`.
+  * Does NOT generate a Request ID.
+  * Does NOT open the human approval gate.
+* **Interactive Prompt:** Run without arguments:
+  ```powershell
+  python -m evidence_rag.cli workflow ask
+  ```
+
+---
+
+### B. Evaluate a Business Proposal (`workflow evaluate`)
+To submit and audit a custom business or marketing campaign proposal:
+```powershell
+python -m evidence_rag.cli workflow evaluate --title "Enterprise Cloud Promotion" --proposal "Deploy sponsored technical content and search campaigns targeting enterprise developers." --budget 25000
+```
+* **What it does:** Executes the complete 7-stage proposal evaluation pipeline:
+  1. *Request Validation:* Verifies title, proposal text length, and non-negative budget.
+  2. *Domain Routing:* Routes query to marketing governance corpus (`DOC-021` through `DOC-026`).
+  3. *Budget Policy Audit:* Audits requested spend against the $50,000 corporate ceiling established in `DOC-022`.
+  4. *Channel Restriction Audit:* Validates advertising channels against policy constraints in `DOC-024` and `DOC-025`.
+  5. *Recommendation Synthesis:* Generates structured report containing Verified Facts, Inferences, Working Assumptions, and Unknowns / Missing Info.
+  6. *Record Creation:* Creates an immutable record in `data/workflow_records/records.json` with status `AWAITING_APPROVAL`.
+  7. *Human Approval Gate:* Pauses execution safely without taking external action.
+
+---
+
+### C. Demonstration Presets (`--preset`)
+AegisCore includes 4 pre-configured presets demonstrating key policy and boundary behaviors:
+
+#### 1. Growth Preset (`growth`)
+Evaluates the standard $35,000 LinkedIn enterprise lead generation campaign:
+```powershell
+python -m evidence_rag.cli workflow evaluate --preset growth
+```
+* **Expected Result:**
+  * Request ID: `REQ-GROWTH-01`
+  * Status: `AWAITING_APPROVAL`
+  * Recommended Action: `APPROVE`
+  * Policy Check: $35,000 is fully compliant with the $50,000 budget ceiling in `DOC-022`.
+  * Historical Benchmarks: Aligns with historical conversion data in `DOC-023` (450 conversions / $35k).
+
+#### 2. Incomplete Preset (`incomplete`)
+Demonstrates how the system surfaces missing information and unknown parameters:
+```powershell
+python -m evidence_rag.cli workflow evaluate --preset incomplete
+```
+* **Expected Result:**
+  * Request ID: `REQ-INCOMPLETE-01`
+  * Status: `AWAITING_APPROVAL`
+  * Recommended Action: `REVISE`
+  * Unknowns Surfaced: Flags missing campaign duration, unspecified target audience persona, and undefined conversion tracking mechanisms.
+
+#### 3. Conflict Preset (`conflict`)
+Demonstrates detection of conflicting corporate policies:
+```powershell
+python -m evidence_rag.cli workflow evaluate --preset conflict
+```
+* **Expected Result:**
+  * Request ID: `REQ-CONFLICT-01`
+  * Status: `AWAITING_APPROVAL`
+  * Recommended Action: `REJECT`
+  * Policy Contradiction: Proposed $20,000 influencer spend violates `DOC-025` ($10,000 restricted cap), despite `DOC-024` permitting up to $25,000. System intercepts the policy contradiction and advises rejection until policy ambiguity is resolved.
+
+#### 4. Overspend Preset (`overspend`)
+Demonstrates direct budget cap violation:
+```powershell
+python -m evidence_rag.cli workflow evaluate --preset overspend
+```
+* **Expected Result:**
+  * Request ID: `REQ-OVERSPEND-01`
+  * Status: `AWAITING_APPROVAL`
+  * Recommended Action: `REJECT`
+  * Reason: Proposed $75,000 spend exceeds the strict $50,000 ceiling in `DOC-022` by $25,000.
+
+---
+
+### D. Human Approval Process
+AegisCore enforces a **Mandatory Human Approval Gate**. The AI system only recommends; it **never** auto-approves or executes transactions.
+
+* **What `AWAITING_APPROVAL` means:** The automated evaluation has completed and paused. The request is persisted in `records.json` awaiting human managerial review.
+* **Interactive Approval:** When running `workflow evaluate` interactively with `--interactive`, the CLI prompts immediately after the report:
+  ```text
+  Human Approval Gate Action:
+  Choose action: [a]pprove / [r]eject / [s]kip (decide later) [s]: a
+  Reviewer name [Rupam Patne]: Rupam Patne
+  Decision justification notes [Audited against policy; approved.]: Compliant with DOC-022; approved for Q4.
+  ```
+
+#### Approving a Pending Proposal via CLI:
+```powershell
+python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer "Rupam Patne" --notes "Audited against DOC-022 ceiling; approved."
+```
+* **Arguments:**
+  * `<REQUEST_ID>`: The unique identifier generated by the system (e.g. `REQ-GROWTH-01` or `REQ-XXXXXX`).
+  * `--reviewer, -r`: Name of the authorized human decision-maker (mandatory, cannot be empty).
+  * `--notes, -n`: Auditable justification recorded in the permanent audit trail.
+* **Status Change:** Transitions record from `AWAITING_APPROVAL` to `APPROVED`.
+
+#### Rejecting a Pending Proposal via CLI:
+```powershell
+python -m evidence_rag.cli workflow reject REQ-OVERSPEND-01 --reviewer "Rupam Patne" --reason "Exceeds $50,000 departmental budget cap in DOC-022."
+```
+* **Status Change:** Transitions record from `AWAITING_APPROVAL` to `REJECTED`.
+
+#### Duplicate Decision Protection:
+Attempting to approve or reject an already-finalized proposal is strictly blocked:
+```powershell
+python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer "Another Manager"
+```
+* **Output:** `Error: Request REQ-GROWTH-01 is already finalized with status 'APPROVED'. Duplicate decisions are not permitted.`
+
+---
+
+### E. Workflow Records & Audit Trail
+
+#### 1. List All Proposals
+View summary of all stored proposals and their current approval statuses:
+```powershell
+python -m evidence_rag.cli workflow list
+```
+* **Output:** Displays table of all records with Request ID, Title, Budget, Status (`AWAITING_APPROVAL`, `APPROVED`, `REJECTED`), Submitter, and Reviewer.
+
+#### 2. Inspect a Specific Record
+Display complete proposal text, factual grounding, and audit trail:
+```powershell
+python -m evidence_rag.cli workflow show REQ-GROWTH-01
+```
+* **Important Options:**
+  * `--json-out`: Output full record schema as raw JSON.
+
+---
+
+### F. Replaying Proposals (`workflow replay`)
+Reconstruct and verify historical evidence for a past proposal against the current corpus:
+```powershell
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01
+```
+* **What it does:** Retrieves original proposal parameters, re-runs vector search against current index, compares retrieved evidence documents, and verifies whether the original recommendation remains valid.
+* **Important Note:** Replay reconstructs recorded evidence; it verifies system deterministic consistency, but does not prove independent approval legitimacy.
+* **Expected Output:**
+  ```text
+  ┌────────────────────────────── Replay Comparison ─────────────────────────────┐
+  │ Status Match: YES (AWAITING_APPROVAL -> AWAITING_APPROVAL)                   │
+  │ Retrieval Match: YES                                                         │
+  │ Original Docs: DOC-021, DOC-022, DOC-023                                     │
+  │ Replay Docs: DOC-021, DOC-022, DOC-023                                       │
+  │ Action Match: IDENTICAL (APPROVE)                                            │
+  └──────────────────────────────────────────────────────────────────────────────┘
+  Replay complete. See evidence_packet/replay_comparison.json for full report.
+  ```
+
+---
+
+## PART 4 — TASK 3 CLI COMMANDS
+
+Task 3 verifies project reliability, security, approval integrity, and reproducible testing.
+
+### 1. Run the Complete Automated Test Suite (126 Tests)
+```powershell
+pytest tests -v
+```
+* **What it does:** Executes all 126 unit, boundary, integration, regression, security, and functional tests across the entire codebase.
+* **Expected Result:** `126 passed in ~2.5s` (100% passing).
+
+### 2. Run Adversarial Security Tests
+```powershell
+pytest tests/task3/test_task3_security.py -v
+```
+* **What it does:** Tests 20 adversarial attack vectors including prompt injection, instruction override attempts, role-play jailbreaks, unicode homoglyph spoofing, hidden markdown payload extraction, and secret leakage prevention.
+* **Expected Result:** `20 passed` (100% defense against ungrounded instruction overrides).
+
+### 3. Run Human Approval Integrity Tests
+```powershell
+pytest tests/task3/test_task3_approval_integrity.py -v
+```
+* **What it does:** Verifies human approval gate enforcement:
+  * Proves proposals stop at `AWAITING_APPROVAL`.
+  * Proves auto-approval is strictly impossible.
+  * Proves empty reviewer names are rejected.
+  * Proves duplicate approvals on finalized records are blocked.
+* **Expected Result:** `12 passed`.
+
+### 4. Run Deterministic Replay Tests
+```powershell
+pytest tests/task3/test_task3_replay.py -v
+```
+* **What it does:** Tests deterministic proposal reconstruction across presets, verifies retrieval parity, and validates audit trail stability.
+* **Expected Result:** `7 passed`.
+
+### 5. Run Workflow CLI Separation Tests
+```powershell
+pytest tests/functional/test_workflow_cli_separation.py -v
+```
+* **What it does:** Verifies that `workflow ask` and `workflow evaluate` are strictly separated:
+  * Proves `workflow ask` performs pure Q&A without budget prompt or record creation.
+  * Proves `workflow evaluate` creates records and pauses at human approval gate.
+  * Proves interactive approval, rejection, and skip actions function properly.
+* **Expected Result:** `10 passed`.
+
+---
+
+## PART 5 — COMPLETE PRACTICAL EXECUTION ORDER
+
+Follow this step-by-step checklist to run and demonstrate the entire AegisCore project from scratch:
+
+```powershell
+# ---------------------------------------------------------
+# STEP 1: Environment Activation & Verification
+# ---------------------------------------------------------
+# 1. Navigate to project root
+cd c:\Users\rupam\OneDrive\Desktop\RAG
+
+# 2. Activate virtual environment
+.\.venv_audit\Scripts\activate
+
+# 3. Verify system integrity (26 documents, 348 index chunks)
+python -m evidence_rag.cli verify
+
+# ---------------------------------------------------------
+# STEP 2: Task 1 Technical RAG Demonstration
+# ---------------------------------------------------------
+# 4. Run interactive demonstration queries
+python -m evidence_rag.cli demo
+
+# 5. Ask a custom technical question
+python -m evidence_rag.cli query "What character encoding is mandatory for all incoming documents in AegisCore?"
+
+# 6. Run benchmark evaluation (25 standardized questions)
+python -m evidence_rag.cli evaluate
+
+# ---------------------------------------------------------
+# STEP 3: Task 2 Decision-Support Assistant Demonstration
+# ---------------------------------------------------------
+# 7. Ask an informational policy question (pure Q&A, no budget asked, no record created)
+python -m evidence_rag.cli workflow ask "What is the budget ceiling in DOC-022?"
+
+# 8. Evaluate standard growth proposal (pauses at AWAITING_APPROVAL)
+python -m evidence_rag.cli workflow evaluate --preset growth
+
+# 9. Approve the growth proposal at the Human Approval Gate
+python -m evidence_rag.cli workflow approve REQ-GROWTH-01 --reviewer "Rupam Patne" --notes "Audited against DOC-022 ceiling; approved."
+
+# 10. Evaluate conflict proposal (demonstrates policy contradiction detection)
+python -m evidence_rag.cli workflow evaluate --preset conflict
+
+# 11. Reject the conflict proposal based on policy violation
+python -m evidence_rag.cli workflow reject REQ-CONFLICT-01 --reviewer "Rupam Patne" --reason "Violates DOC-025 restricted influencer spending limit."
+
+# 12. Review audit ledger of all proposals and decisions
+python -m evidence_rag.cli workflow list
+
+# 13. Replay proposal to verify evidence consistency
+python -m evidence_rag.cli workflow replay REQ-GROWTH-01
+
+# ---------------------------------------------------------
+# STEP 4: Task 3 Full System & Security Verification
+# ---------------------------------------------------------
+# 14. Execute complete automated test suite (126 tests)
+pytest tests -q
+```
+
+---
+
+## PART 6 — COMMAND REFERENCE TABLE
+
+| Command | Purpose | Task Scope |
+| :--- | :--- | :--- |
+| `python -m evidence_rag.cli verify` | Verifies manifest SHA-256 hashes (26 docs) and vector index state (348 chunks). | System / Setup |
+| `python -m evidence_rag.cli index` | Rebuilds 512-dimensional vector index from `data/documents/` and `data/manifest.json`. | Task 1 |
+| `python -m evidence_rag.cli query "<question>"` | Queries knowledge base; returns answer with claim-level verified citations. | Task 1 |
+| `python -m evidence_rag.cli demo` | Runs automated 3-scenario live demonstration (factual, contradiction, unanswerable). | Task 1 |
+| `python -m evidence_rag.cli evaluate` | Runs 25-question evaluation benchmark; outputs retrieval, accuracy, and latency metrics. | Task 1 |
+| `python -m evidence_rag.cli workflow ask "<question>"` | Inquires about marketing policies; returns grounded answer with citations without creating records. | Task 2 |
+| `python -m evidence_rag.cli workflow evaluate` | Evaluates business proposal against policies; creates record and pauses at approval gate. | Task 2 |
+| `python -m evidence_rag.cli workflow evaluate --preset growth` | Evaluates the $35,000 LinkedIn growth campaign proposal (`REQ-GROWTH-01`). | Task 2 |
+| `python -m evidence_rag.cli workflow evaluate --preset incomplete` | Demonstrates detection and surfacing of missing proposal information (`REQ-INCOMPLETE-01`). | Task 2 |
+| `python -m evidence_rag.cli workflow evaluate --preset conflict` | Demonstrates detection of conflicting influencer spending policies (`REQ-CONFLICT-01`). | Task 2 |
+| `python -m evidence_rag.cli workflow evaluate --preset overspend` | Demonstrates detection of budget exceeding $50k corporate ceiling (`REQ-OVERSPEND-01`). | Task 2 |
+| `python -m evidence_rag.cli workflow approve <REQ_ID>` | Submits binding human approval decision; records reviewer name and notes in audit trail. | Task 2 |
+| `python -m evidence_rag.cli workflow reject <REQ_ID>` | Submits binding human rejection decision; records reviewer name and reason in audit trail. | Task 2 |
+| `python -m evidence_rag.cli workflow list` | Lists all stored proposal records, current statuses, submitters, and reviewers. | Task 2 |
+| `python -m evidence_rag.cli workflow show <REQ_ID>` | Displays full recommendation report, factual grounding, and audit trail for a proposal. | Task 2 |
+| `python -m evidence_rag.cli workflow replay <REQ_ID>` | Reconstructs historical proposal evidence and verifies parity against current index. | Task 2 / Task 3 |
+| `pytest tests -v` | Executes the complete 126-test automated verification suite. | Task 3 |
+| `pytest tests/task3/test_task3_security.py -v` | Executes 20 adversarial prompt injection and secret protection tests. | Task 3 |
+| `pytest tests/task3/test_task3_approval_integrity.py -v` | Executes 12 human approval gate integrity and duplicate-prevention tests. | Task 3 |
+| `pytest tests/task3/test_task3_replay.py -v` | Executes 7 proposal replay parity and reconstruction tests. | Task 3 |
+| `pytest tests/functional/test_workflow_cli_separation.py -v` | Executes 10 tests proving strict separation between `workflow ask` and `workflow evaluate`. | Task 3 |

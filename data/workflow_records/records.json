@@ -2346,7 +2346,7 @@
       "department": "Marketing",
       "requested_budget": 35000.0,
       "submitted_by": "analyst",
-      "created_at": "2026-11-06T05:52:49.379889+00:00",
+      "created_at": "2026-11-06T11:54:33.604259+00:00",
       "metadata": {}
     },
     "evidence_set": [
@@ -2525,27 +2525,27 @@
       {
         "action": "REQUEST_SUBMITTED",
         "by": "analyst",
-        "timestamp": "2026-11-06T05:57:26.557116+00:00"
+        "timestamp": "2026-11-06T11:54:33.607608+00:00"
       },
       {
         "action": "EVIDENCE_RETRIEVED",
         "chunk_count": 4,
-        "timestamp": "2026-11-06T05:57:26.597485+00:00"
+        "timestamp": "2026-11-06T11:54:33.630956+00:00"
       },
       {
         "action": "RECOMMENDATION_SYNTHESIZED",
         "action_proposed": "APPROVE",
         "citations_count": 3,
-        "timestamp": "2026-11-06T05:57:26.598158+00:00"
+        "timestamp": "2026-11-06T11:54:33.631355+00:00"
       },
       {
         "action": "AWAITING_HUMAN_APPROVAL",
         "message": "Recommendation ready for human review. System cannot execute without sign-off.",
-        "timestamp": "2026-11-06T05:57:26.598164+00:00"
+        "timestamp": "2026-11-06T11:54:33.631360+00:00"
       }
     ],
-    "created_at": "2026-11-06T05:57:26.557116+00:00",
-    "updated_at": "2026-11-06T05:57:26.601409+00:00"
+    "created_at": "2026-11-06T11:54:33.607608+00:00",
+    "updated_at": "2026-11-06T11:54:33.633250+00:00"
   },
   "REQ-OVERSPEND-01": {
     "request_id": "REQ-OVERSPEND-01",
@@ -3644,7 +3644,7 @@
       "department": "Marketing",
       "requested_budget": 18000.0,
       "submitted_by": "analyst",
-      "created_at": "2026-11-06T05:53:25.091493+00:00",
+      "created_at": "2026-11-06T10:58:11.459948+00:00",
       "metadata": {}
     },
     "evidence_set": [
@@ -3825,27 +3825,27 @@
       {
         "action": "REQUEST_SUBMITTED",
         "by": "analyst",
-        "timestamp": "2026-11-06T05:53:25.095849+00:00"
+        "timestamp": "2026-11-06T10:58:11.463240+00:00"
       },
       {
         "action": "EVIDENCE_RETRIEVED",
         "chunk_count": 4,
-        "timestamp": "2026-11-06T05:53:25.126355+00:00"
+        "timestamp": "2026-11-06T10:58:11.488273+00:00"
       },
       {
         "action": "RECOMMENDATION_SYNTHESIZED",
         "action_proposed": "APPROVE",
         "citations_count": 3,
-        "timestamp": "2026-11-06T05:53:25.126915+00:00"
+        "timestamp": "2026-11-06T10:58:11.488842+00:00"
       },
       {
         "action": "AWAITING_HUMAN_APPROVAL",
         "message": "Recommendation ready for human review. System cannot execute without sign-off.",
-        "timestamp": "2026-11-06T05:53:25.126922+00:00"
+        "timestamp": "2026-11-06T10:58:11.488848+00:00"
       }
     ],
-    "created_at": "2026-11-06T05:53:25.095849+00:00",
-    "updated_at": "2026-11-06T05:53:25.128551+00:00"
+    "created_at": "2026-11-06T10:58:11.463240+00:00",
+    "updated_at": "2026-11-06T10:58:11.490190+00:00"
   },
   "REQ-CONFLICT-01": {
     "request_id": "REQ-CONFLICT-01",
@@ -4016,5 +4016,570 @@
     ],
     "created_at": "2026-11-06T05:53:43.837792+00:00",
     "updated_at": "2026-11-06T05:55:24.603869+00:00"
+  },
+  "REQ-74DE89": {
+    "request_id": "REQ-74DE89",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "request": {
+      "request_id": "REQ-74DE89",
+      "title": "python -m evidence_rag.cli workflow...",
+      "proposal_text": "python -m evidence_rag.cli workflow evaluate --preset growth",
+      "department": "Marketing",
+      "requested_budget": null,
+      "submitted_by": "analyst",
+      "created_at": "2026-11-06T11:04:36.176274+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-002-C010",
+          "document_id": "DOC-002",
+          "chunk_index": 9,
+          "text": "responsibilities violates single-responsibility principles.\n\n## 6. Source References\n- Python Software Foundation. *Defining Functions*. https://docs.python.org/3/tutorial/controlflow.html#defining-functions\n- Real Python. *Namespaces and Scope in Python*. https://realpython.com/python-namespaces-scope/",
+          "char_start": 3148,
+          "char_end": 3452,
+          "token_count": 24,
+          "category": "python",
+          "metadata": {
+            "title": "Python Functions, Modular Design, and Scope Resolution",
+            "topic": "Python Functions",
+            "source": "data/documents/doc_002_python_functions.md",
+            "version": "1.0.0",
+            "source_type": "programming_guide",
+            "category": "python"
+          }
+        },
+        "score": 0.4784,
+        "rank": 1,
+        "raw_similarity": 0.417
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-001-C002",
+          "document_id": "DOC-001",
+          "chunk_index": 1,
+          "text": "_at:** 2026-01-15T10:30:00Z\n- **topic:** Python Basics ## 1. Overview\nPython is a high-level, interpreted programming language known for readability, dynamic typing, and comprehensive standard libraries.",
+          "char_start": 305,
+          "char_end": 508,
+          "token_count": 25,
+          "category": "python",
+          "metadata": {
+            "title": "Python Basics and Core Programming Fundamentals",
+            "topic": "Python Basics",
+            "source": "data/documents/doc_001_python_basics.md",
+            "version": "1.0.0",
+            "source_type": "programming_guide",
+            "category": "python"
+          }
+        },
+        "score": 0.4102,
+        "rank": 2,
+        "raw_similarity": 0.3487
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-001-C014",
+          "document_id": "DOC-001",
+          "chunk_index": 13,
+          "text": "explicit `global` declarations leads to `UnboundLocalError`.\n\n## 6. Source References\n- Python Software Foundation. *Python 3 Language Reference*. https://docs.python.org/3/reference/\n- Python Software Foundation. *Built-in Types and Data Structures*. https://docs.python.org/3/library/stdtypes.html",
+          "char_start": 3455,
+          "char_end": 3754,
+          "token_count": 29,
+          "category": "python",
+          "metadata": {
+            "title": "Python Basics and Core Programming Fundamentals",
+            "topic": "Python Basics",
+            "source": "data/documents/doc_001_python_basics.md",
+            "version": "1.0.0",
+            "source_type": "programming_guide",
+            "category": "python"
+          }
+        },
+        "score": 0.3654,
+        "rank": 3,
+        "raw_similarity": 0.3039
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-001-C005",
+          "document_id": "DOC-001",
+          "chunk_index": 4,
+          "text": "tion across all Python runtime modules.\n\n## 2. Main Concepts ### Variables and Data Types\nPython variables do not require explicit declaration. The interpreter assigns types dynamically at runtime based on the assigned value:\n- **Integers (`int`) and Floats (`float`):** Used for indexing, token counts, and mathematical similarity computations.",
+          "char_start": 974,
+          "char_end": 1319,
+          "token_count": 49,
+          "category": "python",
+          "metadata": {
+            "title": "Python Basics and Core Programming Fundamentals",
+            "topic": "Python Basics",
+            "source": "data/documents/doc_001_python_basics.md",
+            "version": "1.0.0",
+            "source_type": "programming_guide",
+            "category": "python"
+          }
+        },
+        "score": 0.3462,
+        "rank": 4,
+        "raw_similarity": 0.2848
+      }
+    ],
+    "citations": [],
+    "conflict": null,
+    "recommendation": null,
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-11-06T11:04:36.192655+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-11-06T11:04:36.283933+00:00"
+      },
+      {
+        "action": "SUFFICIENCY_FAILED",
+        "reason": "Evidence below similarity floor or lacking relevant domain documentation.",
+        "timestamp": "2026-11-06T11:04:36.284838+00:00"
+      }
+    ],
+    "created_at": "2026-11-06T11:04:36.192655+00:00",
+    "updated_at": "2026-11-06T11:04:36.291079+00:00"
+  },
+  "REQ-61F40B": {
+    "request_id": "REQ-61F40B",
+    "status": "AWAITING_APPROVAL",
+    "request": {
+      "request_id": "REQ-61F40B",
+      "title": "What is the maximum marketing budge...",
+      "proposal_text": "What is the maximum marketing budget?",
+      "department": "Marketing",
+      "requested_budget": null,
+      "submitted_by": "analyst",
+      "created_at": "2026-11-06T11:06:32.424515+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-022-C004",
+          "document_id": "DOC-022",
+          "chunk_index": 3,
+          "text": "nding caps and reserve thresholds outlined in this document. ## 2. Campaign Budget Ceilings\nThe following budgetary boundaries are strictly enforced:\n- **Maximum Campaign Budget:** The maximum allowable budget allocation for any individual marketing campaign or initiative is **$50,000.00**.",
+          "char_start": 997,
+          "char_end": 1288,
+          "token_count": 39,
+          "category": "budget_policy",
+          "metadata": {
+            "title": "Corporate Marketing Budget Constraints and Spending Policy",
+            "topic": "Budget Constraints and Spending Policy",
+            "source": "data/documents/doc_022_budget_policy.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "budget_policy"
+          }
+        },
+        "score": 0.6256,
+        "rank": 1,
+        "raw_similarity": 0.4956
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-024-C004",
+          "document_id": "DOC-024",
+          "chunk_index": 3,
+          "text": "developer advocate collaborations across marketing programs.\n\n## 2. Standard Influencer Spending Limit\nUnder standard marketing operating guidelines, the total expenditure allocated to influencer marketing and creator sponsorships is capped at a maximum of **$25,000.00** per fiscal quarter.",
+          "char_start": 903,
+          "char_end": 1194,
+          "token_count": 37,
+          "category": "business_approval_policy",
+          "metadata": {
+            "title": "Influencer Marketing Spending and Partnership Policy (Standard)",
+            "topic": "Influencer Marketing Spending Limits",
+            "source": "data/documents/doc_024_influencer_policy_standard.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "business_approval_policy"
+          }
+        },
+        "score": 0.3324,
+        "rank": 2,
+        "raw_similarity": 0.2791
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-022-C008",
+          "document_id": "DOC-022",
+          "chunk_index": 7,
+          "text": "plicit executive waiver require conditional approval status.\n\n## 3. Expense Categorization and Allocation Rules\n- **Direct Advertising Spend:** Funds allocated to search, social, or programmatic ad networks must not exceed 65% of the campaign's total budget.\n- **Agency and Production Fees:** External creative production, video generation, and copywriting fees must remain below 25% of the total campaign budget.\n- **Experimental Testing:** A maximum of 10% of campaign funding may be allocated to unproven or exploratory advertising channels.",
+          "char_start": 1755,
+          "char_end": 2299,
+          "token_count": 77,
+          "category": "budget_policy",
+          "metadata": {
+            "title": "Corporate Marketing Budget Constraints and Spending Policy",
+            "topic": "Budget Constraints and Spending Policy",
+            "source": "data/documents/doc_022_budget_policy.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "budget_policy"
+          }
+        },
+        "score": 0.3233,
+        "rank": 3,
+        "raw_similarity": 0.22
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-022-C003",
+          "document_id": "DOC-022",
+          "chunk_index": 2,
+          "text": "1:30:00Z\n- **topic:** Budget Constraints and Spending Policy\n\n## 1. Scope and Policy Objectives\nThis policy defines mandatory financial controls, budget ceilings, and spending guidelines for all corporate marketing campaigns, growth initiatives, and promotional activities. All campaign proposals submitted for evaluation must comply with the spending caps and reserve thresholds outlined in this document.",
+          "char_start": 651,
+          "char_end": 1057,
+          "token_count": 54,
+          "category": "budget_policy",
+          "metadata": {
+            "title": "Corporate Marketing Budget Constraints and Spending Policy",
+            "topic": "Budget Constraints and Spending Policy",
+            "source": "data/documents/doc_022_budget_policy.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "budget_policy"
+          }
+        },
+        "score": 0.3159,
+        "rank": 4,
+        "raw_similarity": 0.2126
+      }
+    ],
+    "citations": [
+      {
+        "document_id": "DOC-022",
+        "chunk_id": "DOC-022-C004",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-024",
+        "chunk_id": "DOC-024-C004",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-022",
+        "chunk_id": "DOC-022-C008",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      }
+    ],
+    "conflict": null,
+    "recommendation": {
+      "summary": "Evaluated proposal 'What is the maximum marketing budge...' against authoritative Q4 marketing strategy, financial policies, and compliance standards. Found 3 verified factual constraints.",
+      "verified_facts": [
+        {
+          "statement": "nding caps and reserve thresholds outlined in this document.",
+          "citation": {
+            "document_id": "DOC-022",
+            "chunk_id": "DOC-022-C004",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-022",
+          "source_chunk_id": "DOC-022-C004"
+        },
+        {
+          "statement": "developer advocate collaborations across marketing programs.",
+          "citation": {
+            "document_id": "DOC-024",
+            "chunk_id": "DOC-024-C004",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-024",
+          "source_chunk_id": "DOC-024-C004"
+        },
+        {
+          "statement": "plicit executive waiver require conditional approval status.",
+          "citation": {
+            "document_id": "DOC-022",
+            "chunk_id": "DOC-022-C008",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-022",
+          "source_chunk_id": "DOC-022-C008"
+        }
+      ],
+      "inferences": [
+        "No specific budget amount was provided in proposal; standard corporate ceiling of $50,000.00 applies [DOC-022]."
+      ],
+      "assumptions": [
+        "Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [DOC-MKT-003].",
+        "Assumes third-party advertising platform auction rates remain stable over the planned execution window."
+      ],
+      "unknowns": [
+        "Vendor rate fluctuations: Specific real-time CPM pricing from ad exchanges is subject to auction dynamics."
+      ],
+      "risk_assessment": "Informational Review: Proposal requires explicit budget itemization before financial disbursement.",
+      "recommended_action": "REVIEW"
+    },
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-11-06T11:06:32.429531+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-11-06T11:06:32.457239+00:00"
+      },
+      {
+        "action": "RECOMMENDATION_SYNTHESIZED",
+        "action_proposed": "REVIEW",
+        "citations_count": 3,
+        "timestamp": "2026-11-06T11:06:32.457577+00:00"
+      },
+      {
+        "action": "AWAITING_HUMAN_APPROVAL",
+        "message": "Recommendation ready for human review. System cannot execute without sign-off.",
+        "timestamp": "2026-11-06T11:06:32.457581+00:00"
+      }
+    ],
+    "created_at": "2026-11-06T11:06:32.429531+00:00",
+    "updated_at": "2026-11-06T11:06:32.461421+00:00"
+  },
+  "REQ-63697D": {
+    "request_id": "REQ-63697D",
+    "status": "APPROVED",
+    "request": {
+      "request_id": "REQ-63697D",
+      "title": "\"What is the budget ceiling in DOC-...",
+      "proposal_text": "\"What is the budget ceiling in DOC-022?\"",
+      "department": "Marketing",
+      "requested_budget": null,
+      "submitted_by": "analyst",
+      "created_at": "2026-11-06T11:22:08.361958+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-021-C006",
+          "document_id": "DOC-021",
+          "chunk_index": 5,
+          "text": "s and copywriting.\n- **Total Requested Budget:** $35,000.00.\n\nThe requested expenditure of $35,000.00 complies with the corporate marketing budget ceiling of $50,000.00 established in DOC-022.",
+          "char_start": 1801,
+          "char_end": 1993,
+          "token_count": 25,
+          "category": "business_proposal",
+          "metadata": {
+            "title": "Enterprise Growth Marketing Campaign Proposal",
+            "topic": "Marketing Campaign Proposal",
+            "source": "data/documents/doc_021_campaign_proposal.md",
+            "version": "1.0.0",
+            "source_type": "business_proposal",
+            "category": "business_proposal"
+          }
+        },
+        "score": 0.4201,
+        "rank": 1,
+        "raw_similarity": 0.3401
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-022-C004",
+          "document_id": "DOC-022",
+          "chunk_index": 3,
+          "text": "nding caps and reserve thresholds outlined in this document. ## 2. Campaign Budget Ceilings\nThe following budgetary boundaries are strictly enforced:\n- **Maximum Campaign Budget:** The maximum allowable budget allocation for any individual marketing campaign or initiative is **$50,000.00**.",
+          "char_start": 997,
+          "char_end": 1288,
+          "token_count": 39,
+          "category": "budget_policy",
+          "metadata": {
+            "title": "Corporate Marketing Budget Constraints and Spending Policy",
+            "topic": "Budget Constraints and Spending Policy",
+            "source": "data/documents/doc_022_budget_policy.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "budget_policy"
+          }
+        },
+        "score": 0.3931,
+        "rank": 2,
+        "raw_similarity": 0.2897
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-021-C007",
+          "document_id": "DOC-021",
+          "chunk_index": 6,
+          "text": "rketing budget ceiling of $50,000.00 established in DOC-022.\n\n## 3. Expected Outcomes and Key Performance Indicators (KPIs)\nBased on historical acquisition benchmarks from DOC-023, the expected campaign performance deliverables are:\n- **Click-Through Rate (CTR):** Projected benchmark of 2.4% across paid search channels.\n- **Customer Acquisition Cost (CAC):** Target CAC ceiling of $32.00 per qualified account.\n- **Total Conversions:** Anticipated 450 enterprise lead conversions.\n- **Conversion Rate:** Estimated 3.8% landing page visitor conversion rate.",
+          "char_start": 1933,
+          "char_end": 2491,
+          "token_count": 73,
+          "category": "business_proposal",
+          "metadata": {
+            "title": "Enterprise Growth Marketing Campaign Proposal",
+            "topic": "Marketing Campaign Proposal",
+            "source": "data/documents/doc_021_campaign_proposal.md",
+            "version": "1.0.0",
+            "source_type": "business_proposal",
+            "category": "business_proposal"
+          }
+        },
+        "score": 0.3072,
+        "rank": 3,
+        "raw_similarity": 0.2272
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-022-C003",
+          "document_id": "DOC-022",
+          "chunk_index": 2,
+          "text": "1:30:00Z\n- **topic:** Budget Constraints and Spending Policy\n\n## 1. Scope and Policy Objectives\nThis policy defines mandatory financial controls, budget ceilings, and spending guidelines for all corporate marketing campaigns, growth initiatives, and promotional activities. All campaign proposals submitted for evaluation must comply with the spending caps and reserve thresholds outlined in this document.",
+          "char_start": 651,
+          "char_end": 1057,
+          "token_count": 54,
+          "category": "budget_policy",
+          "metadata": {
+            "title": "Corporate Marketing Budget Constraints and Spending Policy",
+            "topic": "Budget Constraints and Spending Policy",
+            "source": "data/documents/doc_022_budget_policy.md",
+            "version": "1.0.0",
+            "source_type": "corporate_policy",
+            "category": "budget_policy"
+          }
+        },
+        "score": 0.2903,
+        "rank": 4,
+        "raw_similarity": 0.187
+      }
+    ],
+    "citations": [
+      {
+        "document_id": "DOC-021",
+        "chunk_id": "DOC-021-C006",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-022",
+        "chunk_id": "DOC-022-C004",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      },
+      {
+        "document_id": "DOC-021",
+        "chunk_id": "DOC-021-C007",
+        "quote": null,
+        "is_valid": true,
+        "validation_reason": null
+      }
+    ],
+    "conflict": null,
+    "recommendation": {
+      "summary": "Evaluated proposal '\"What is the budget ceiling in DOC-...' against authoritative Q4 marketing strategy, financial policies, and compliance standards. Found 3 verified factual constraints.",
+      "verified_facts": [
+        {
+          "statement": "- **Total Requested Budget:** $35,000.00.",
+          "citation": {
+            "document_id": "DOC-021",
+            "chunk_id": "DOC-021-C006",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-021",
+          "source_chunk_id": "DOC-021-C006"
+        },
+        {
+          "statement": "nding caps and reserve thresholds outlined in this document.",
+          "citation": {
+            "document_id": "DOC-022",
+            "chunk_id": "DOC-022-C004",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-022",
+          "source_chunk_id": "DOC-022-C004"
+        },
+        {
+          "statement": "rketing budget ceiling of $50,000.00 established in DOC-022.",
+          "citation": {
+            "document_id": "DOC-021",
+            "chunk_id": "DOC-021-C007",
+            "quote": null,
+            "is_valid": true,
+            "validation_reason": null
+          },
+          "source_document_id": "DOC-021",
+          "source_chunk_id": "DOC-021-C007"
+        }
+      ],
+      "inferences": [
+        "No specific budget amount was provided in proposal; standard corporate ceiling of $50,000.00 applies [DOC-022]."
+      ],
+      "assumptions": [
+        "Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [DOC-MKT-003].",
+        "Assumes third-party advertising platform auction rates remain stable over the planned execution window."
+      ],
+      "unknowns": [
+        "Vendor rate fluctuations: Specific real-time CPM pricing from ad exchanges is subject to auction dynamics."
+      ],
+      "risk_assessment": "Informational Review: Proposal requires explicit budget itemization before financial disbursement.",
+      "recommended_action": "REVIEW"
+    },
+    "approval": {
+      "request_id": "REQ-63697D",
+      "decision": "APPROVED",
+      "reviewer": "Rupam Patne",
+      "decision_notes": ".",
+      "decided_at": "2026-11-06T11:24:45.792866+00:00"
+    },
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-11-06T11:22:08.368621+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-11-06T11:22:08.415457+00:00"
+      },
+      {
+        "action": "RECOMMENDATION_SYNTHESIZED",
+        "action_proposed": "REVIEW",
+        "citations_count": 3,
+        "timestamp": "2026-11-06T11:22:08.416893+00:00"
+      },
+      {
+        "action": "AWAITING_HUMAN_APPROVAL",
+        "message": "Recommendation ready for human review. System cannot execute without sign-off.",
+        "timestamp": "2026-11-06T11:22:08.416915+00:00"
+      },
+      {
+        "action": "HUMAN_APPROVED",
+        "reviewer": "Rupam Patne",
+        "decision_notes": ".",
+        "timestamp": "2026-11-06T11:24:45.792866+00:00"
+      }
+    ],
+    "created_at": "2026-11-06T11:22:08.368621+00:00",
+    "updated_at": "2026-11-06T11:24:45.799306+00:00"
   }
 }

@@ -153,3 +153,4 @@ All declared dependencies in `requirements.txt` and `pyproject.toml` were audite
 
 > [!NOTE]
 > All evaluation benchmarks and automated tests in AegisCore execute under **Mock Mode** by default. This guarantees 100% offline reproducibility without leaking API keys, failing due to network latency, or exhausting external rate limits.
+

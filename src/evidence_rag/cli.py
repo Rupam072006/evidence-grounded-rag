@@ -338,14 +338,17 @@ def workflow_evaluate(proposal_arg, preset, request_id, title, proposal, departm
     if not effective_proposal and not preset:
         is_interactive_mode = True
         console.print(Panel(
-            "[bold cyan]Task 2: Decision Support Assistant -- Ask Your Question / Proposal[/bold cyan]\n"
-            "[dim]Enter any custom business proposal or decision query to evaluate against internal policies.[/dim]",
+            "[bold cyan]Task 2: Business Proposal Evaluation[/bold cyan]\n"
+            "[dim]Submit a business or campaign proposal to evaluate against organizational policies.[/dim]",
             border_style="cyan"
         ))
-        effective_proposal = click.prompt("[bold yellow]Enter proposal or decision question[/bold yellow]").strip()
+        title = title or click.prompt("[bold yellow]Proposal Title[/bold yellow]", default="New Marketing Proposal").strip()
+        effective_proposal = click.prompt("[bold yellow]Detailed Proposal Text[/bold yellow]").strip()
         if not effective_proposal:
             console.print("[bold red]Error:[/bold red] Proposal text cannot be empty.")
             sys.exit(1)
+
+        department = department or click.prompt("Department", default="Marketing").strip()
 
         # Check for budget input if not in text
         if budget is None:
@@ -357,7 +360,7 @@ def workflow_evaluate(proposal_arg, preset, request_id, title, proposal, departm
                 except ValueError:
                     pass
             if budget is None:
-                b_str = click.prompt("[dim]Requested budget in USD (optional, press Enter to skip)[/dim]", default="", show_default=False).strip()
+                b_str = click.prompt("[dim]Requested budget in USD (press Enter to skip if unspecified)[/dim]", default="", show_default=False).strip()
                 if b_str:
                     try:
                         budget = float(b_str.replace("$", "").replace(",", "").strip())
@@ -455,7 +458,7 @@ def workflow_evaluate(proposal_arg, preset, request_id, title, proposal, departm
     )
 
     # If running interactively, prompt immediately for human sign-off
-    if is_interactive_mode and sys.stdin.isatty():
+    if is_interactive_mode:
         console.print("[bold yellow]Human Approval Gate Action:[/bold yellow]")
         choice = click.prompt("Choose action: [a]pprove / [r]eject / [s]kip (decide later)", default="s", show_default=True).strip().lower()
         if choice in ("a", "approve"):
@@ -473,13 +476,80 @@ def workflow_evaluate(proposal_arg, preset, request_id, title, proposal, departm
 
 
 @workflow.command("ask")
-@click.argument("proposal_arg", required=False, default=None)
-@click.option("--budget", "-b", default=None, type=float, help="Requested budget in USD.")
-@click.option("--department", "-d", default="Marketing", help="Department submitting the proposal.")
-@click.pass_context
-def workflow_ask(ctx, proposal_arg, budget, department):
-    """Interactively ask the Decision Support Assistant any custom business proposal or question."""
-    ctx.invoke(workflow_evaluate, proposal_arg=proposal_arg, budget=budget, department=department, interactive=True)
+@click.argument("question", required=False, default=None)
+@click.option("--config", "-c", default="configs/default.yaml", help="Path to workflow config YAML.")
+@click.option("--mode", "-m", default=None, type=click.Choice(["mock", "groq", "grok", "gemini"], case_sensitive=False), help="Generation mode.")
+@click.option("--json-out", is_flag=True, help="Output response in structured JSON format.")
+def workflow_ask(question, config, mode, json_out):
+    """Ask an informational policy or marketing question and receive a grounded answer with citations."""
+    from evidence_rag.workflow import DecisionWorkflow
+    from evidence_rag.schemas import ResponseStatus
+
+    if not question:
+        question = click.prompt("[bold yellow]Enter your policy question[/bold yellow]").strip()
+        if not question:
+            console.print("[bold red]Error:[/bold red] Question cannot be empty.")
+            sys.exit(1)
+
+    wf = DecisionWorkflow(config_path=config)
+    wf.ensure_index()
+    if mode:
+        wf.config.generation.mode = mode.lower()
+        wf.pipeline.config.generation.mode = mode.lower()
+
+    response = wf.ask_policy_question(question)
+
+    if json_out:
+        console.print(response.model_dump_json(indent=2))
+        return
+
+    # Rich formatted output
+    status_color = "green" if response.status == ResponseStatus.ANSWERED else "yellow"
+    if response.status in (ResponseStatus.INVALID_INPUT, ResponseStatus.GENERATION_UNAVAILABLE):
+        status_color = "red"
+    elif response.status == ResponseStatus.CONFLICT_DETECTED:
+        status_color = "magenta"
+
+    console.print(Panel(
+        f"[bold]Status:[/bold] [{status_color}]{response.status.value}[/{status_color}]\n"
+        f"[bold]Confidence:[/bold] {response.confidence:.2f}\n"
+        f"[bold]Latency:[/bold] {response.latency_ms:.1f} ms\n\n"
+        f"[bold]Answer:[/bold]\n{safe_text(response.answer)}",
+        title="Marketing Policy Q&A Result",
+        border_style=status_color
+    ))
+
+    if response.evidence:
+        table = Table(title="Retrieved Policy Evidence")
+        table.add_column("Rank", justify="center")
+        table.add_column("Document", style="green")
+        table.add_column("Chunk ID", style="cyan")
+        table.add_column("Score", justify="right")
+        table.add_column("Excerpt")
+
+        for item in response.evidence:
+            excerpt = item.chunk.text[:80] + ("..." if len(item.chunk.text) > 80 else "")
+            table.add_row(
+                str(item.rank),
+                item.chunk.document_id,
+                item.chunk.chunk_id,
+                f"{item.score:.3f}",
+                excerpt
+            )
+        console.print(table)
+
+    if response.citations:
+        cit_table = Table(title="Claim Citations")
+        cit_table.add_column("Document ID")
+        cit_table.add_column("Chunk ID")
+        cit_table.add_column("Valid", justify="center")
+        for cit in response.citations:
+            cit_table.add_row(
+                cit.document_id,
+                cit.chunk_id,
+                "[green]YES[/green]" if cit.is_valid else "[red]NO[/red]"
+            )
+        console.print(cit_table)
 
 
 @workflow.command("approve")
@@ -511,7 +581,7 @@ def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
             reviewer=reviewer,
             notes=notes
         )
-    except KeyError as e:
+    except (KeyError, ValueError) as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
         sys.exit(1)
 
@@ -560,7 +630,7 @@ def workflow_reject(request_id, reviewer, reason, config, json_out):
             reviewer=reviewer,
             notes=reason
         )
-    except KeyError as e:
+    except (KeyError, ValueError) as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
         sys.exit(1)
 

@@ -10,7 +10,8 @@ from evidence_rag.schemas import (
     RetrievedChunk,
     Citation,
     ConflictEvidence,
-    IndexNotFoundError
+    IndexNotFoundError,
+    RAGResponse
 )
 from evidence_rag.workflow_schemas import (
     WorkflowStatus,
@@ -69,6 +70,10 @@ class DecisionWorkflow:
     def ensure_index(self) -> None:
         """Ensure the underlying knowledge base index is loaded or built."""
         self.pipeline.ensure_index(check_staleness=True)
+
+    def ask_policy_question(self, question: str) -> RAGResponse:
+        """Answer an informational policy or marketing question without creating a proposal record."""
+        return self.pipeline.query(question)
 
     def validate_request(self, request: WorkflowRequest) -> Tuple[bool, Optional[str]]:
         """Validate required fields and boundary rules of an incoming request."""

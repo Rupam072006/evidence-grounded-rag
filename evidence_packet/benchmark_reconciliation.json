@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T06:11:29.802807+00:00",
+  "generated_at": "2026-11-06T11:58:09.176958+00:00",
   "benchmark_file": "evaluation/questions.jsonl",
   "total_questions": 25,
   "scoring_formulas": {
@@ -18,7 +18,7 @@
     "negative_cases_count": 8,
     "citation_validity_rate": 1.0,
     "total_citations_evaluated": 45,
-    "average_latency_ms": 9.08
+    "average_latency_ms": 10.45
   },
   "historical_comparison": {
     "task1_historical_claim": {

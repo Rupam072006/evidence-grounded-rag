@@ -14,10 +14,10 @@
         "55 (mentioned in some reports)",
         "65 (mentioned in some reports)"
       ],
-      "verified_value": 116,
-      "source_of_truth": "pytest --collect-only on current commit (116 tests collected and passed)",
+      "verified_value": 126,
+      "source_of_truth": "pytest --collect-only on current commit (126 tests collected and passed)",
       "root_cause": "Each task phase added new tests: 46 baseline + 1 audit fix + 12 Task2 multi-domain + 10 day3 scenarios = 77. Historical counts reflect snapshots at different commit stages. Counts of 55 and 65 were likely intermediate estimates or included non-existent test parametrizations.",
-      "correction_applied": "Canonical test count of 116 established (46 T1 baseline + 31 T2 additions + 39 T3 security/approval/replay tests).",
+      "correction_applied": "Canonical test count of 126 established (46 T1 baseline + 31 T2 additions + 39 T3 security/approval/replay tests).",
       "verification_method": "python -m pytest tests --collect-only -q on HEAD commit",
       "evidence_reference": "evidence_packet/test_execution_summary.json, evidence_packet/clean_test_output.txt",
       "status": "RESOLVED"
