@@ -1,5 +1,5 @@
 {
-  "commit_hash": "9e551e25a6a02c1f6dfc751faa3936003f519361",
+  "commit_hash": "4cb42c7",
   "python_version": "3.11.9",
   "operating_system": "Windows 10/11 (win32)",
   "test_command": "python -m pytest tests -v",
