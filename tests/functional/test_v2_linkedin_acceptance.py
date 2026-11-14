@@ -1,44 +1,16 @@
 """Acceptance test suite for V2 LinkedIn Campaign Proposal (AC-4, AC-5, AC-6).
-
-Author: Rhugved (Senior Python Backend Engineer, RAG Architect, Software Auditor)
 Target: BHIV CMO Agent V2 - Governance Hard Stop, Reviewer Identity, Duplicate Decision.
 """
 import pytest
-from click.testing import CliRunner
-
 from evidence_rag.workflow import DecisionWorkflow
 from evidence_rag.workflow_schemas import WorkflowRequest, WorkflowStatus
 from evidence_rag.cli import main
-from evidence_rag.record_store import RecordStore
-
-
-@pytest.fixture
-def cli_runner():
-    """Provide a Click test runner."""
-    return CliRunner()
-
-
-@pytest.fixture
-def isolated_record_store(tmp_path, monkeypatch):
-    """Ensure records are stored in an isolated temporary directory during testing."""
-    records_dir = tmp_path / "data" / "workflow_records"
-    records_dir.mkdir(parents=True, exist_ok=True)
-
-    from evidence_rag import workflow
-    orig_init = workflow.DecisionWorkflow.__init__
-
-    def patched_init(self, config_path="configs/default.yaml", record_store=None):
-        if record_store is None:
-            record_store = RecordStore(records_dir)
-        orig_init(self, config_path=config_path, record_store=record_store)
-
-    monkeypatch.setattr(workflow.DecisionWorkflow, "__init__", patched_init)
-    return RecordStore(records_dir)
 
 
 @pytest.fixture
 def workflow_env(tmp_path):
     """Isolated workflow instance with temporary record storage."""
+    from evidence_rag.record_store import RecordStore
     store = RecordStore(tmp_path / "v2_records")
     return DecisionWorkflow(record_store=store)
 
@@ -165,7 +137,7 @@ def test_ac6_duplicate_decision_prevention(workflow_env):
         )
 
 
-def test_cli_v2_acceptance_flow(cli_runner, isolated_record_store):
+def test_cli_v2_acceptance_flow(cli_runner, tmp_path):
     """Verify AC-4, AC-5, and AC-6 end-to-end through Click CLI."""
     # AC-4: Evaluate proposal via CLI
     eval_res = cli_runner.invoke(main, [
@@ -215,3 +187,4 @@ def test_cli_v2_acceptance_flow(cli_runner, isolated_record_store):
     ])
     assert res_dup.exit_code != 0
     assert "Request already finalized" in res_dup.output
+
