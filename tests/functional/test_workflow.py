@@ -194,3 +194,21 @@ def test_record_store_scrubs_secrets_before_persisting(tmp_path):
     raw_file_text = (tmp_path / "secure_records" / "records.json").read_text(encoding="utf-8")
     assert fake_secret not in raw_file_text
     assert "[REDACTED_SECRET]" in raw_file_text
+
+
+def test_workflow_linear_tv_abstains_insufficient_evidence(workflow_instance):
+    """DEFECT-SEMANTIC-001 regression test: Linear TV proposals must abstain with INSUFFICIENT_EVIDENCE."""
+    req = WorkflowRequest(
+        request_id="TEST-TV-001",
+        title="Linear TV Broadcast Campaign",
+        proposal_text="Allocate $30,000 for nationwide Linear TV advertising spots and broadcast commercials.",
+        requested_budget=30000.0,
+        department="Marketing"
+    )
+
+    record = workflow_instance.evaluate_proposal(req)
+    assert record.status == WorkflowStatus.INSUFFICIENT_EVIDENCE
+    assert record.recommendation is None
+    assert any("SUFFICIENCY_FAILED" in h.get("action", "") for h in record.history)
+    assert any("Linear TV" in h.get("reason", "") for h in record.history)
+

@@ -98,23 +98,42 @@ In strict compliance with assignment directives:
 
 ---
 
+### Defect 5: Ungrounded Semantic False-Positive Attribution for Linear TV (`DEFECT-SEMANTIC-001`)
+
+- **Classification:** Semantic Retrieval & Grounding Defect
+- **Severity:** **HIGH** (False Positive Hallucination / Capital Risk)
+- **Affected Components:** `src/evidence_rag/generation.py`, `src/evidence_rag/workflow.py`
+- **Symptom:**  
+  When user queries or CMO proposals specifically requested evaluation or performance metrics for Linear TV (e.g. "What is the benchmark CTR or CAC for Linear TV campaigns?" or "Allocate $30,000 for Linear TV advertising"), the system retrieved passages from `DOC-023` / `DOC-MKT-004` based on generic marketing keywords ("advertising", "campaign", "CTR", "budget"). The generation layer extracted unrelated digital metrics and answered with `ANSWERED`, while the workflow layer synthesized recommendation reports proposing `APPROVE` at `AWAITING_APPROVAL`.
+- **Root Cause:**  
+  `DOC-MKT-003` explicitly states that no corporate performance data, conversion benchmarks, or audience research exists for linear television broadcasting. However, lexical keyword overlap with generic advertising terms satisfied the evidence sufficiency threshold, causing semantic false-positive attribution.
+- **Remediation:**  
+  1. Updated `generation.py` across all generators (`DeterministicMockGenerator`, `GeminiGenerator`, `OpenAICompatibleGenerator`) to abstain with canonical refusal and `ResponseStatus.INSUFFICIENT_EVIDENCE` whenever queries reference Linear TV.
+  2. Updated `workflow.py` (`evaluate_proposal`) at Stage 4 to explicitly reject sufficiency for Linear TV proposals, logging `SUFFICIENCY_FAILED` and returning `WorkflowStatus.INSUFFICIENT_EVIDENCE` without generating ungrounded recommendations.
+  3. Added defense-in-depth unknown factor tracking in `workflow.py:_synthesize_recommendation`.
+- **Regression Verification:**  
+  Added dedicated regression tests:
+  - `test_linear_tv_query_abstains_canonical_refusal` in `tests/functional/test_pipeline_qa.py`
+  - `test_workflow_linear_tv_abstains_insufficient_evidence` in `tests/functional/test_workflow.py`
+  Both execute and pass cleanly.
+
+---
+
 ## 3. Regression Test Verification Summary
 
-The new regression suite [`tests/regression/test_environment_reproducibility.py`](file:///C:/Users/A/Desktop/Bhiv_Rhugved/CMO%20Agent/evidence-grounded-rag/tests/regression/test_environment_reproducibility.py) exercises all remediated areas:
+The regression suites exercise all remediated areas:
 
 ```python
-def test_required_runtime_dependencies_importable():
-    # Verifies sklearn, rich, pydantic, numpy, httpx, etc. are importable
+# Environment reproducibility regression suite (tests/regression/test_environment_reproducibility.py)
+def test_required_runtime_dependencies_importable(): ...
+def test_hybrid_tfidf_embedding_engine_fit_and_encode(): ...
+def test_clean_environment_rag_pipeline_smoke(): ...
+def test_clean_environment_decision_workflow_smoke(): ...
 
-def test_hybrid_tfidf_embedding_engine_fit_and_encode():
-    # Verifies TF-IDF fits and generates L2 unit-normalized float32 vectors
-
-def test_clean_environment_rag_pipeline_smoke():
-    # Verifies end-to-end question answering executes without missing module errors
-
-def test_clean_environment_decision_workflow_smoke():
-    # Verifies proposal workflow evaluates and stops at Human Approval Gate
+# DEFECT-SEMANTIC-001 regression tests (tests/functional/)
+def test_linear_tv_query_abstains_canonical_refusal(): ...
+def test_workflow_linear_tv_abstains_insufficient_evidence(): ...
 ```
 
-All 4 regression tests executed and **PASSED** in 0.18s.
-No existing tests were altered. Total test suite pass rate: **130 / 130 (100%)**.
+All regression tests executed and **PASSED**.
+No existing test expectations were altered. Total test suite pass rate: **132 / 132 (100%)**.

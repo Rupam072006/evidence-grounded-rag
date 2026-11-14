@@ -4574,7 +4574,7 @@
       "department": "Marketing",
       "requested_budget": 20000.0,
       "submitted_by": "qa_engineer",
-      "created_at": "2026-11-12T03:46:56.261873+00:00",
+      "created_at": "2026-11-14T04:50:00.528630+00:00",
       "metadata": {}
     },
     "evidence_set": [
@@ -4749,27 +4749,27 @@
       {
         "action": "REQUEST_SUBMITTED",
         "by": "qa_engineer",
-        "timestamp": "2026-11-12T03:46:56.261873+00:00"
+        "timestamp": "2026-11-14T04:50:00.528630+00:00"
       },
       {
         "action": "EVIDENCE_RETRIEVED",
         "chunk_count": 4,
-        "timestamp": "2026-11-12T03:46:56.266281+00:00"
+        "timestamp": "2026-11-14T04:50:00.533634+00:00"
       },
       {
         "action": "RECOMMENDATION_SYNTHESIZED",
         "action_proposed": "APPROVE",
         "citations_count": 3,
-        "timestamp": "2026-11-12T03:46:56.266813+00:00"
+        "timestamp": "2026-11-14T04:50:00.533634+00:00"
       },
       {
         "action": "AWAITING_HUMAN_APPROVAL",
         "message": "Recommendation ready for human review. System cannot execute without sign-off.",
-        "timestamp": "2026-11-12T03:46:56.266813+00:00"
+        "timestamp": "2026-11-14T04:50:00.533634+00:00"
       }
     ],
-    "created_at": "2026-11-12T03:46:56.261873+00:00",
-    "updated_at": "2026-11-12T03:46:56.279434+00:00"
+    "created_at": "2026-11-14T04:50:00.528630+00:00",
+    "updated_at": "2026-11-14T04:50:00.544633+00:00"
   },
   "REQ-8B748E": {
     "request_id": "REQ-8B748E",
@@ -4981,5 +4981,132 @@
     ],
     "created_at": "2026-11-11T11:10:19.935056+00:00",
     "updated_at": "2026-11-11T11:10:19.979728+00:00"
+  },
+  "TEST-TV-01": {
+    "request_id": "TEST-TV-01",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "request": {
+      "request_id": "TEST-TV-01",
+      "title": "Linear TV Advertising Campaign",
+      "proposal_text": "Allocate ,000 to Linear TV advertising and broadcast commercial spots.",
+      "department": "Marketing",
+      "requested_budget": 30000.0,
+      "submitted_by": "analyst",
+      "created_at": "2026-11-14T04:48:32.632490+00:00",
+      "metadata": {}
+    },
+    "evidence_set": [
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-004-C001",
+          "document_id": "DOC-MKT-004",
+          "chunk_index": 0,
+          "text": "# Advertising Compliance, Brand Safety, and Channel Caps",
+          "char_start": 0,
+          "char_end": 56,
+          "token_count": 8,
+          "category": null,
+          "metadata": {
+            "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+            "topic": "Channel Compliance",
+            "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+            "version": "1.0.0",
+            "source_type": "compliance_standard"
+          }
+        },
+        "score": 0.2321,
+        "rank": 1,
+        "raw_similarity": 0.2221
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C006",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 5,
+          "text": "set to $25,000.\n- **Content Production:** Capped at $7,500.\n\nAll proposed budgets must be backed by unit economics and itemized channel estimates.",
+          "char_start": 1252,
+          "char_end": 1398,
+          "token_count": 22,
+          "category": null,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.2063,
+        "rank": 2,
+        "raw_similarity": 0.1963
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-002-C004",
+          "document_id": "DOC-MKT-002",
+          "chunk_index": 3,
+          "text": "ding $50,000 must be rejected immediately during validation.\n\nA mandatory 15% contingency reserve ($7,500 on a $50,000 budget) must remain unallocated to absorb ad auction price volatility. Consequently, active planned media spend cannot exceed $42,500.",
+          "char_start": 682,
+          "char_end": 935,
+          "token_count": 35,
+          "category": null,
+          "metadata": {
+            "title": "Marketing Budget Allocation and Spending Policy",
+            "topic": "Budget Policy",
+            "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+            "version": "1.0.0",
+            "source_type": "financial_policy"
+          }
+        },
+        "score": 0.1839,
+        "rank": 3,
+        "raw_similarity": 0.1639
+      },
+      {
+        "chunk": {
+          "chunk_id": "DOC-MKT-004-C002",
+          "document_id": "DOC-MKT-004",
+          "chunk_index": 1,
+          "text": "# Advertising Compliance, Brand Safety, and Channel Caps\n\n## Metadata\n- **document_id:** DOC-MKT-004\n- **title:** Advertising Compliance, Brand Safety, and Channel Caps\n- **source:** data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md\n- **source_type:** compliance_standard\n- **version:** 1.0.0\n- **created_at:** 2026-09-03T11:00:00Z\n- **updated_at:** 2026-09-18T16:00:00Z\n- **topic:** Channel Compliance",
+          "char_start": 0,
+          "char_end": 418,
+          "token_count": 41,
+          "category": null,
+          "metadata": {
+            "title": "Advertising Compliance, Brand Safety, and Channel Caps",
+            "topic": "Channel Compliance",
+            "source": "data/marketing_corpus/DOC-MKT-004_compliance_and_channel_rules.md",
+            "version": "1.0.0",
+            "source_type": "compliance_standard"
+          }
+        },
+        "score": 0.1774,
+        "rank": 4,
+        "raw_similarity": 0.1674
+      }
+    ],
+    "citations": [],
+    "conflict": null,
+    "recommendation": null,
+    "approval": null,
+    "history": [
+      {
+        "action": "REQUEST_SUBMITTED",
+        "by": "analyst",
+        "timestamp": "2026-11-14T04:48:32.632490+00:00"
+      },
+      {
+        "action": "EVIDENCE_RETRIEVED",
+        "chunk_count": 4,
+        "timestamp": "2026-11-14T04:48:32.635133+00:00"
+      },
+      {
+        "action": "SUFFICIENCY_FAILED",
+        "reason": "Insufficient evidence: Corporate knowledge base contains no performance benchmarks, conversion data, or audience research for Linear TV broadcasting [DEFECT-SEMANTIC-001 / DOC-MKT-003].",
+        "timestamp": "2026-11-14T04:48:32.635133+00:00"
+      }
+    ],
+    "created_at": "2026-11-14T04:48:32.632490+00:00",
+    "updated_at": "2026-11-14T04:48:32.648284+00:00"
   }
 }

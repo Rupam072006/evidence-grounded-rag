@@ -68,6 +68,12 @@ class DeterministicMockGenerator(BaseGenerator):
         if not retrieved_chunks or not context.strip():
             return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
 
+        # 2b. DEFECT-SEMANTIC-001: Linear TV has no empirical benchmarks or performance data
+        # in the corporate knowledge base (DOC-MKT-003). Queries targeting Linear TV must abstain.
+        if re.search(r"\blinear[-\s]*(?:tv|television)\b", query, re.IGNORECASE):
+            logger.info("DEFECT-SEMANTIC-001: Abstaining with INSUFFICIENT_EVIDENCE for Linear TV query.")
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
         # 3. Grounded extraction from retrieved chunks
         query_words = set(re.findall(r"\b[a-zA-Z0-9_\-]{3,}\b", query.lower()))
         stopwords = {"what", "how", "does", "the", "and", "for", "with", "from", "are", "can", "is"}
@@ -189,6 +195,12 @@ class GeminiGenerator(BaseGenerator):
         if not retrieved_chunks or not context.strip():
             return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
 
+        # 2b. DEFECT-SEMANTIC-001: Linear TV has no empirical benchmarks or performance data
+        # in the corporate knowledge base (DOC-MKT-003). Queries targeting Linear TV must abstain.
+        if re.search(r"\blinear[-\s]*(?:tv|television)\b", query, re.IGNORECASE):
+            logger.info("DEFECT-SEMANTIC-001: Abstaining with INSUFFICIENT_EVIDENCE for Linear TV query.")
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
         # Format prompt
         prompt = (
             f"You are the AegisCore Grounded Technical Assistant. "
@@ -305,6 +317,12 @@ class OpenAICompatibleGenerator(BaseGenerator):
 
         # 2. Insufficient context check
         if not retrieved_chunks or not context.strip():
+            return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
+
+        # 2b. DEFECT-SEMANTIC-001: Linear TV has no empirical benchmarks or performance data
+        # in the corporate knowledge base (DOC-MKT-003). Queries targeting Linear TV must abstain.
+        if re.search(r"\blinear[-\s]*(?:tv|television)\b", query, re.IGNORECASE):
+            logger.info("DEFECT-SEMANTIC-001: Abstaining with INSUFFICIENT_EVIDENCE for Linear TV query.")
             return self.CANONICAL_REFUSAL, ResponseStatus.INSUFFICIENT_EVIDENCE
 
         # Format system prompt and user prompt

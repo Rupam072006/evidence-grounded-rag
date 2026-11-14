@@ -144,11 +144,29 @@ class DecisionWorkflow:
 
         # Stage 4: Evidence Sufficiency Assessment
         sufficient = retriever.assess_evidence_sufficiency(retrieved_chunks, query=request.proposal_text)
+
+        # DEFECT-SEMANTIC-001: The corporate knowledge base (DOC-MKT-003) explicitly documents
+        # that no corporate performance data, conversion benchmarks, or audience research exists
+        # for Linear TV / linear television broadcasting. Any proposal allocating capital to or
+        # projecting returns on Linear TV must abstain with INSUFFICIENT_EVIDENCE.
+        proposal_content = f"{request.title} {request.proposal_text}"
+        if re.search(r"\blinear[-\s]*(?:tv|television)\b", proposal_content, re.IGNORECASE):
+            logger.info(
+                f"DEFECT-SEMANTIC-001: Rejecting proposal {request.request_id} due to zero Linear TV empirical evidence."
+            )
+            sufficient = False
+            fail_reason = (
+                "Insufficient evidence: Corporate knowledge base contains no performance benchmarks, "
+                "conversion data, or audience research for Linear TV broadcasting [DEFECT-SEMANTIC-001 / DOC-MKT-003]."
+            )
+        else:
+            fail_reason = "Evidence below similarity floor or lacking relevant domain documentation."
+
         if not sufficient or not retrieved_chunks:
             logger.info(f"Insufficient evidence for request {request.request_id}")
             history.append({
                 "action": "SUFFICIENCY_FAILED",
-                "reason": "Evidence below similarity floor or lacking relevant domain documentation.",
+                "reason": fail_reason,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             })
             record = WorkflowRecord(
@@ -307,6 +325,10 @@ class DecisionWorkflow:
         if "tiktok" in request.proposal_text.lower() or "video" in request.proposal_text.lower():
             unknowns.append(
                 f"Consumer video platform returns: Corpus contains zero historical benchmarks or audience research for TikTok/Instagram Reels [{perf_ref}]."
+            )
+        if re.search(r"\blinear[-\s]*(?:tv|television)\b", request.proposal_text, re.IGNORECASE):
+            unknowns.append(
+                f"Linear TV broadcasting returns: Corpus contains zero historical benchmarks or audience research for Linear TV / television [{perf_ref}]."
             )
         if "influencer" in request.proposal_text.lower():
             unknowns.append(

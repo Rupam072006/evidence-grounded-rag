@@ -35,3 +35,13 @@ def test_irrelevant_technical_question(indexed_pipeline):
 
     assert response.status == ResponseStatus.INSUFFICIENT_EVIDENCE
     assert "INSUFFICIENT EVIDENCE" in response.answer
+
+
+def test_linear_tv_query_abstains_canonical_refusal(indexed_pipeline):
+    """DEFECT-SEMANTIC-001 regression test: Linear TV queries must return INSUFFICIENT_EVIDENCE."""
+    query = "What is the benchmark CTR or CAC for Linear TV campaigns?"
+    response = indexed_pipeline.query(query)
+
+    assert response.status == ResponseStatus.INSUFFICIENT_EVIDENCE
+    assert "INSUFFICIENT EVIDENCE" in response.answer
+    assert len(response.citations) == 0
