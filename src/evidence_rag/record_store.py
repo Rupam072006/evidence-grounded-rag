@@ -99,12 +99,12 @@ class RecordStore:
             logger.error(f"Cannot record approval decision: Request ID {request_id} not found.")
             return None
 
-        # Task 3 DEFECT-003: Prevent duplicate finalization
+        # Task 3 DEFECT-003 & AC-6: Prevent duplicate finalization
         FINAL_STATUSES = (WorkflowStatus.APPROVED, WorkflowStatus.REJECTED)
         if record.status in FINAL_STATUSES:
             raise ValueError(
-                f"Request {request_id} is already finalized with status "
-                f"'{record.status.value}'. Duplicate decisions are not permitted."
+                f"Request already finalized: Request '{request_id}' has already been decided with status "
+                f"'{record.status.value}'. Duplicate decisions are prohibited."
             )
 
         # Verify that record was in an approvable state

@@ -1,0 +1,211 @@
+{
+  "request_id": "REQ-MKT-2026-LI-01",
+  "status": "AWAITING_APPROVAL",
+  "request": {
+    "request_id": "REQ-MKT-2026-LI-01",
+    "title": "Q4 Enterprise LinkedIn Lead Gen Campaign",
+    "proposal_text": "Objective: Increase enterprise SQLs by 25%. Channel: LinkedIn Ads. Budget: $30,000 USD.",
+    "department": "Marketing",
+    "requested_budget": 30000.0,
+    "submitted_by": "Rhugved",
+    "created_at": "2026-11-14T10:39:28.253783+00:00",
+    "metadata": {}
+  },
+  "evidence_set": [
+    {
+      "chunk": {
+        "chunk_id": "DOC-021-C005",
+        "document_id": "DOC-021",
+        "chunk_index": 4,
+        "text": "requested total budget for this campaign is **$35,000.00**.\n\nBudget breakdown by operational component:\n- **Paid Search & Intent Advertising (Google Ads):** $18,000.00 allocated to high-intent transactional search keywords.\n- **Content Syndication & Developer Media:** $10,000.00 allocated to sponsored technical whitepapers and engineering case studies.\n- **Conversion Optimization & Creative Production:** $7,000.00 allocated to interactive product demo landing pages and copywriting.\n- **Total Requested Budget:** $35,000.00.",
+        "char_start": 1333,
+        "char_end": 1861,
+        "token_count": 65,
+        "category": "business_proposal",
+        "metadata": {
+          "title": "Enterprise Growth Marketing Campaign Proposal",
+          "topic": "Marketing Campaign Proposal",
+          "source": "data/documents/doc_021_campaign_proposal.md",
+          "version": "1.0.0",
+          "source_type": "business_proposal",
+          "category": "business_proposal"
+        }
+      },
+      "score": 0.3073,
+      "rank": 1,
+      "raw_similarity": 0.2873
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-021-C006",
+        "document_id": "DOC-021",
+        "chunk_index": 5,
+        "text": "s and copywriting.\n- **Total Requested Budget:** $35,000.00.\n\nThe requested expenditure of $35,000.00 complies with the corporate marketing budget ceiling of $50,000.00 established in DOC-022.",
+        "char_start": 1801,
+        "char_end": 1993,
+        "token_count": 25,
+        "category": "business_proposal",
+        "metadata": {
+          "title": "Enterprise Growth Marketing Campaign Proposal",
+          "topic": "Marketing Campaign Proposal",
+          "source": "data/documents/doc_021_campaign_proposal.md",
+          "version": "1.0.0",
+          "source_type": "business_proposal",
+          "category": "business_proposal"
+        }
+      },
+      "score": 0.3032,
+      "rank": 2,
+      "raw_similarity": 0.2898
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-022-C004",
+        "document_id": "DOC-022",
+        "chunk_index": 3,
+        "text": "nding caps and reserve thresholds outlined in this document. ## 2. Campaign Budget Ceilings\nThe following budgetary boundaries are strictly enforced:\n- **Maximum Campaign Budget:** The maximum allowable budget allocation for any individual marketing campaign or initiative is **$50,000.00**.",
+        "char_start": 997,
+        "char_end": 1288,
+        "token_count": 39,
+        "category": "budget_policy",
+        "metadata": {
+          "title": "Corporate Marketing Budget Constraints and Spending Policy",
+          "topic": "Budget Constraints and Spending Policy",
+          "source": "data/documents/doc_022_budget_policy.md",
+          "version": "1.0.0",
+          "source_type": "corporate_policy",
+          "category": "budget_policy"
+        }
+      },
+      "score": 0.3001,
+      "rank": 3,
+      "raw_similarity": 0.2367
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-024-C005",
+        "document_id": "DOC-024",
+        "chunk_index": 4,
+        "text": "is capped at a maximum of **$25,000.00** per fiscal quarter.\n\nCampaign managers may allocate up to $25,000.00 to individual creator contracts or syndicated brand partnerships provided each creator signs the standard brand safety rider and complies with Federal Trade Commission (FTC) disclosure rules.",
+        "char_start": 1134,
+        "char_end": 1435,
+        "token_count": 43,
+        "category": "business_approval_policy",
+        "metadata": {
+          "title": "Influencer Marketing Spending and Partnership Policy (Standard)",
+          "topic": "Influencer Marketing Spending Limits",
+          "source": "data/documents/doc_024_influencer_policy_standard.md",
+          "version": "1.0.0",
+          "source_type": "corporate_policy",
+          "category": "business_approval_policy"
+        }
+      },
+      "score": 0.2647,
+      "rank": 4,
+      "raw_similarity": 0.2514
+    }
+  ],
+  "citations": [
+    {
+      "document_id": "DOC-021",
+      "chunk_id": "DOC-021-C005",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": null
+    },
+    {
+      "document_id": "DOC-021",
+      "chunk_id": "DOC-021-C006",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": null
+    },
+    {
+      "document_id": "DOC-022",
+      "chunk_id": "DOC-022-C004",
+      "quote": null,
+      "is_valid": true,
+      "validation_reason": null
+    }
+  ],
+  "conflict": null,
+  "recommendation": {
+    "summary": "Evaluated proposal 'Q4 Enterprise LinkedIn Lead Gen Campaign' against authoritative Q4 marketing strategy, financial policies, and compliance standards. Found 3 verified factual constraints.",
+    "verified_facts": [
+      {
+        "statement": "requested total budget for this campaign is **$35,000.00**.",
+        "citation": {
+          "document_id": "DOC-021",
+          "chunk_id": "DOC-021-C005",
+          "quote": null,
+          "is_valid": true,
+          "validation_reason": null
+        },
+        "source_document_id": "DOC-021",
+        "source_chunk_id": "DOC-021-C005"
+      },
+      {
+        "statement": "- **Total Requested Budget:** $35,000.00.",
+        "citation": {
+          "document_id": "DOC-021",
+          "chunk_id": "DOC-021-C006",
+          "quote": null,
+          "is_valid": true,
+          "validation_reason": null
+        },
+        "source_document_id": "DOC-021",
+        "source_chunk_id": "DOC-021-C006"
+      },
+      {
+        "statement": "nding caps and reserve thresholds outlined in this document.",
+        "citation": {
+          "document_id": "DOC-022",
+          "chunk_id": "DOC-022-C004",
+          "quote": null,
+          "is_valid": true,
+          "validation_reason": null
+        },
+        "source_document_id": "DOC-022",
+        "source_chunk_id": "DOC-022-C004"
+      }
+    ],
+    "inferences": [
+      "Requested budget of $30,000.00 is within the policy maximum cap of $50,000.00 [DOC-022]."
+    ],
+    "assumptions": [
+      "Assumes audience response rates and CAC mirror historical performance benchmarks (CTR ~2.4%, CAC ~$32.00) [DOC-MKT-003].",
+      "Assumes third-party advertising platform auction rates remain stable over the planned execution window."
+    ],
+    "unknowns": [
+      "Vendor rate fluctuations: Specific real-time CPM pricing from ad exchanges is subject to auction dynamics."
+    ],
+    "risk_assessment": "Low Risk: Proposal aligns with documented growth targets and financial ceilings.",
+    "recommended_action": "APPROVE"
+  },
+  "approval": null,
+  "history": [
+    {
+      "action": "REQUEST_SUBMITTED",
+      "by": "Rhugved",
+      "timestamp": "2026-11-14T10:39:28.258830+00:00"
+    },
+    {
+      "action": "EVIDENCE_RETRIEVED",
+      "chunk_count": 4,
+      "timestamp": "2026-11-14T10:39:28.293757+00:00"
+    },
+    {
+      "action": "RECOMMENDATION_SYNTHESIZED",
+      "action_proposed": "APPROVE",
+      "citations_count": 3,
+      "timestamp": "2026-11-14T10:39:28.294769+00:00"
+    },
+    {
+      "action": "AWAITING_HUMAN_APPROVAL",
+      "message": "Recommendation ready for human review. System cannot execute without sign-off.",
+      "timestamp": "2026-11-14T10:39:28.294769+00:00"
+    }
+  ],
+  "created_at": "2026-11-14T10:39:28.258830+00:00",
+  "updated_at": "2026-11-14T10:39:28.295769+00:00"
+}

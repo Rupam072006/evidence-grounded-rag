@@ -555,14 +555,25 @@ def workflow_ask(question, config, mode, json_out):
 @workflow.command("approve")
 @click.argument("request_id")
 @click.option("--decision", "-d", type=click.Choice(["APPROVED", "REJECTED"], case_sensitive=False), default="APPROVED", help="Human approval decision (default: APPROVED).")
-@click.option("--reviewer", "-r", default="Prof_Evaluator", help="Name of the human reviewer (default: Prof_Evaluator).")
-@click.option("--notes", "-n", default="Budget compliant with DOC-022; approved.", help="Auditable justification notes.")
+@click.option("--reviewer", "-r", default=None, help="Name of the human reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner').")
+@click.option("--notes", "-n", default=None, help="Auditable justification notes.")
 @click.option("--config", "-c", default="configs/default.yaml", help="Path to workflow config YAML.")
 @click.option("--json-out", is_flag=True, help="Output full updated record as JSON.")
 def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
     """Submit a binding human approval or rejection decision for a pending workflow proposal."""
     from evidence_rag.workflow import DecisionWorkflow
     from evidence_rag.workflow_schemas import WorkflowStatus
+
+    # AC-5: Validate reviewer identity and notes
+    if not reviewer or not reviewer.strip():
+        console.print("[bold red]Error:[/bold red] ValueError: Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
+        sys.exit(1)
+    if reviewer.strip() in ("Prof_Evaluator", "anonymous_reviewer"):
+        console.print(f"[bold red]Error:[/bold red] ValueError: Default reviewer placeholder '{reviewer.strip()}' is rejected. Explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.")
+        sys.exit(1)
+    if not notes or not notes.strip():
+        console.print("[bold red]Error:[/bold red] ValueError: Decision justification notes are mandatory and cannot be empty.")
+        sys.exit(1)
 
     id_aliases = {
         "REQ-PRESET-GROWTH": "REQ-GROWTH-01",
@@ -582,7 +593,7 @@ def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
             notes=notes
         )
     except (KeyError, ValueError) as e:
-        console.print(f"[bold red]Error:[/bold red] {e}")
+        console.print(f"[bold red]Error:[/bold red] ValueError: {e}")
         sys.exit(1)
 
     if json_out:
@@ -603,14 +614,25 @@ def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
 
 @workflow.command("reject")
 @click.argument("request_id")
-@click.option("--reviewer", "-r", default="Prof_Evaluator", help="Name of the human reviewer (default: Prof_Evaluator).")
-@click.option("--reason", "--notes", "-n", default="Budget or policy violation; rejected.", help="Auditable justification notes.")
+@click.option("--reviewer", "-r", default=None, help="Name of the human reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner').")
+@click.option("--reason", "--notes", "-n", default=None, help="Auditable justification notes.")
 @click.option("--config", "-c", default="configs/default.yaml", help="Path to workflow config YAML.")
 @click.option("--json-out", is_flag=True, help="Output full updated record as JSON.")
 def workflow_reject(request_id, reviewer, reason, config, json_out):
     """Submit a binding human rejection decision for a pending workflow proposal."""
     from evidence_rag.workflow import DecisionWorkflow
     from evidence_rag.workflow_schemas import WorkflowStatus
+
+    # AC-5: Validate reviewer identity and notes
+    if not reviewer or not reviewer.strip():
+        console.print("[bold red]Error:[/bold red] ValueError: Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
+        sys.exit(1)
+    if reviewer.strip() in ("Prof_Evaluator", "anonymous_reviewer"):
+        console.print(f"[bold red]Error:[/bold red] ValueError: Default reviewer placeholder '{reviewer.strip()}' is rejected. Explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.")
+        sys.exit(1)
+    if not reason or not reason.strip():
+        console.print("[bold red]Error:[/bold red] ValueError: Decision justification notes are mandatory and cannot be empty.")
+        sys.exit(1)
 
     # Map friendly alias IDs if typed
     id_aliases = {
@@ -631,7 +653,7 @@ def workflow_reject(request_id, reviewer, reason, config, json_out):
             notes=reason
         )
     except (KeyError, ValueError) as e:
-        console.print(f"[bold red]Error:[/bold red] {e}")
+        console.print(f"[bold red]Error:[/bold red] ValueError: {e}")
         sys.exit(1)
 
     if json_out:

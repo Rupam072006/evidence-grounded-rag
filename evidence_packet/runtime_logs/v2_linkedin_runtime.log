@@ -1,0 +1,150 @@
+================================================================================
+BHIV CMO AGENT V2 — RUNTIME EXECUTION & GOVERNANCE LOG
+Target Request: REQ-MKT-2026-LI-01 (Q4 Enterprise LinkedIn Lead Gen Campaign)
+Author: Rhugved (Senior Python Backend Engineer, RAG Architect, Software Auditor)
+Date: 2026-11-14
+Environment: Python 3.11.9, Windows (win32), Virtualenv (.venv)
+================================================================================
+
+[SYSTEM INFO]
+Timestamp: 2026-11-14T10:39:28.000Z
+Python Version: 3.11.9
+Pytest Version: 9.2.0
+Working Directory: C:\Users\A\Desktop\Bhiv_Rhugved\CMO Agent\evidence-grounded-rag
+Active Indexes: TF-IDF Hybrid Index (348 chunks, 26 verified documents)
+
+================================================================================
+PHASE 1: AC-4 — GOVERNANCE HARD STOP VERIFICATION
+================================================================================
+Command Executed:
+$ python -m evidence_rag.cli workflow evaluate \
+    --request-id "REQ-MKT-2026-LI-01" \
+    --title "Q4 Enterprise LinkedIn Lead Gen Campaign" \
+    --proposal "Objective: Increase enterprise SQLs by 25%. Channel: LinkedIn Ads. Budget: $30,000 USD." \
+    --budget 30000 \
+    --submitted-by "Rhugved" \
+    --json-out
+
+Runtime Output:
+[2026-11-14 16:09:28] [INFO] [evidence_rag.embeddings] Loaded embedding model from C:\Users\A\Desktop\Bhiv_Rhugved\CMO Agent\evidence-grounded-rag\data\index\embedding_model.pkl
+[2026-11-14 16:09:28] [INFO] [evidence_rag.indexing] Loaded index containing 348 chunks from C:\Users\A\Desktop\Bhiv_Rhugved\CMO Agent\evidence-grounded-rag\data\index
+[2026-11-14 16:09:28] [INFO] [evidence_rag.ingestion] Successfully ingested and verified 26 documents from manifest.
+[2026-11-14 16:09:28] [INFO] [evidence_rag.record_store] Persisted workflow record REQ-MKT-2026-LI-01 with status AWAITING_APPROVAL
+
+Payload Summary:
+{
+  "request_id": "REQ-MKT-2026-LI-01",
+  "status": "AWAITING_APPROVAL",
+  "approval": null,
+  "history": [
+    {"action": "REQUEST_SUBMITTED", "by": "Rhugved", "timestamp": "2026-11-14T10:39:28.258830+00:00"},
+    {"action": "EVIDENCE_RETRIEVED", "chunk_count": 4, "timestamp": "2026-11-14T10:39:28.293757+00:00"},
+    {"action": "RECOMMENDATION_SYNTHESIZED", "action_proposed": "APPROVE", "citations_count": 3, "timestamp": "2026-11-14T10:39:28.294769+00:00"},
+    {"action": "AWAITING_HUMAN_APPROVAL", "message": "Recommendation ready for human review. System cannot execute without sign-off.", "timestamp": "2026-11-14T10:39:28.294769+00:00"}
+  ]
+}
+
+Governance Audit:
+- External API calls: 0
+- Ad platform activations: 0
+- Purchase orders generated: 0
+- Financial ledger mutations: 0
+- Result: PASS (Halted strictly at AWAITING_APPROVAL)
+
+================================================================================
+PHASE 2: AC-5 — REVIEWER IDENTITY & AUTHORIZATION GATE VERIFICATION
+================================================================================
+
+--- Step 2A: Blank Reviewer Attempt ---
+Command Executed:
+$ python -m evidence_rag.cli workflow reject REQ-MKT-2026-LI-01 --reviewer " " --reason "Test rejection"
+
+Runtime Output:
+Error: ValueError: Reviewer identity cannot be blank. An explicit authorized reviewer is required.
+Exit Code: 1
+Audit: Blank reviewer rejected. Zero mutation.
+
+--- Step 2B: Default Placeholder Reviewer (Prof_Evaluator) Attempt ---
+Command Executed:
+$ python -m evidence_rag.cli workflow reject REQ-MKT-2026-LI-01 --reviewer "Prof_Evaluator" --reason "Test rejection"
+
+Runtime Output:
+Error: ValueError: Default reviewer placeholder 'Prof_Evaluator' is rejected. Explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.
+Exit Code: 1
+Audit: Default 'Prof_Evaluator' rejected. Zero mutation.
+
+--- Step 2C: Empty Decision Notes Attempt ---
+Command Executed:
+$ python -m evidence_rag.cli workflow reject REQ-MKT-2026-LI-01 --reviewer "Pratik Bhuwad - CMO Product Owner" --reason " "
+
+Runtime Output:
+Error: ValueError: Decision justification notes are mandatory and cannot be empty.
+Exit Code: 1
+Audit: Missing justification rejected. Zero mutation.
+
+--- Step 2D: Authorized Reviewer Sign-Off ---
+Reviewer: Pratik Bhuwad - CMO Product Owner
+Justification: Rejected: Proposed budget of $30,000 USD exceeds the $15,000 USD LinkedIn Ads channel cap specified in DOC-MKT-002.
+Command Executed:
+$ python -m evidence_rag.cli workflow reject REQ-MKT-2026-LI-01 \
+    --reviewer "Pratik Bhuwad - CMO Product Owner" \
+    --reason "Rejected: Proposed budget of $30,000 USD exceeds the $15,000 USD LinkedIn Ads channel cap specified in DOC-MKT-002." \
+    --json-out
+
+Runtime Output:
+[2026-11-14 16:10:07] [INFO] [evidence_rag.record_store] Persisted workflow record REQ-MKT-2026-LI-01 with status REJECTED
+[2026-11-14 16:10:07] [INFO] [evidence_rag.workflow] Approval gate executed for REQ-MKT-2026-LI-01: REJECTED by Pratik Bhuwad - CMO Product Owner
+Exit Code: 0
+State: REJECTED
+Audit Trail Updated:
+{"action": "HUMAN_REJECTED", "reviewer": "Pratik Bhuwad - CMO Product Owner", "decision_notes": "Rejected: Proposed budget of $30,000 USD exceeds the $15,000 USD LinkedIn Ads channel cap specified in DOC-MKT-002.", "timestamp": "2026-11-14T10:40:07.142975+00:00"}
+Result: PASS (Legitimate human sign-off recorded)
+
+================================================================================
+PHASE 3: AC-6 — DUPLICATE DECISION HARD STOP VERIFICATION
+================================================================================
+
+--- Step 3A: Attempt Re-decision via APPROVE ---
+Command Executed:
+$ python -m evidence_rag.cli workflow approve REQ-MKT-2026-LI-01 \
+    --reviewer "Pratik Bhuwad - CMO Product Owner" \
+    --notes "Attempting illegal second decision"
+
+Runtime Output:
+Error: ValueError: Request already finalized: Request 'REQ-MKT-2026-LI-01' has already been decided with status 'REJECTED'. Duplicate decisions are prohibited.
+Exit Code: 1
+
+--- Step 3B: Attempt Re-decision via REJECT ---
+Command Executed:
+$ python -m evidence_rag.cli workflow reject REQ-MKT-2026-LI-01 \
+    --reviewer "Pratik Bhuwad - CMO Product Owner" \
+    --reason "Attempting duplicate reject"
+
+Runtime Output:
+Error: ValueError: Request already finalized: Request 'REQ-MKT-2026-LI-01' has already been decided with status 'REJECTED'. Duplicate decisions are prohibited.
+Exit Code: 1
+
+Audit: Duplicate decisions strictly blocked with exact ValueError message.
+Result: PASS
+
+================================================================================
+PHASE 4: REGRESSION & ACCEPTANCE TEST EXECUTION
+================================================================================
+Command Executed:
+$ pytest tests/functional/test_v2_linkedin_acceptance.py -v
+
+Results:
+tests/functional/test_v2_linkedin_acceptance.py::test_ac4_governance_hard_stop PASSED [ 25%]
+tests/functional/test_v2_linkedin_acceptance.py::test_ac5_reviewer_identity_validation PASSED [ 50%]
+tests/functional/test_v2_linkedin_acceptance.py::test_ac6_duplicate_decision_prevention PASSED [ 75%]
+tests/functional/test_v2_linkedin_acceptance.py::test_cli_v2_acceptance_flow PASSED [100%]
+
+Full Test Suite Run:
+$ pytest tests
+Collected: 136 items
+Passed: 136 items (100%)
+Failed: 0
+Skipped: 0
+Duration: 2.98s
+Result: PASS (Zero regressions across all 136 test cases)
+================================================================================

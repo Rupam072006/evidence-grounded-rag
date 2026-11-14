@@ -367,11 +367,26 @@ class DecisionWorkflow:
         if dec_upper not in ("APPROVED", "REJECTED"):
             raise ValueError(f"Decision must be 'APPROVED' or 'REJECTED', got: {decision}")
 
+        # AC-5 Reviewer Identity Validation:
+        if not reviewer or not reviewer.strip():
+            raise ValueError("Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
+
+        clean_reviewer = reviewer.strip()
+        if clean_reviewer in ("Prof_Evaluator", "anonymous_reviewer", "default"):
+            raise ValueError(
+                f"Default reviewer placeholder '{clean_reviewer}' is rejected. "
+                "An explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required."
+            )
+
+        # AC-5 Decision justification notes validation:
+        if not notes or not notes.strip():
+            raise ValueError("Decision justification notes are mandatory and cannot be empty.")
+
         approval = ApprovalDecision(
             request_id=request_id,
             decision=dec_upper,
-            reviewer=reviewer.strip() or "anonymous_reviewer",
-            decision_notes=notes.strip() or "No decision notes provided."
+            reviewer=clean_reviewer,
+            decision_notes=notes.strip()
         )
 
         updated_record = self.record_store.record_decision(request_id, approval)
@@ -379,7 +394,7 @@ class DecisionWorkflow:
             raise KeyError(f"Workflow record for request_id '{request_id}' not found.")
 
         logger.info(
-            f"Approval gate executed for {request_id}: {dec_upper} by {reviewer}"
+            f"Approval gate executed for {request_id}: {dec_upper} by {clean_reviewer}"
         )
         return updated_record
 
