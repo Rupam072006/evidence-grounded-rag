@@ -1,0 +1,10 @@
+{
+  "scenario": "AC-6 Negative Test: Duplicate Decision Rejection",
+  "request_id": "REQ-MKT-2026-LI-01",
+  "attempted_reviewer": "Pratik Bhuwad - CMO Product Owner",
+  "attempted_decision": "APPROVED",
+  "timestamp": "2026-11-16T10:54:14.628296+00:00",
+  "error_type": "ValueError",
+  "error_message": "Request already finalized: Request 'REQ-MKT-2026-LI-01' has already been decided with status 'APPROVED'. Duplicate decisions are prohibited.",
+  "governance_status": "BLOCKED"
+}

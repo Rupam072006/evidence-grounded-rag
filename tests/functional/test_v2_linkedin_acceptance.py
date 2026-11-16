@@ -5,6 +5,13 @@ import pytest
 from evidence_rag.workflow import DecisionWorkflow
 from evidence_rag.workflow_schemas import WorkflowRequest, WorkflowStatus
 from evidence_rag.cli import main
+from click.testing import CliRunner
+
+
+@pytest.fixture
+def cli_runner():
+    """Provide a Click test runner."""
+    return CliRunner()
 
 
 @pytest.fixture

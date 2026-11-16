@@ -1,0 +1,33 @@
+[2026-11-16 16:24:14,550] [INFO] [commercial_scenario_runner] ================================================================================
+[2026-11-16 16:24:14,550] [INFO] [commercial_scenario_runner] COMMERCIAL TEST SCENARIO EXECUTION: $30,000 LinkedIn Campaign (Section 6.1)
+[2026-11-16 16:24:14,550] [INFO] [commercial_scenario_runner] Target Request ID: REQ-MKT-2026-LI-01 | PO: Pratik Bhuwad
+[2026-11-16 16:24:14,550] [INFO] [commercial_scenario_runner] ================================================================================
+[2026-11-16 16:24:14,553] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-1: Executing intake for REQ-MKT-2026-LI-01...
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] [AC-1 PASSED] Request ID: REQ-MKT-2026-LI-01 | Trace ID: TRC-20261116-1833C82E
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-2: Validating evidence grounding and citations...
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] Cited Documents: ['DOC-MKT-001', 'DOC-MKT-002', 'DOC-MKT-003']
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner]   Verified Fact [DOC-MKT-001 / DOC-MKT-001-C004]: ed data grounding, and high-reliability operational tooling.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner]   Verified Fact [DOC-MKT-002 / DOC-MKT-002-C005]: sequently, active planned media spend cannot exceed $42,500.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner]   Verified Fact [DOC-MKT-003 / DOC-MKT-003-C006]: Search, LinkedIn Ads, and technical whitepaper syndication.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] [AC-2 PASSED] Output extracts and verifies facts citing DOC-MKT-001, DOC-MKT-002, and DOC-MKT-003.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-3: Validating channel cap variance detection ($15,000 limit)...
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] Recommended Action: APPROVE_WITH_CONDITIONS
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] Risk Assessment: Policy Variance / Channel Over-Allocation: Requested budget of $30,000.00 for Paid Social (LinkedIn Ads) exceeds the $15,000.00 channel cap specified in DOC-MKT-002 (Section 2) by $15,000.00. Recommended approval requires conditions: reallocating the $15,000.00 excess to complementary channels (such as Paid Search or Content Syndication) or obtaining an authorized Product Owner / executive exception.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] Inference: Requested budget of $30,000.00 is within the policy maximum cap of $50,000.00 [DOC-MKT-002].
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] Inference: Channel Cap Variance: Requested budget of $30,000.00 for Paid Social (LinkedIn Ads) exceeds the $15,000.00 channel cap specified in DOC-MKT-002 (Section 2) by $15,000.00.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] [AC-3 PASSED] System correctly flags $30,000 exceeding $15,000 LinkedIn cap and recommends APPROVE_WITH_CONDITIONS.
+[2026-11-16 16:24:14,587] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-4: Validating governance halt at AWAITING_APPROVAL...
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] Record Status: AWAITING_APPROVAL
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] Approval Object: None
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] [AC-4 PASSED] Proposal halted at AWAITING_APPROVAL. Zero external API calls, zero activation, zero financial mutation.
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-5: Testing reviewer identity validation...
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] Negative test 1 passed (Prof_Evaluator rejected): Default reviewer placeholder 'Prof_Evaluator' is rejected. An explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.
+[2026-11-16 16:24:14,588] [INFO] [commercial_scenario_runner] Negative test 2 passed (blank reviewer rejected): Reviewer identity cannot be blank. An explicit authorized reviewer is required.
+[2026-11-16 16:24:14,606] [INFO] [commercial_scenario_runner] [AC-5 PASSED] Successfully approved by authenticated human: Pratik Bhuwad - CMO Product Owner
+[2026-11-16 16:24:14,606] [INFO] [commercial_scenario_runner] Decision Status: APPROVED | Decided At: 2026-11-16T10:54:14.588302+00:00
+[2026-11-16 16:24:14,606] [INFO] [commercial_scenario_runner] >>> CHECKPOINT AC-6: Validating duplicate decision prevention...
+[2026-11-16 16:24:14,615] [INFO] [commercial_scenario_runner] [AC-6 PASSED] Duplicate decision blocked with: Request already finalized: Request 'REQ-MKT-2026-LI-01' has already been decided with status 'APPROVED'. Duplicate decisions are prohibited.
+[2026-11-16 16:24:14,615] [INFO] [commercial_scenario_runner] >>> HARIOM CHECKPOINT: Verifying DEFECT-SEMANTIC-001 (Linear TV) remains blocked...
+[2026-11-16 16:24:14,628] [INFO] [commercial_scenario_runner] Linear TV proposal status: INSUFFICIENT_EVIDENCE
+[2026-11-16 16:24:14,628] [INFO] [commercial_scenario_runner] [HARIOM CHECKPOINT PASSED] DEFECT-SEMANTIC-001 remains blocked. Linear TV proposals abstain.
+[2026-11-16 16:24:14,628] [INFO] [commercial_scenario_runner] >>> Writing all JSON records and execution trace logs into evidence packets...

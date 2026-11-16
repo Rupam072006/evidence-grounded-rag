@@ -1,0 +1,10 @@
+{
+  "scenario": "AC-5 Negative Test: Blank Reviewer Rejection",
+  "request_id": "REQ-MKT-2026-LI-01",
+  "attempted_reviewer": "   ",
+  "attempted_decision": "APPROVED",
+  "timestamp": "2026-11-16T10:54:14.628296+00:00",
+  "error_type": "ValueError",
+  "error_message": "Reviewer identity cannot be blank. An explicit authorized reviewer is required.",
+  "governance_status": "BLOCKED"
+}

@@ -93,18 +93,25 @@ class DecisionWorkflow:
 
     def evaluate_proposal(self, request: WorkflowRequest) -> WorkflowRecord:
         """Execute end-to-end evaluation pipeline stopping at human approval gate."""
+        import uuid
         now_iso = datetime.now(timezone.utc).isoformat()
+        trace_id = request.metadata.get("trace_id") if request.metadata else None
+        if not trace_id:
+            trace_id = f"TRC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:8].upper()}"
+
+        logger.info(f"Evaluation intake started: request_id={request.request_id}, trace_id={trace_id}")
         history: List[Dict[str, Any]] = [
-            {"action": "REQUEST_SUBMITTED", "by": request.submitted_by, "timestamp": now_iso}
+            {"action": "REQUEST_SUBMITTED", "by": request.submitted_by, "timestamp": now_iso, "trace_id": trace_id}
         ]
 
         # Stage 1: Validation
         is_valid, validation_err = self.validate_request(request)
         if not is_valid:
             logger.warning(f"Request {request.request_id} rejected during validation: {validation_err}")
-            history.append({"action": "VALIDATION_FAILED", "error": validation_err, "timestamp": now_iso})
+            history.append({"action": "VALIDATION_FAILED", "error": validation_err, "timestamp": now_iso, "trace_id": trace_id})
             record = WorkflowRecord(
                 request_id=request.request_id,
+                trace_id=trace_id,
                 status=WorkflowStatus.INVALID_REQUEST,
                 request=request,
                 history=history,
@@ -118,9 +125,10 @@ class DecisionWorkflow:
             index = self.pipeline.ensure_index(check_staleness=True)
         except Exception as e:
             logger.error(f"Failed to access knowledge index: {e}")
-            history.append({"action": "INDEX_ACCESS_FAILED", "error": str(e), "timestamp": now_iso})
+            history.append({"action": "INDEX_ACCESS_FAILED", "error": str(e), "timestamp": now_iso, "trace_id": trace_id})
             record = WorkflowRecord(
                 request_id=request.request_id,
+                trace_id=trace_id,
                 status=WorkflowStatus.INDEX_UNAVAILABLE,
                 request=request,
                 history=history,
@@ -139,7 +147,8 @@ class DecisionWorkflow:
         history.append({
             "action": "EVIDENCE_RETRIEVED",
             "chunk_count": len(retrieved_chunks),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "trace_id": trace_id
         })
 
         # Stage 4: Evidence Sufficiency Assessment
@@ -171,6 +180,7 @@ class DecisionWorkflow:
             })
             record = WorkflowRecord(
                 request_id=request.request_id,
+                trace_id=trace_id,
                 status=WorkflowStatus.INSUFFICIENT_EVIDENCE,
                 request=request,
                 evidence_set=retrieved_chunks,
@@ -188,10 +198,12 @@ class DecisionWorkflow:
                 "action": "CONFLICT_DETECTED",
                 "topic": conflict.topic,
                 "sources": conflict.conflicting_sources,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "trace_id": trace_id
             })
             record = WorkflowRecord(
                 request_id=request.request_id,
+                trace_id=trace_id,
                 status=WorkflowStatus.CONFLICT_DETECTED,
                 request=request,
                 evidence_set=retrieved_chunks,
@@ -208,7 +220,8 @@ class DecisionWorkflow:
             "action": "RECOMMENDATION_SYNTHESIZED",
             "action_proposed": recommendation.recommended_action,
             "citations_count": len(citations),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "trace_id": trace_id
         })
 
         # Stage 7: Human Approval Boundary Gate
@@ -216,11 +229,13 @@ class DecisionWorkflow:
         history.append({
             "action": "AWAITING_HUMAN_APPROVAL",
             "message": "Recommendation ready for human review. System cannot execute without sign-off.",
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "trace_id": trace_id
         })
 
         record = WorkflowRecord(
             request_id=request.request_id,
+            trace_id=trace_id,
             status=WorkflowStatus.AWAITING_APPROVAL,
             request=request,
             evidence_set=retrieved_chunks,
@@ -245,7 +260,24 @@ class DecisionWorkflow:
         unknowns: List[str] = []
 
         # 1. Extract verified facts from top retrieved chunks with citations
-        for rc in evidence[:3]:
+        # Prioritize distinct document coverage so multi-document evidence is represented
+        seen_docs = set()
+        selected_chunks: List[RetrievedChunk] = []
+        for rc in evidence:
+            doc_id = rc.chunk.document_id
+            if doc_id not in seen_docs:
+                seen_docs.add(doc_id)
+                selected_chunks.append(rc)
+            if len(selected_chunks) >= 4:
+                break
+        if len(selected_chunks) < 3:
+            for rc in evidence:
+                if rc not in selected_chunks:
+                    selected_chunks.append(rc)
+                if len(selected_chunks) >= 3:
+                    break
+
+        for rc in selected_chunks:
             doc_id = rc.chunk.document_id
             chunk_id = rc.chunk.chunk_id
             cit = Citation(document_id=doc_id, chunk_id=chunk_id, is_valid=True)
@@ -285,17 +317,43 @@ class DecisionWorkflow:
                 inferences.append(
                     f"Requested budget of ${req_budget:,.2f} is within the policy maximum cap of ${budget_limit:,.2f} [{budget_ref}]."
                 )
-                # Check 15% reserve buffer rule
-                max_active_spend = budget_limit * 0.85
-                if req_budget > max_active_spend:
-                    inferences.append(
-                        f"Spend of ${req_budget:,.2f} encroaches into the 15% contingency reserve (${budget_limit * 0.15:,.2f})."
-                    )
+                proposal_full = f"{request.title} {request.proposal_text}".lower()
+
+                # Channel Budget Cap Evaluation (DOC-MKT-002 Section 2)
+                channel_cap_exceeded = False
+                channel_cap_desc = ""
+
+                if "linkedin" in proposal_full or "paid social" in proposal_full:
+                    linkedin_cap = 15000.0
+                    if req_budget > linkedin_cap:
+                        channel_cap_exceeded = True
+                        channel_cap_desc = (
+                            f"Requested budget of ${req_budget:,.2f} for Paid Social (LinkedIn Ads) "
+                            f"exceeds the $15,000.00 channel cap specified in DOC-MKT-002 (Section 2) "
+                            f"by ${(req_budget - linkedin_cap):,.2f}."
+                        )
+
+                if channel_cap_exceeded:
+                    inferences.append(f"Channel Cap Variance: {channel_cap_desc}")
                     recommended_action = "APPROVE_WITH_CONDITIONS"
-                    risk_assessment = "Moderate Financial Risk: Allocation exceeds recommended active media spend buffer."
+                    risk_assessment = (
+                        f"Policy Variance / Channel Over-Allocation: {channel_cap_desc} "
+                        f"Recommended approval requires conditions: reallocating the ${(req_budget - 15000.0):,.2f} excess "
+                        f"to complementary channels (such as Paid Search or Content Syndication) or obtaining an authorized "
+                        f"Product Owner / executive exception."
+                    )
                 else:
-                    recommended_action = "APPROVE"
-                    risk_assessment = "Low Risk: Proposal aligns with documented growth targets and financial ceilings."
+                    # Check 15% reserve buffer rule
+                    max_active_spend = budget_limit * 0.85
+                    if req_budget > max_active_spend:
+                        inferences.append(
+                            f"Spend of ${req_budget:,.2f} encroaches into the 15% contingency reserve (${budget_limit * 0.15:,.2f})."
+                        )
+                        recommended_action = "APPROVE_WITH_CONDITIONS"
+                        risk_assessment = "Moderate Financial Risk: Allocation exceeds recommended active media spend buffer."
+                    else:
+                        recommended_action = "APPROVE"
+                        risk_assessment = "Low Risk: Proposal aligns with documented growth targets and financial ceilings."
         else:
             inferences.append(
                 f"No specific budget amount was provided in proposal; standard corporate ceiling of ${budget_limit:,.2f} applies [{budget_ref}]."
@@ -312,7 +370,8 @@ class DecisionWorkflow:
         )
 
         # 4. Identify unknowns and gaps
-        if "incomplete" in request.proposal_text.lower() or any(rc.chunk.document_id == "DOC-026" for rc in evidence):
+        proposal_full_text = f"{request.title} {request.proposal_text}".lower()
+        if "incomplete" in proposal_full_text or any(rc.chunk.document_id == "DOC-026" for rc in evidence):
             unknowns.append(
                 "Missing Target Audience Demographics: Proposal does not specify target buyer persona, company size, or geographic region [DOC-026]."
             )
@@ -322,6 +381,15 @@ class DecisionWorkflow:
             unknowns.append(
                 "Missing Channel Breakdown: Allocation across ad networks, creator fees, and tooling is unspecified [DOC-026]."
             )
+        if "linkedin" in proposal_full_text:
+            if "flight" not in proposal_full_text and "schedule" not in proposal_full_text and "dates" not in proposal_full_text:
+                unknowns.append(
+                    "Missing Flight Schedule: Campaign proposal does not specify flight duration, start/end dates, or execution milestones [DOC-MKT-001]."
+                )
+            if "creative" not in proposal_full_text and "copy" not in proposal_full_text and "asset" not in proposal_full_text:
+                unknowns.append(
+                    "Missing Ad Creative Breakdown: Specific creative assets, ad formats, and messaging variations are undefined [DOC-MKT-001]."
+                )
         if "tiktok" in request.proposal_text.lower() or "video" in request.proposal_text.lower():
             unknowns.append(
                 f"Consumer video platform returns: Corpus contains zero historical benchmarks or audience research for TikTok/Instagram Reels [{perf_ref}]."

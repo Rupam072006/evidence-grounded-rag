@@ -1,0 +1,130 @@
+{
+  "request_id": "TEST-TV-DEFECT-CHECK",
+  "status": "INSUFFICIENT_EVIDENCE",
+  "trace_id": "TRC-20261116-2FA8D435",
+  "request": {
+    "request_id": "TEST-TV-DEFECT-CHECK",
+    "title": "Linear TV Broadcast Lead Gen",
+    "proposal_text": "Deploy $30,000 for nationwide broadcast commercials on linear television.",
+    "department": "Marketing",
+    "requested_budget": 30000.0,
+    "submitted_by": "analyst",
+    "created_at": "2026-11-16T10:54:14.615251+00:00",
+    "metadata": {}
+  },
+  "evidence_set": [
+    {
+      "chunk": {
+        "chunk_id": "DOC-MKT-002-C003",
+        "document_id": "DOC-MKT-002",
+        "chunk_index": 2,
+        "text": "ign submissions. Synthetic demonstration policy for testing.\n\nThe absolute spending ceiling for any single Q4 campaign proposal is $50,000 USD. Any proposal requesting total funds exceeding $50,000 must be rejected immediately during validation.",
+        "char_start": 497,
+        "char_end": 742,
+        "token_count": 33,
+        "category": null,
+        "metadata": {
+          "title": "Marketing Budget Allocation and Spending Policy",
+          "topic": "Budget Policy",
+          "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+          "version": "1.0.0",
+          "source_type": "financial_policy"
+        }
+      },
+      "score": 0.2324,
+      "rank": 1,
+      "raw_similarity": 0.2224
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-MKT-002-C004",
+        "document_id": "DOC-MKT-002",
+        "chunk_index": 3,
+        "text": "ding $50,000 must be rejected immediately during validation.\n\nA mandatory 15% contingency reserve ($7,500 on a $50,000 budget) must remain unallocated to absorb ad auction price volatility. Consequently, active planned media spend cannot exceed $42,500.",
+        "char_start": 682,
+        "char_end": 935,
+        "token_count": 35,
+        "category": null,
+        "metadata": {
+          "title": "Marketing Budget Allocation and Spending Policy",
+          "topic": "Budget Policy",
+          "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+          "version": "1.0.0",
+          "source_type": "financial_policy"
+        }
+      },
+      "score": 0.2317,
+      "rank": 2,
+      "raw_similarity": 0.2217
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-MKT-003-C006",
+        "document_id": "DOC-MKT-003",
+        "chunk_index": 5,
+        "text": "Search, LinkedIn Ads, and technical whitepaper syndication.\n\nNo corporate performance data, conversion benchmarks, or audience research exists for consumer video platforms (e.g. TikTok, Instagram Reels), linear television broadcasting, or print magazines. Proposals projecting returns on unverified media must note this as an unknown factor.",
+        "char_start": 1229,
+        "char_end": 1570,
+        "token_count": 44,
+        "category": null,
+        "metadata": {
+          "title": "Historical Campaign Performance and ROI Benchmarks",
+          "topic": "Performance Benchmarks",
+          "source": "data/marketing_corpus/DOC-MKT-003_past_performance_benchmarks.md",
+          "version": "1.0.0",
+          "source_type": "analytics_benchmark"
+        }
+      },
+      "score": 0.2043,
+      "rank": 3,
+      "raw_similarity": 0.1743
+    },
+    {
+      "chunk": {
+        "chunk_id": "DOC-MKT-002-C002",
+        "document_id": "DOC-MKT-002",
+        "chunk_index": 1,
+        "text": "pdated_at:** 2026-09-16T11:00:00Z\n- **topic:** Budget Policy\n\n## 1. Budget Ceilings and Financial Limits\nThis document defines binding budgetary guardrails for all Q4 campaign submissions. Synthetic demonstration policy for testing.",
+        "char_start": 325,
+        "char_end": 557,
+        "token_count": 29,
+        "category": null,
+        "metadata": {
+          "title": "Marketing Budget Allocation and Spending Policy",
+          "topic": "Budget Policy",
+          "source": "data/marketing_corpus/DOC-MKT-002_budget_guidelines.md",
+          "version": "1.0.0",
+          "source_type": "financial_policy"
+        }
+      },
+      "score": 0.1299,
+      "rank": 4,
+      "raw_similarity": 0.1299
+    }
+  ],
+  "citations": [],
+  "conflict": null,
+  "recommendation": null,
+  "approval": null,
+  "history": [
+    {
+      "action": "REQUEST_SUBMITTED",
+      "by": "analyst",
+      "timestamp": "2026-11-16T10:54:14.615251+00:00",
+      "trace_id": "TRC-20261116-2FA8D435"
+    },
+    {
+      "action": "EVIDENCE_RETRIEVED",
+      "chunk_count": 4,
+      "timestamp": "2026-11-16T10:54:14.618441+00:00",
+      "trace_id": "TRC-20261116-2FA8D435"
+    },
+    {
+      "action": "SUFFICIENCY_FAILED",
+      "reason": "Insufficient evidence: Corporate knowledge base contains no performance benchmarks, conversion data, or audience research for Linear TV broadcasting [DEFECT-SEMANTIC-001 / DOC-MKT-003].",
+      "timestamp": "2026-11-16T10:54:14.618441+00:00"
+    }
+  ],
+  "created_at": "2026-11-16T10:54:14.615251+00:00",
+  "updated_at": "2026-11-16T10:54:14.619982+00:00"
+}

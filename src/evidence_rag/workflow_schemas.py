@@ -85,6 +85,7 @@ class WorkflowRecord(BaseModel):
     """Complete audit record for a decision-support transaction."""
     request_id: str
     status: WorkflowStatus
+    trace_id: Optional[str] = Field(default=None, description="Unique correlation and execution trace ID")
     request: WorkflowRequest
     evidence_set: List[RetrievedChunk] = Field(default_factory=list)
     citations: List[Citation] = Field(default_factory=list)
