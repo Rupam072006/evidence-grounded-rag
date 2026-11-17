@@ -1,0 +1,219 @@
+{
+  "timestamp": "2026-11-14T06:01:40.167543+00:00",
+  "total_evaluated": 10,
+  "results": [
+    {
+      "test_id": "MKT-Q01",
+      "test_name": "Marketing Budget Ceilings",
+      "type": "query",
+      "query": "What is the maximum allowable budget allocation for any individual marketing campaign or initiative?",
+      "expected_status": "ANSWERED",
+      "actual_status": "ANSWERED",
+      "status_match": true,
+      "expected_docs": [
+        "DOC-022"
+      ],
+      "retrieved_sources": [
+        "DOC-022",
+        "DOC-021"
+      ],
+      "retrieval_hit": true,
+      "confidence": 0.7803,
+      "citations_count": 3,
+      "citations_valid": true,
+      "answer_snippet": "Campaign Budget Ceilings\nThe following budgetary boundaries are strictly enforced:\n- **Maximum Campaign Budget:** The maximum allowable budget allocation for any individual marketing campaign or initiative is **$50,000.00**. [DOC-022:DOC-022-C004] dividual marketing campaign or initiative is **$50,0",
+      "latency_ms": 16.95
+    },
+    {
+      "test_id": "MKT-Q02",
+      "test_name": "Historical Performance Metrics CTR & CAC",
+      "type": "query",
+      "query": "What are the standard historical performance metrics for Click-Through Rate (CTR) and Customer Acquisition Cost (CAC) across digital campaigns?",
+      "expected_status": "ANSWERED",
+      "actual_status": "ANSWERED",
+      "status_match": true,
+      "expected_docs": [
+        "DOC-023"
+      ],
+      "retrieved_sources": [
+        "DOC-023",
+        "DOC-021"
+      ],
+      "retrieval_hit": true,
+      "confidence": 0.7118,
+      "citations_count": 3,
+      "citations_valid": true,
+      "answer_snippet": "Key Acquisition Benchmarks\nAcross historical multi-channel digital campaigns, the standard performance benchmarks are:\n- **Click-Through Rate (CTR):** The baseline cross-channel CTR is **2.4%** (with top-tier search ads achieving up to 3.1% and display advertising averaging 1.2%). [DOC-023:DOC-023-C",
+      "latency_ms": 9.32
+    },
+    {
+      "test_id": "MKT-Q03",
+      "test_name": "Channel Specific Baselines (Paid Search)",
+      "type": "query",
+      "query": "What are the specific performance baselines for Paid Search including CAC and conversion rate?",
+      "expected_status": "ANSWERED",
+      "actual_status": "ANSWERED",
+      "status_match": true,
+      "expected_docs": [
+        "DOC-023"
+      ],
+      "retrieved_sources": [
+        "DOC-023",
+        "DOC-021"
+      ],
+      "retrieval_hit": true,
+      "confidence": 0.7667,
+      "citations_count": 2,
+      "citations_valid": true,
+      "answer_snippet": "Channel-Specific Performance Baselines\n- **Paid Search (Intent-Driven):** CTR of 2.8%, CAC of $29.50, conversion rate of 4.2%. [DOC-023:DOC-023-C007] Expected Outcomes and Key Performance Indicators (KPIs)\nBased on historical acquisition benchmarks from DOC-023, the expected campaign performance del",
+      "latency_ms": 8.89
+    },
+    {
+      "test_id": "MKT-Q04",
+      "test_name": "Cross-Domain: SQL Relational Analysis of Marketing Data",
+      "type": "query",
+      "query": "How can relational database SQL queries and schema models be used to analyze marketing campaign conversion metrics?",
+      "expected_status": "ANSWERED",
+      "actual_status": "ANSWERED",
+      "status_match": true,
+      "expected_docs": [
+        "DOC-008",
+        "DOC-023"
+      ],
+      "retrieved_sources": [
+        "DOC-023",
+        "DOC-021",
+        "DOC-008"
+      ],
+      "retrieval_hit": true,
+      "confidence": 0.3995,
+      "citations_count": 1,
+      "citations_valid": true,
+      "answer_snippet": "Overview and Benchmarking Purpose\nThis document provides historical performance benchmarks, conversion rates, and acquisition cost metrics derived from past corporate marketing campaigns. [DOC-023:DOC-023-C003] 6-03-02T16:00:00Z\n- **topic:** Marketing Performance Metrics\n\n## 1. [DOC-023:DOC-023-C003",
+      "latency_ms": 9.81
+    },
+    {
+      "test_id": "MKT-Q05",
+      "test_name": "Policy Contradiction: Influencer Spending Ceilings",
+      "type": "query",
+      "query": "What conflict exists between the two influencer spending policies regarding spending limits?",
+      "expected_status": "CONFLICT_DETECTED",
+      "actual_status": "CONFLICT_DETECTED",
+      "status_match": true,
+      "expected_docs": [
+        "DOC-024",
+        "DOC-025"
+      ],
+      "retrieved_sources": [
+        "DOC-024",
+        "DOC-025"
+      ],
+      "retrieval_hit": true,
+      "confidence": 0.4254,
+      "citations_count": 2,
+      "citations_valid": true,
+      "answer_snippet": "CONFLICT DETECTED: Contradictory evidence exists in the knowledge base regarding 'Influencer marketing spending limit ($25,000 vs $10,000)'.\n\nContradictory specifications detected regarding Influencer marketing spending limit ($25,000 vs $10,000): DOC-024 (DOC-024-C003) contradicts DOC-025 (DOC-025-",
+      "latency_ms": 9.08
+    },
+    {
+      "test_id": "MKT-Q06",
+      "test_name": "Semantic Abstention on Unsupported Channel: Linear TV (Q-MKT-10)",
+      "type": "query",
+      "query": "What is the benchmark CTR or CAC for Linear TV campaigns?",
+      "expected_status": "INSUFFICIENT_EVIDENCE",
+      "actual_status": "INSUFFICIENT_EVIDENCE",
+      "status_match": true,
+      "expected_docs": [],
+      "retrieved_sources": [
+        "DOC-023"
+      ],
+      "retrieval_hit": false,
+      "confidence": 0.4836,
+      "citations_count": 0,
+      "citations_valid": true,
+      "answer_snippet": "INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
+      "latency_ms": 9.09
+    },
+    {
+      "test_id": "MKT-Q07",
+      "test_name": "Negative Control: Out-of-Domain Physical Drilling",
+      "type": "query",
+      "query": "What are the safety procedures and operational protocols for deep-sea offshore oil drilling?",
+      "expected_status": "INSUFFICIENT_EVIDENCE",
+      "actual_status": "INSUFFICIENT_EVIDENCE",
+      "status_match": true,
+      "expected_docs": [],
+      "retrieved_sources": [
+        "DOC-018",
+        "DOC-026",
+        "DOC-001"
+      ],
+      "retrieval_hit": false,
+      "confidence": 0.2653,
+      "citations_count": 0,
+      "citations_valid": true,
+      "answer_snippet": "INSUFFICIENT EVIDENCE: The available knowledge base does not contain enough information to answer this question reliably.",
+      "latency_ms": 9.08
+    },
+    {
+      "test_id": "MKT-WF01",
+      "test_name": "Budget Compliant Proposal ($35k Growth Campaign)",
+      "type": "workflow_proposal",
+      "request_id": "REQ-EVAL-01",
+      "title": "Q4 Enterprise Growth Initiative",
+      "requested_budget": 35000.0,
+      "expected_status": "AWAITING_APPROVAL",
+      "actual_status": "AWAITING_APPROVAL",
+      "status_match": true,
+      "expected_action": "APPROVE",
+      "actual_action": "APPROVE",
+      "action_match": true,
+      "evidence_chunk_count": 4,
+      "verified_facts_count": 3,
+      "inferences_count": 1,
+      "unknowns_count": 1,
+      "latency_ms": 11.1,
+      "approval_gate_paused": true
+    },
+    {
+      "test_id": "MKT-WF02",
+      "test_name": "Budget Overspend Proposal ($75k Budget Breach)",
+      "type": "workflow_proposal",
+      "request_id": "REQ-EVAL-02",
+      "title": "Excessive Budget Marketing Initiative",
+      "requested_budget": 75000.0,
+      "expected_status": "AWAITING_APPROVAL",
+      "actual_status": "AWAITING_APPROVAL",
+      "status_match": true,
+      "expected_action": "REJECT",
+      "actual_action": "REJECT",
+      "action_match": true,
+      "evidence_chunk_count": 4,
+      "verified_facts_count": 3,
+      "inferences_count": 1,
+      "unknowns_count": 3,
+      "latency_ms": 19.34,
+      "approval_gate_paused": true
+    },
+    {
+      "test_id": "MKT-WF03",
+      "test_name": "Unsupported Channel Proposal: Linear TV (DEFECT-SEMANTIC-001)",
+      "type": "workflow_proposal",
+      "request_id": "REQ-EVAL-03",
+      "title": "National Linear TV Broadcast Campaign",
+      "requested_budget": 30000.0,
+      "expected_status": "INSUFFICIENT_EVIDENCE",
+      "actual_status": "INSUFFICIENT_EVIDENCE",
+      "status_match": true,
+      "expected_action": null,
+      "actual_action": null,
+      "action_match": true,
+      "evidence_chunk_count": 4,
+      "verified_facts_count": 0,
+      "inferences_count": 0,
+      "unknowns_count": 0,
+      "latency_ms": 19.24,
+      "approval_gate_paused": true
+    }
+  ]
+}
