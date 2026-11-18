@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMO Agent V2 — First-Time-User Guided Prototype (Grafana Style | BIQOS / CXO Suite)</title>
+  <style>
+    /* =====================================================================
+       GRAFANA-STYLE DESIGN SYSTEM (Default Dark Canvas + Accessible Toggles)
+       Canvas: #111217 | Panels: #181b1f | Borders: #2c3235 | Accent: #ff9830 / #3274d9
+       ===================================================================== */
+    :root {
+      --bg-canvas: #111217;
+      --bg-panel: #181b1f;
+      --bg-panel-elev: #20232a;
+      --bg-input: #0e1014;
+      --border: #2c3235;
+      --border-strong: #3d444d;
+      --text-primary: #e6eaf2;
+      --text-secondary: #a4aebd;
+      --accent-orange: #ff9830;
+      --accent-blue: #3871dc;
+      --accent-blue-hover: #4c83e8;
+      --accent-blue-soft: rgba(56, 113, 220, 0.16);
+      --ok-bg: rgba(115, 191, 105, 0.12);
+      --ok-border: #56a64b;
+      --ok-text: #8be07e;
+      --warn-bg: rgba(255, 152, 48, 0.12);
+      --warn-border: #e08424;
+      --warn-text: #ffb357;
+      --danger-bg: rgba(242, 73, 92, 0.12);
+      --danger-border: #e02f44;
+      --danger-text: #ff7383;
+      --radius: 6px;
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Accessible High-Contrast Light Mode Toggle */
+    body.light-contrast {
+      --bg-canvas: #f4f5f7;
+      --bg-panel: #ffffff;
+      --bg-panel-elev: #eef1f5;
+      --bg-input: #ffffff;
+      --border: #22252b;
+      --border-strong: #000000;
+      --text-primary: #0b0c0e;
+      --text-secondary: #22252b;
+      --accent-orange: #c95200;
+      --accent-blue: #1456b8;
+      --accent-blue-hover: #0e4391;
+      --accent-blue-soft: #e6f0ff;
+      --ok-bg: #e7f6ee;
+      --ok-border: #1e7a46;
+      --ok-text: #104e2c;
+      --warn-bg: #fff5e0;
+      --warn-border: #b86a00;
+      --warn-text: #6e3f00;
+      --danger-bg: #fdecec;
+      --danger-border: #b51d18;
+      --danger-text: #82120e;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+    body.large-text { font-size: 19px; }
+
+    /* Grafana-style Top Nav Bar */
+    .topbar {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 0.98em;
+    }
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: linear-gradient(135deg, #f46800, #ffb357);
+      display: inline-block;
+    }
+    .breadcrumb-sep { color: var(--text-secondary); font-weight: 400; }
+    .badge-sim {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1px solid var(--warn-border);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.75em;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Accessible buttons (min 48px tap height) */
+    button, .btn {
+      min-height: 48px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-size: 0.94em;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--accent-orange);
+      outline-offset: 2px;
+    }
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+    .btn-primary:hover { background: var(--accent-blue-hover); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-secondary {
+      background: var(--bg-panel-elev);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-quiet {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: var(--border);
+      min-height: 40px;
+      padding: 6px 12px;
+      font-size: 0.85em;
+    }
+    .btn-quiet:hover {
+      background: var(--bg-panel-elev);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+    .btn-danger {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger-border);
+    }
+    .btn-danger:hover { background: rgba(242, 73, 92, 0.22); }
+
+    /* Workspace Container */
+    .wrap {
+      max-width: 880px;
+      margin: 22px auto 64px;
+      padding: 0 18px;
+    }
+
+    /* Grafana-style Stat / Stepper Bar */
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .step-pill {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 0.82em;
+      color: var(--text-secondary);
+      cursor: pointer;
+      min-height: 48px;
+    }
+    .step-pill.active {
+      border-color: var(--accent-blue);
+      border-top: 3px solid var(--accent-orange);
+      background: var(--bg-panel-elev);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    .step-pill.done {
+      border-color: var(--ok-border);
+      border-top: 3px solid var(--ok-border);
+      background: var(--ok-bg);
+      color: var(--ok-text);
+    }
+
+    /* Banners */
+    .banner {
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-blue);
+      display: none;
+    }
+    .banner.show { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .banner-info { background: var(--accent-blue-soft); border-color: var(--accent-blue); color: var(--text-primary); }
+    .banner-warn { background: var(--warn-bg); border-color: var(--warn-border); border-left-color: var(--accent-orange); color: var(--warn-text); }
+    .banner-danger { background: var(--danger-bg); border-color: var(--danger-border); border-left-color: var(--danger-border); color: var(--danger-text); }
+
+    /* Grafana Panel Card */
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: none;
+      overflow: hidden;
+    }
+    .panel.active { display: block; }
+    .panel-header {
+      background: var(--bg-panel-elev);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .panel-kicker {
+      font-size: 0.78em;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-orange);
+    }
+    .panel-meta {
+      font-size: 0.8em;
+      color: var(--text-secondary);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .panel-body { padding: 24px 22px; }
+
+    h1 { margin: 0 0 8px; font-size: 1.48em; line-height: 1.28; }
+    h2 { margin: 16px 0 8px; font-size: 1.08em; }
+    p.lead { margin: 0 0 18px; color: var(--text-secondary); }
+
+    /* Contextual helper box (dismissible) */
+    .help-box {
+      background: var(--accent-blue-soft);
+      border: 1px solid var(--accent-blue);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .help-box.hidden { display: none; }
+
+    /* Goal Cards */
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 14px 0 20px;
+    }
+    .goal-option {
+      text-align: left;
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--bg-panel-elev);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .goal-option:hover { border-color: var(--accent-blue); }
+    .goal-option.selected {
+      border-color: var(--accent-blue);
+      border-left: 4px solid var(--accent-orange);
+      background: var(--accent-blue-soft);
+    }
+    .goal-title { font-weight: 700; color: var(--text-primary); font-size: 1em; }
+    .goal-desc { font-weight: 400; color: var(--text-secondary); font-size: 0.88em; }
+
+    /* Form Controls */
+    .field { margin-bottom: 16px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+    .hint { font-size: 0.85em; color: var(--text-secondary); margin-top: 4px; }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-size: 0.98em;
+      color: var(--text-primary);
+      background: var(--bg-input);
+    }
+    textarea { min-height: 84px; resize: vertical; }
+
+    /* Progressive Disclosure */
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin: 14px 0;
+      background: var(--bg-panel-elev);
+    }
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      color: var(--text-primary);
+    }
+
+    /* Evidence & Metric Sub-panels (Grafana Style) */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .kpi-tile {
+      background: var(--bg-panel-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .kpi-label { font-size: 0.78em; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .kpi-value { font-size: 1.2em; font-weight: 700; margin-top: 4px; color: var(--text-primary); }
+
+    .section-box {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 12px 0;
+      background: var(--bg-panel-elev);
+    }
+    .section-box.warn { background: var(--warn-bg); border-color: var(--warn-border); border-left-color: var(--accent-orange); }
+    .section-box.ok { background: var(--ok-bg); border-color: var(--ok-border); border-left-color: var(--ok-border); }
+    .section-box.danger { background: var(--danger-bg); border-color: var(--danger-border); border-left-color: var(--danger-border); }
+
+    .cite-tag {
+      display: inline-block;
+      background: var(--accent-blue-soft);
+      color: var(--accent-orange);
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.84em;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    /* Action Bar: ONE obvious primary action + clear Back/Undo/Cancel */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .action-left { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* Modal / Drawer for User Controls */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-strong);
+      border-top: 3px solid var(--accent-orange);
+      border-radius: var(--radius);
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mono-log {
+      background: #0b0c0e;
+      color: #8be07e;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: var(--radius);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.84em;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 640px) {
+      .kpi-strip { grid-template-columns: 1fr; }
+      .stepper { font-size: 0.72em; }
+      .action-bar { flex-direction: column-reverse; align-items: stretch; }
+      .action-bar .btn-primary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <span>BIQOS</span>
+    <span class="breadcrumb-sep">/</span>
+    <span>CXO Suite</span>
+    <span class="breadcrumb-sep">/</span>
+    <span>CMO Assistant</span>
+    <span class="badge-sim">SIMULATED &bull; NO LIVE SPEND</span>
+  </div>
+  <div class="top-controls" role="group" aria-label="Accessibility and user controls">
+    <button class="btn-quiet" id="btnReadAloud" onclick="readCurrentScreen()" title="Read this screen aloud">
+      🔊 Read Aloud
+    </button>
+    <button class="btn-quiet" onclick="toggleLargeText()" id="btnTextSize">
+      Aa Larger Text
+    </button>
+    <button class="btn-quiet" onclick="toggleContrast()" id="btnContrast">
+      ◐ Light / Contrast
+    </button>
+    <button class="btn-quiet" onclick="openControls()" id="btnUserControls">
+      ⚙ Controls &amp; Privacy
+    </button>
+  </div>
+</header>
+
+<main class="wrap" role="main">
+
+  <!-- Visible Step Progress -->
+  <nav class="stepper" aria-label="Progress steps">
+    <button class="step-pill active" id="pill-1" onclick="goTo(1)">1. Goal</button>
+    <button class="step-pill" id="pill-2" onclick="goTo(2)">2. Next Step</button>
+    <button class="step-pill" id="pill-3" onclick="goTo(3)">3. Plan</button>
+    <button class="step-pill" id="pill-4" onclick="goTo(4)">4. Check Facts</button>
+    <button class="step-pill" id="pill-5" onclick="goTo(5)">5. Approval</button>
+  </nav>
+
+  <!-- Status Banners -->
+  <div class="banner banner-warn" id="pausedBanner" role="status">
+    <span><strong>AI Suggestions Paused.</strong> You can keep editing your draft; no AI suggestions will appear until you resume.</span>
+    <button class="btn-quiet" onclick="togglePauseAI()">Resume AI Help</button>
+  </div>
+
+  <div class="banner banner-info" id="undoBanner" role="status">
+    <span id="undoMsg">Your last change was saved.</span>
+    <button class="btn-quiet" onclick="undoLastAction()">↩ Undo</button>
+  </div>
+
+  <!-- SCREEN 1: WELCOME / GOAL SELECTION -->
+  <section class="panel active" id="screen-1" aria-labelledby="s1-title">
+    <div class="panel-header">
+      <span class="panel-kicker">Step 1 of 5 &bull; Welcome</span>
+      <span class="panel-meta">Mode: Guided First-Time Flow</span>
+    </div>
+    <div class="panel-body">
+      <h1 id="s1-title">Welcome. What would you like to do today?</h1>
+      <p class="lead">
+        Pick one simple goal below. Nothing is published or spent automatically — you stay in full control at every step, and you can stop safely anytime.
+      </p>
+
+      <div class="help-box" id="help-1">
+        <div>
+          <strong>First time here?</strong> Pick the first option to see a real example with plain-language guidance.
+        </div>
+        <button class="btn-quiet" onclick="dismissHelp('help-1')" aria-label="Dismiss tip">Dismiss</button>
+      </div>
+
+      <div class="goal-grid" role="radiogroup" aria-label="Choose your goal">
+        <button class="goal-option selected" id="goal-linkedin" onclick="selectGoal('linkedin')">
+          <span class="goal-title">Plan a LinkedIn campaign for business buyers (Recommended example)</span>
+          <span class="goal-desc">Example: $30,000 LinkedIn test proposal — checks company budget rules and stops for human approval.</span>
+        </button>
+
+        <button class="goal-option" id="goal-tv" onclick="selectGoal('tv')">
+          <span class="goal-title">Check if we can run a Television (Linear TV) ad</span>
+          <span class="goal-desc">Example: See how the assistant honestly says "Not enough evidence" instead of guessing numbers.</span>
+        </button>
+
+        <button class="goal-option" id="goal-custom" onclick="selectGoal('custom')">
+          <span class="goal-title">Start my own simple campaign draft</span>
+          <span class="goal-desc">Enter your own campaign name, channel, and budget in three easy boxes.</span>
+        </button>
+      </div>
+
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="btn-secondary" onclick="openControls()">Pause or Manage Privacy</button>
+        </div>
+        <button class="btn-primary" onclick="goTo(2)">Continue to Next Step →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: HOME / NEXT BEST ACTION -->
+  <section class="panel" id="screen-2" aria-labelledby="s2-title">
+    <div class="panel-header">
+      <span class="panel-kicker">Step 2 of 5 &bull; Next Best Action</span>
+      <span class="panel-meta">Governance Gate: Active</span>
+    </div>
+    <div class="panel-body">
+      <h1 id="s2-title">Your Next Best Action</h1>
+      <p class="lead" id="s2-summary">
+        You selected: <strong>Plan a LinkedIn campaign for business buyers ($30,000 test scenario)</strong>.
+      </p>
+
+      <div class="section-box ok">
+        <strong>What happens next (3 short steps):</strong>
+        <ol style="margin: 8px 0 0; padding-left: 20px;">
+          <li>Review or edit your campaign channel and budget.</li>
+          <li>See verified company policy facts, warnings, and unknowns clearly explained.</li>
+          <li>Stop at Human Approval — nothing goes live without a named manager's sign-off.</li>
+        </ol>
+      </div>
+
+      <details>
+        <summary>Why is the assistant suggesting this step?</summary>
+        <p style="margin: 10px 0 0; color: var(--text-secondary);">
+          Checking your channel and budget against approved company rules early prevents overspending and shows missing data upfront. There are no timers, streaks, or urgency tricks — you can pause or leave safely anytime.
+        </p>
+      </details>
+
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="btn-secondary" onclick="goTo(1)">← Back</button>
+          <button class="btn-quiet" onclick="safeCancel()">Cancel Safely</button>
+        </div>
+        <button class="btn-primary" onclick="goTo(3)">Fill Out Campaign Plan →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: GUIDED CAMPAIGN CREATION -->
+  <section class="panel" id="screen-3" aria-labelledby="s3-title">
+    <div class="panel-header">
+      <span class="panel-kicker">Step 3 of 5 &bull; Guided Campaign Plan</span>
+      <span class="panel-meta">Draft State: Local Only</span>
+    </div>
+    <div class="panel-body">
+      <h1 id="s3-title">Describe Your Campaign Plan</h1>
+      <p class="lead">Just three plain boxes. We pre-filled an example you can change freely.</p>
+
+      <div class="field">
+        <label for="inpTitle">1. Campaign Name</label>
+        <input type="text" id="inpTitle" value="Q4 Enterprise LinkedIn Lead Gen Campaign" onchange="recordChange('Campaign Name')" />
+        <div class="hint">Plain name so your team recognizes this plan.</div>
+      </div>
+
+      <div class="field">
+        <label for="inpChannel">2. Where do you want to advertise? (Channel)</label>
+        <select id="inpChannel" onchange="recordChange('Channel')">
+          <option value="Paid Social (LinkedIn Ads)" selected>LinkedIn Ads (Approved channel &bull; $15,000 policy limit)</option>
+          <option value="Paid Search (Google Ads)">Google Search Ads (Approved channel &bull; $20,000 policy limit)</option>
+          <option value="Content Marketing">Content Marketing / Whitepapers ($7,500 policy limit)</option>
+          <option value="Linear TV Broadcasting">Linear Television Broadcasting (No company data available)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="inpBudget">3. Planned Budget (USD)</label>
+        <input type="number" id="inpBudget" value="30000" min="0" step="500" onchange="recordChange('Budget')" />
+        <div class="hint">Test input only. Entering a number here never spends real money.</div>
+      </div>
+
+      <details>
+        <summary>Optional details (Audience &amp; Business Outcome)</summary>
+        <div class="field" style="margin-top: 12px;">
+          <label for="inpAudience">Who do you want to reach?</label>
+          <input type="text" id="inpAudience" value="Engineering Managers, VP of Engineering, CTOs" onchange="recordChange('Audience')" />
+        </div>
+        <div class="field" style="margin-bottom: 0;">
+          <label for="inpGoalText">Main business outcome</label>
+          <textarea id="inpGoalText" onchange="recordChange('Goal')">Drive a 25% increase in sales-qualified enterprise leads (SQLs).</textarea>
+        </div>
+      </details>
+
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="btn-secondary" onclick="goTo(2)">← Back</button>
+          <button class="btn-quiet" onclick="undoLastAction()">↩ Undo</button>
+          <button class="btn-quiet" onclick="safeCancel()">Cancel</button>
+        </div>
+        <button class="btn-primary" onclick="evaluatePlan()">Check Facts &amp; Policy →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: EVIDENCE & RECOMMENDATION -->
+  <section class="panel" id="screen-4" aria-labelledby="s4-title">
+    <div class="panel-header">
+      <span class="panel-kicker">Step 4 of 5 &bull; Evidence &amp; Policy Check</span>
+      <span class="panel-meta" id="s4-trace-meta">Trace: TRC-20261116-1833C82E (UX-SIM)</span>
+    </div>
+    <div class="panel-body">
+      <h1 id="s4-title">Facts, Rules &amp; Recommendation</h1>
+      <p class="lead">Here is what approved company documents say, what is unknown, and why this action is recommended.</p>
+
+      <div class="kpi-strip" id="s4-kpi-strip"></div>
+
+      <div id="s4-verdict-box" class="section-box warn"></div>
+
+      <div class="section-box">
+        <h2 style="margin-top: 0;">Verified Company Facts (With Source Citations)</h2>
+        <ul id="s4-facts" style="margin: 8px 0 0; padding-left: 20px;"></ul>
+      </div>
+
+      <div class="section-box">
+        <h2 style="margin-top: 0;">What Is Unknown (Never Guessed)</h2>
+        <ul id="s4-unknowns" style="margin: 8px 0 0; padding-left: 20px;"></ul>
+      </div>
+
+      <details>
+        <summary>Explain this AI recommendation in plain language</summary>
+        <p id="s4-ai-explain" style="margin: 10px 0 0; color: var(--text-secondary);"></p>
+      </details>
+
+      <div class="section-box ok">
+        <strong>Human Approval Required:</strong> This assistant can only advise. It cannot publish ads, send emails, or spend money. Next, a named human manager must review and decide.
+      </div>
+
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="btn-secondary" onclick="goTo(3)">← Edit Plan</button>
+          <button class="btn-quiet" onclick="safeCancel()">Cancel Safely</button>
+        </div>
+        <button class="btn-primary" id="btnToApproval" onclick="goTo(5)">Go to Human Approval →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: HUMAN APPROVAL & STATUS -->
+  <section class="panel" id="screen-5" aria-labelledby="s5-title">
+    <div class="panel-header">
+      <span class="panel-kicker">Step 5 of 5 &bull; Human Approval Gate</span>
+      <span class="panel-meta">Status: <strong id="s5-status-label">AWAITING_APPROVAL</strong></span>
+    </div>
+    <div class="panel-body">
+      <h1 id="s5-title">Human Approval Gate</h1>
+      <p class="lead">
+        Trace ID: <code id="s5-trace-id">TRC-20261116-1833C82E (UX-SIM)</code> &bull; Zero real-world publishing or financial writes.
+      </p>
+
+      <div class="section-box warn" id="s5-hardstop-notice">
+        <strong>Hard Stop Active (Zero Side Effects):</strong> Nothing has been published, activated, or billed. Even after approval here, real-world campaign execution remains strictly blocked pending separate Workflow Executor authorization.
+      </div>
+
+      <div id="s5-approval-form">
+        <div class="field">
+          <label for="inpReviewer">Authorized Human Reviewer Name</label>
+          <input type="text" id="inpReviewer" placeholder="Example: Pratik Bhuwad - CMO Product Owner" />
+          <div class="hint">Blank names and placeholders like "Prof_Evaluator" are strictly rejected.</div>
+        </div>
+
+        <div class="field">
+          <label for="inpNotes">Decision Notes / Conditions</label>
+          <textarea id="inpNotes" placeholder="Example: Approved with condition to reallocate $15,000 excess to Paid Search."></textarea>
+        </div>
+
+        <div class="banner banner-danger" id="s5-error-banner" role="alert">
+          <span id="s5-error-text"></span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">
+          <button class="btn-primary" onclick="submitDecision('APPROVED')">✓ Record Human Approval (Simulated)</button>
+          <button class="btn-danger" onclick="submitDecision('REJECTED')">✕ Record Rejection (Simulated)</button>
+        </div>
+      </div>
+
+      <div class="section-box ok" id="s5-final-box" style="display: none;"></div>
+
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="btn-secondary" onclick="goTo(4)">← Back to Facts</button>
+          <button class="btn-quiet" onclick="openControls()">Inspect Trace &amp; Data</button>
+        </div>
+        <button class="btn-secondary" onclick="resetDemo()">Start Another Draft</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- USER CONTROLS & PRIVACY MODAL -->
+<div class="modal-backdrop" id="controlsModal" role="dialog" aria-modal="true" aria-labelledby="ctrl-title">
+  <div class="modal">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <h2 id="ctrl-title" style="margin:0;">Your Controls, Permissions &amp; Data</h2>
+      <button class="btn-quiet" onclick="closeControls()">✕ Close</button>
+    </div>
+    <p class="hint">You decide how much help you want, what data is kept, and when to stop. No covert tracking is used.</p>
+
+    <div class="control-row">
+      <div>
+        <strong>Pause AI Suggestions</strong>
+        <div class="hint">Turn off automated recommendations while keeping your draft.</div>
+      </div>
+      <button class="btn-secondary" id="ctrlPauseBtn" onclick="togglePauseAI()">Pause</button>
+    </div>
+
+    <div class="control-row">
+      <div>
+        <strong>Mute Helper Tips &amp; Prompts</strong>
+        <div class="hint">Hide onboarding callouts across all screens.</div>
+      </div>
+      <button class="btn-secondary" id="ctrlMuteBtn" onclick="toggleMuteTips()">Mute Tips</button>
+    </div>
+
+    <div class="control-row">
+      <div>
+        <strong>Revoke Read-Only Corpus Permission</strong>
+        <div class="hint">Stop the assistant from reading internal marketing policy docs until restored.</div>
+      </div>
+      <button class="btn-secondary" id="ctrlPermBtn" onclick="togglePermission()">Revoke</button>
+    </div>
+
+    <div class="control-row">
+      <div>
+        <strong>Delete Local Draft Data</strong>
+        <div class="hint">Clears your form inputs and resets this session immediately.</div>
+      </div>
+      <button class="btn-danger" onclick="clearDraftData()">Delete Draft</button>
+    </div>
+
+    <h2 style="margin-top:16px;">Inspect Session Trace &amp; Governance State</h2>
+    <div class="mono-log" id="traceInspector"></div>
+  </div>
+</div>
+
+<script>
+  const state = {
+    step: 1,
+    goal: 'linkedin',
+    aiPaused: false,
+    tipsMuted: false,
+    corpusAllowed: true,
+    finalized: false,
+    finalStatus: 'AWAITING_APPROVAL',
+    history: [],
+    traceId: 'TRC-20261116-1833C82E (UX-SIM)'
+  };
+
+  function goTo(n) {
+    state.step = n;
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('screen-' + i).classList.toggle('active', i === n);
+      const pill = document.getElementById('pill-' + i);
+      pill.classList.toggle('active', i === n);
+      pill.classList.toggle('done', i < n);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function selectGoal(type) {
+    state.goal = type;
+    ['linkedin', 'tv', 'custom'].forEach(g => {
+      document.getElementById('goal-' + g).classList.toggle('selected', g === type);
+    });
+    const title = document.getElementById('inpTitle');
+    const channel = document.getElementById('inpChannel');
+    const budget = document.getElementById('inpBudget');
+    const summary = document.getElementById('s2-summary');
+
+    if (type === 'linkedin') {
+      title.value = 'Q4 Enterprise LinkedIn Lead Gen Campaign';
+      channel.value = 'Paid Social (LinkedIn Ads)';
+      budget.value = 30000;
+      summary.innerHTML = 'You selected: <strong>Plan a LinkedIn campaign for business buyers ($30,000 test scenario)</strong>.';
+    } else if (type === 'tv') {
+      title.value = 'Q4 National Linear TV Brand Awareness Test';
+      channel.value = 'Linear TV Broadcasting';
+      budget.value = 25000;
+      summary.innerHTML = 'You selected: <strong>Check a Linear Television ad (tests honest abstention when evidence is missing)</strong>.';
+    } else {
+      title.value = '';
+      channel.value = 'Paid Search (Google Ads)';
+      budget.value = 12000;
+      summary.innerHTML = 'You selected: <strong>Start my own simple campaign draft</strong>.';
+    }
+  }
+
+  function recordChange(fieldLabel) {
+    state.history.push({
+      field: fieldLabel,
+      title: document.getElementById('inpTitle').value,
+      channel: document.getElementById('inpChannel').value,
+      budget: document.getElementById('inpBudget').value
+    });
+    const b = document.getElementById('undoBanner');
+    document.getElementById('undoMsg').textContent = `Updated ${fieldLabel}. You can undo this change.`;
+    b.classList.add('show');
+  }
+
+  function undoLastAction() {
+    if (state.history.length > 1) {
+      state.history.pop();
+      const prev = state.history[state.history.length - 1];
+      document.getElementById('inpTitle').value = prev.title;
+      document.getElementById('inpChannel').value = prev.channel;
+      document.getElementById('inpBudget').value = prev.budget;
+    } else {
+      selectGoal(state.goal);
+    }
+    document.getElementById('undoBanner').classList.remove('show');
+  }
+
+  function evaluatePlan() {
+    const channel = document.getElementById('inpChannel').value;
+    const budget = Number(document.getElementById('inpBudget').value || 0);
+    const kpiStrip = document.getElementById('s4-kpi-strip');
+    const verdictBox = document.getElementById('s4-verdict-box');
+    const factsEl = document.getElementById('s4-facts');
+    const unknownsEl = document.getElementById('s4-unknowns');
+    const explainEl = document.getElementById('s4-ai-explain');
+    const btnToApproval = document.getElementById('btnToApproval');
+
+    if (!state.corpusAllowed) {
+      kpiStrip.innerHTML = `
+        <div class="kpi-tile"><div class="kpi-label">Corpus Access</div><div class="kpi-value" style="color:var(--danger-text)">REVOKED</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Policy Check</div><div class="kpi-value">SKIPPED</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Live Execution</div><div class="kpi-value">DISABLED</div></div>
+      `;
+      verdictBox.className = 'section-box danger';
+      verdictBox.innerHTML = '<strong>Permission Revoked:</strong> You revoked read-only access to company policy documents. Re-enable permission in <em>Controls &amp; Privacy</em> to check facts.';
+      factsEl.innerHTML = '<li>No documents accessed (respecting your permission setting).</li>';
+      unknownsEl.innerHTML = '<li>Policy limits and benchmarks could not be checked while access is revoked.</li>';
+      explainEl.textContent = 'Because you revoked read-only data access, the assistant did not read internal documents or generate a recommendation.';
+      btnToApproval.disabled = true;
+      goTo(4);
+      return;
+    }
+
+    btnToApproval.disabled = false;
+
+    if (channel === 'Linear TV Broadcasting') {
+      state.finalStatus = 'INSUFFICIENT_EVIDENCE';
+      kpiStrip.innerHTML = `
+        <div class="kpi-tile"><div class="kpi-label">Decision Status</div><div class="kpi-value" style="color:var(--danger-text)">ABSTAINED</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Verified Benchmarks</div><div class="kpi-value">null (None)</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Live Execution</div><div class="kpi-value">BLOCKED</div></div>
+      `;
+      verdictBox.className = 'section-box danger';
+      verdictBox.innerHTML = '<strong>Status: INSUFFICIENT_EVIDENCE (Honest Abstention)</strong><br/>Our company has no verified performance data or benchmarks for Linear TV. The assistant refuses to invent numbers (<code>DEFECT-SEMANTIC-001</code> safeguard).';
+      factsEl.innerHTML = `
+        <li><span class="cite-tag">DOC-MKT-003-C006</span> No corporate performance data, conversion benchmarks, or audience research exists for linear television broadcasting, consumer video platforms (TikTok/Reels), or print magazines.</li>
+      `;
+      unknownsEl.innerHTML = `
+        <li>Expected Linear TV CTR, CAC, conversion rate, and ROAS are strictly <strong>null (unknown)</strong>.</li>
+        <li>Audience reach for technical decision makers on Linear TV is unverified.</li>
+      `;
+      explainEl.textContent = 'Instead of guessing ROI for Linear TV, the system halts with INSUFFICIENT_EVIDENCE. You may edit your plan to pick an approved channel (LinkedIn Ads, Google Search, or Content Marketing) or escalate for manual research.';
+      btnToApproval.textContent = 'Review Abstention Record →';
+    } else {
+      const caps = {
+        'Paid Social (LinkedIn Ads)': 15000,
+        'Paid Search (Google Ads)': 20000,
+        'Content Marketing': 7500
+      };
+      const cap = caps[channel] || 15000;
+      const overCap = budget > cap;
+      const overMax = budget > 50000;
+      const varianceColor = overMax ? 'var(--danger-text)' : (overCap ? 'var(--warn-text)' : 'var(--ok-text)');
+
+      state.finalStatus = 'AWAITING_APPROVAL';
+      kpiStrip.innerHTML = `
+        <div class="kpi-tile"><div class="kpi-label">Planned Budget</div><div class="kpi-value">$${budget.toLocaleString()}</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Channel Policy Cap</div><div class="kpi-value" style="color:${varianceColor}">$${cap.toLocaleString()}</div></div>
+        <div class="kpi-tile"><div class="kpi-label">Gate Status</div><div class="kpi-value" style="color:var(--warn-text)">AWAITING_APPROVAL</div></div>
+      `;
+
+      if (overMax) {
+        verdictBox.className = 'section-box danger';
+        verdictBox.innerHTML = `<strong>Recommendation: REJECT / ESCALATE (Exceeds $50,000 Policy Maximum)</strong><br/>Requested budget ($${budget.toLocaleString()}) exceeds the $50,000 maximum campaign cap in <code>DOC-MKT-002</code>.`;
+      } else if (overCap) {
+        const diff = budget - cap;
+        verdictBox.className = 'section-box warn';
+        verdictBox.innerHTML = `<strong>Recommendation: APPROVE_WITH_CONDITIONS (Channel Cap Variance)</strong><br/>Requested budget of <strong>$${budget.toLocaleString()}</strong> for ${channel} exceeds the <strong>$${cap.toLocaleString()}</strong> channel cap by <strong>$${diff.toLocaleString()}</strong>. Condition: reallocate $${diff.toLocaleString()} to another approved channel or obtain a named Product Owner exception.`;
+      } else {
+        verdictBox.className = 'section-box ok';
+        verdictBox.innerHTML = `<strong>Recommendation: APPROVE (Within Policy Caps)</strong><br/>Requested budget of <strong>$${budget.toLocaleString()}</strong> is within the $${cap.toLocaleString()} channel cap and $50,000 total policy limit. Still requires human sign-off.`;
+      }
+
+      factsEl.innerHTML = `
+        <li><span class="cite-tag">DOC-MKT-001-C004</span> Approved core channels: Paid Search (Google Ads), Paid Social (LinkedIn Sponsored Content), Content Marketing, and Email Nurture.</li>
+        <li><span class="cite-tag">DOC-MKT-002-C005</span> Channel caps: Paid Search $20,000; Paid Social (LinkedIn) $15,000; Content Production $7,500; overall max $50,000.</li>
+        <li><span class="cite-tag">DOC-MKT-003-C004</span> Historical enterprise baselines: 2.4% CTR, $32.00 avg CAC ($35.00 max threshold), 4.1% landing page conversion, 2.8x target ROAS (90-day window).</li>
+      `;
+      unknownsEl.innerHTML = `
+        <li>Live auction CPC fluctuations are not connected (MASTERDB production auth is currently blocked pending TANTRA RS256 token).</li>
+        <li>ARTHA live remaining Q4 ledger balance is read-only / proposed and not live-verified in this prototype.</li>
+      `;
+      explainEl.textContent = state.aiPaused
+        ? 'AI suggestions are currently paused by you. Only raw policy citations are shown above.'
+        : `The assistant compared your $${budget.toLocaleString()} plan on ${channel} against DOC-MKT-001, DOC-MKT-002, and DOC-MKT-003. Every claim links to a specific source chunk, and nothing can execute until a named human approves on Step 5.`;
+      btnToApproval.textContent = 'Go to Human Approval →';
+    }
+
+    document.getElementById('s5-status-label').textContent = state.finalStatus;
+    document.getElementById('s5-approval-form').style.display = state.finalStatus === 'INSUFFICIENT_EVIDENCE' ? 'none' : 'block';
+    document.getElementById('s5-final-box').style.display = 'none';
+    state.finalized = false;
+    goTo(4);
+  }
+
+  function submitDecision(decision) {
+    const errBanner = document.getElementById('s5-error-banner');
+    const errText = document.getElementById('s5-error-text');
+    errBanner.classList.remove('show');
+
+    if (state.finalized) {
+      errText.textContent = `Duplicate decision rejected: Request is already finalized with status '${state.finalStatus}'.`;
+      errBanner.classList.add('show');
+      return;
+    }
+
+    const reviewer = document.getElementById('inpReviewer').value.trim();
+    const notes = document.getElementById('inpNotes').value.trim();
+
+    if (!reviewer) {
+      errText.textContent = 'Reviewer identity cannot be blank. Enter an explicit named human reviewer (e.g., "Pratik Bhuwad - CMO Product Owner").';
+      errBanner.classList.add('show');
+      return;
+    }
+    if (reviewer.toLowerCase() === 'prof_evaluator') {
+      errText.textContent = 'Placeholder identity "Prof_Evaluator" is strictly rejected. Enter an explicit authorized human reviewer name.';
+      errBanner.classList.add('show');
+      return;
+    }
+
+    state.finalized = true;
+    state.finalStatus = decision;
+    document.getElementById('s5-status-label').textContent = decision;
+    const finalBox = document.getElementById('s5-final-box');
+    finalBox.style.display = 'block';
+    finalBox.className = decision === 'APPROVED' ? 'section-box ok' : 'section-box danger';
+    finalBox.innerHTML = `
+      <strong>Decision Recorded (${decision} — Simulated Prototype):</strong><br/>
+      <strong>Reviewer:</strong> ${reviewer}<br/>
+      <strong>Notes:</strong> ${notes || '(No additional notes provided)'}<br/>
+      <strong>Timestamp:</strong> ${new Date().toISOString()}<br/>
+      <strong>Side-Effect Proof:</strong> Zero ads published, zero purchase orders created, zero financial writes. Workflow Executor remains gated &amp; blocked.
+    `;
+  }
+
+  function safeCancel() {
+    if (confirm('Stop safely and return to the start screen? No actions have been sent or published.')) {
+      resetDemo();
+    }
+  }
+
+  function resetDemo() {
+    state.finalized = false;
+    state.finalStatus = 'AWAITING_APPROVAL';
+    document.getElementById('inpReviewer').value = '';
+    document.getElementById('inpNotes').value = '';
+    document.getElementById('s5-error-banner').classList.remove('show');
+    document.getElementById('s5-final-box').style.display = 'none';
+    selectGoal('linkedin');
+    goTo(1);
+  }
+
+  function dismissHelp(id) {
+    document.getElementById(id).classList.add('hidden');
+  }
+
+  function toggleLargeText() {
+    document.body.classList.toggle('large-text');
+  }
+
+  function toggleContrast() {
+    document.body.classList.toggle('light-contrast');
+  }
+
+  function readCurrentScreen() {
+    if (!('speechSynthesis' in window)) {
+      alert('Voice read-aloud is not supported in this browser. All guidance is available in plain text on screen.');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const active = document.querySelector('.panel.active');
+    const utter = new SpeechSynthesisUtterance(active.innerText);
+    utter.rate = 0.95;
+    window.speechSynthesis.speak(utter);
+  }
+
+  function openControls() {
+    document.getElementById('traceInspector').textContent = JSON.stringify({
+      theme: document.body.classList.contains('light-contrast') ? 'grafana-light-high-contrast' : 'grafana-dark',
+      prototype_mode: 'SIMULATED_UX_ONLY',
+      current_screen: state.step,
+      status: state.finalStatus,
+      trace_id: state.traceId,
+      ai_suggestions_paused: state.aiPaused,
+      tips_muted: state.tipsMuted,
+      read_only_corpus_permission: state.corpusAllowed,
+      real_world_execution_enabled: false,
+      covert_tracking_enabled: false
+    }, null, 2);
+    document.getElementById('controlsModal').classList.add('open');
+  }
+
+  function closeControls() {
+    document.getElementById('controlsModal').classList.remove('open');
+  }
+
+  function togglePauseAI() {
+    state.aiPaused = !state.aiPaused;
+    document.getElementById('pausedBanner').classList.toggle('show', state.aiPaused);
+    document.getElementById('ctrlPauseBtn').textContent = state.aiPaused ? 'Resume' : 'Pause';
+    openControls();
+  }
+
+  function toggleMuteTips() {
+    state.tipsMuted = !state.tipsMuted;
+    document.getElementById('help-1').classList.toggle('hidden', state.tipsMuted);
+    document.getElementById('ctrlMuteBtn').textContent = state.tipsMuted ? 'Unmute Tips' : 'Mute Tips';
+    openControls();
+  }
+
+  function togglePermission() {
+    state.corpusAllowed = !state.corpusAllowed;
+    document.getElementById('ctrlPermBtn').textContent = state.corpusAllowed ? 'Revoke' : 'Restore';
+    openControls();
+  }
+
+  function clearDraftData() {
+    state.history = [];
+    resetDemo();
+    closeControls();
+  }
+</script>
+</body>
+</html>

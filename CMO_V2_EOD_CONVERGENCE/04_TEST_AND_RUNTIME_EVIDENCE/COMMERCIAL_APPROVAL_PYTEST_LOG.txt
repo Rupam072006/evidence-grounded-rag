@@ -1,0 +1,35 @@
+Command:
+Push-Location "c:\Pratik_Bhuwad\CMO_Agent\evidence-grounded-rag-main"
+& "c:\Pratik_Bhuwad\CMO_Agent\.venv\Scripts\python.exe" -m pytest tests/functional/test_v2_linkedin_acceptance.py tests/task3/test_task3_approval_integrity.py -v
+Pop-Location
+
+Timestamp: 2026-11-18T13:24:17+05:30
+Git Branch / Commit: main @ db032d6
+Exit Code: 0
+
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.7.0 -- C:\Pratik_Bhuwad\CMO_Agent\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Pratik_Bhuwad\CMO_Agent\evidence-grounded-rag-main
+configfile: pyproject.toml
+plugins: anyio-4.16.0, cov-7.1.0
+collecting ... collected 16 items
+
+tests/functional/test_v2_linkedin_acceptance.py::test_ac4_governance_hard_stop PASSED [  6%]
+tests/functional/test_v2_linkedin_acceptance.py::test_ac5_reviewer_identity_validation PASSED [ 12%]
+tests/functional/test_v2_linkedin_acceptance.py::test_ac6_duplicate_decision_prevention PASSED [ 18%]
+tests/functional/test_v2_linkedin_acceptance.py::test_cli_v2_acceptance_flow PASSED [ 25%]
+tests/task3/test_task3_approval_integrity.py::test_empty_reviewer_rejected PASSED [ 31%]
+tests/task3/test_task3_approval_integrity.py::test_whitespace_reviewer_rejected PASSED [ 37%]
+tests/task3/test_task3_approval_integrity.py::test_valid_approval_recorded PASSED [ 43%]
+tests/task3/test_task3_approval_integrity.py::test_valid_rejection_recorded PASSED [ 50%]
+tests/task3/test_task3_approval_integrity.py::test_nonexistent_request_id_returns_none PASSED [ 56%]
+tests/task3/test_task3_approval_integrity.py::test_duplicate_approval_prevented PASSED [ 62%]
+tests/task3/test_task3_approval_integrity.py::test_duplicate_rejection_prevented PASSED [ 68%]
+tests/task3/test_task3_approval_integrity.py::test_approval_after_rejection_prevented PASSED [ 75%]
+tests/task3/test_task3_approval_integrity.py::test_decision_recorded_in_history PASSED [ 81%]
+tests/task3/test_task3_approval_integrity.py::test_approval_timestamp_stored PASSED [ 87%]
+tests/task3/test_task3_approval_integrity.py::test_approval_metadata_complete PASSED [ 93%]
+tests/task3/test_task3_approval_integrity.py::test_corrupt_json_does_not_crash_read PASSED [100%]
+
+============================= 16 passed in 0.51s ==============================
