@@ -3,14 +3,41 @@
 | Field | Value |
 |---|---|
 | **Author** | Pratik Bhuwad (CMO Product Owner / Sprint Lead) |
-| **Timestamp** | `2026-11-18T13:15:00+05:30` |
+| **Timestamp** | `2026-11-18T13:15:00+05:30` (Updated `2026-11-19T12:40:00+05:30`) |
 | **Canonical Repo / Commit** | `evidence-grounded-rag-main` (`main` @ `db032d6`) & `masterdb-ingestion-certification-service` (`main` @ `284ef75`) |
 | **Allowed Status Vocabulary** | **STRICTLY LIMITED TO:** `VERIFIED LIVE`, `VERIFIED NON-PRODUCTION`, `SIMULATED`, `PROPOSED`, `BLOCKED`, `UNKNOWN` |
 | **Governance Compliance** | Zero parallel RAG/DB/gateway/identity/dashboard shells created. Zero unauthorized schema, governance, permission, or financial changes. |
 
 ---
 
-## 1. Master Integration & Authority Matrix
+## 1. Formal Reconciliation: 8 Constitutional System Boundaries vs. 9 Operational Matrix Entries
+
+> **Audit Reconciliation Notice (Directive 2 Compliance):**  
+> The governing assignment (*CMO Agent V2 — EOD Convergence Task*, Section 4) defines **exactly eight constitutional system boundaries** across the BHIV / BHQ / BIQOS ecosystem. In the operational execution matrix below, **nine row entries** appear.  
+> 
+> This is **not** an architectural divergence or a shadow system. Rather, **System 3 (`MASTERDB`) is partitioned into two distinct operational deployment environments** to prevent the conflation of local developer testbed evidence with live cloud production deployment status:
+> - **Entry 3a: `MASTERDB (Local / Testbed)`** — Evaluates local development harness and mock integration. Status: **`VERIFIED NON-PRODUCTION`** (100/100 tests pass, authenticated local handshake verified).
+> - **Entry 3b: `MASTERDB (Production Render PaaS)`** — Evaluates the live public cloud deployment (`https://bhiv-masterdb-ingestion-certification.onrender.com`). Status: **`BLOCKED`** (Fails closed `401 DENY:MISSING_IDENTITY` pending TANTRA Sarathi RS256 token issuance and persistent Render PostgreSQL database configuration).
+> 
+> All other seven systems map 1:1 between constitutional authority boundaries and matrix entries.
+
+### Constitutional 8-to-9 Mapping & Capability Lifecycle Classification
+
+| System # | Constitutional System Boundary | Matrix Entry | Capability Lifecycle State | Allowed Status (Mandatory Vocabulary) | Operational Rationale |
+|:---:|---|---|---|:---:|---|
+| **1** | **TMS / GC SHAKTI** | TMS / GC SHAKTI | `PROPOSED` | `PROPOSED` | Governance alignment documented; awaiting executive sign-off on 4 decisions. |
+| **2** | **MDU** | MDU Parakosha | `BLOCKED` | `BLOCKED` | Endpoint reachable (`HTTP 200`); canonical schema registration & lineage pending. |
+| **3** | **MASTERDB** *(Canonical Retrieval)* | **3a: MASTERDB (Local / Testbed)** | `IMPLEMENTED` *(Local)* | **`VERIFIED NON-PRODUCTION`** | 100/100 tests pass; local authenticated handshake verified; zero shadow DB. |
+| **3** | **MASTERDB** *(Canonical Retrieval)* | **3b: MASTERDB (Production Render)** | `BLOCKED` *(Cloud)* | **`BLOCKED`** | Live endpoints healthy (`200 OK`); protected routes fail closed (`401`) pending token. |
+| **4** | **TANTRA / VAJRA** | TANTRA / VAJRA | `BLOCKED` | `BLOCKED` | Token dependency active; runtime middleware & VAJRA handshake not yet in CMO repo. |
+| **5** | **ARTHA** | ARTHA Financial Truth | `PROPOSED` | `PROPOSED` | Contract `cmo.artha_economics.v2` drafted (read-only); finance review pending. |
+| **6** | **Workflow Executor** | Workflow Executor | `BLOCKED` *(Intentional)* | **`BLOCKED`** | Only authorized real-world execution path; zero execution permissions granted in sprint. |
+| **7** | **Bucket / InsightFlow** | Bucket / InsightFlow | `PROPOSED` | `PROPOSED` | Local JSON traces generated; live streaming ingestion connector pending. |
+| **8** | **BIQOS / CXO Suite** | BIQOS / CXO Suite | `SIMULATED` *(UX)* | **`PROPOSED`** | 5-screen first-time-user prototype delivered (`SIMULATED`); shared route pending. |
+
+---
+
+## 2. Master Integration & Authority Matrix
 
 | System | Authority Boundary | Status (Allowed Vocabulary Only) | Concrete Evidence | Owner | Blocker | Next Action | Acceptance Test |
 |---|---|---|---|---|---|---|---|
@@ -26,7 +53,7 @@
 
 ---
 
-## 2. Status Vocabulary Compliance Summary
+## 3. Status Vocabulary Compliance Summary
 
 | Allowed Status | Count of Rows | Systems |
 |---|:---:|---|
