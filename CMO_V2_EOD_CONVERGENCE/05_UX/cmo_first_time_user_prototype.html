@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CMO Agent V2 — First-Time-User Guided Prototype (Grafana Style | BIQOS / CXO Suite)</title>
   <style>
@@ -837,6 +838,16 @@
     b.classList.add('show');
   }
 
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   function undoLastAction() {
     if (state.history.length > 1) {
       state.history.pop();
@@ -852,7 +863,14 @@
 
   function evaluatePlan() {
     const channel = document.getElementById('inpChannel').value;
-    const budget = Number(document.getElementById('inpBudget').value || 0);
+    const budgetVal = document.getElementById('inpBudget').value;
+    const budget = Number(budgetVal);
+
+    if (!budgetVal || isNaN(budget) || budget <= 0) {
+      alert("Invalid budget: Please enter a planned budget greater than $0.");
+      return;
+    }
+
     const kpiStrip = document.getElementById('s4-kpi-strip');
     const verdictBox = document.getElementById('s4-verdict-box');
     const factsEl = document.getElementById('s4-facts');
@@ -880,6 +898,7 @@
 
     if (channel === 'Linear TV Broadcasting') {
       state.finalStatus = 'INSUFFICIENT_EVIDENCE';
+      state.isOverMax = false;
       kpiStrip.innerHTML = `
         <div class="kpi-tile"><div class="kpi-label">Decision Status</div><div class="kpi-value" style="color:var(--danger-text)">ABSTAINED</div></div>
         <div class="kpi-tile"><div class="kpi-label">Verified Benchmarks</div><div class="kpi-value">null (None)</div></div>
@@ -905,6 +924,7 @@
       const cap = caps[channel] || 15000;
       const overCap = budget > cap;
       const overMax = budget > 50000;
+      state.isOverMax = overMax;
       const varianceColor = overMax ? 'var(--danger-text)' : (overCap ? 'var(--warn-text)' : 'var(--ok-text)');
 
       state.finalStatus = 'AWAITING_APPROVAL';
@@ -914,16 +934,23 @@
         <div class="kpi-tile"><div class="kpi-label">Gate Status</div><div class="kpi-value" style="color:var(--warn-text)">AWAITING_APPROVAL</div></div>
       `;
 
-      if (overMax) {
+      if (state.aiPaused) {
+        verdictBox.className = 'section-box warn';
+        verdictBox.innerHTML = '<strong>AI Recommendations Paused by User:</strong> Automated recommendations and scoring are suppressed. Only verified company policy facts are displayed below.';
+        explainEl.textContent = 'AI suggestions are currently paused. No model evaluation or advice was generated.';
+      } else if (overMax) {
         verdictBox.className = 'section-box danger';
-        verdictBox.innerHTML = `<strong>Recommendation: REJECT / ESCALATE (Exceeds $50,000 Policy Maximum)</strong><br/>Requested budget ($${budget.toLocaleString()}) exceeds the $50,000 maximum campaign cap in <code>DOC-MKT-002</code>.`;
+        verdictBox.innerHTML = `<strong>Recommendation: REJECT / ESCALATE (Exceeds $50,000 Policy Maximum)</strong><br/>Requested budget ($${budget.toLocaleString()}) exceeds the $50,000 maximum campaign cap in <code>DOC-MKT-002</code>. Standard approval is blocked; executive exception required.`;
+        explainEl.textContent = `The requested budget of $${budget.toLocaleString()} violates DOC-MKT-002 maximum spend limits.`;
       } else if (overCap) {
         const diff = budget - cap;
         verdictBox.className = 'section-box warn';
         verdictBox.innerHTML = `<strong>Recommendation: APPROVE_WITH_CONDITIONS (Channel Cap Variance)</strong><br/>Requested budget of <strong>$${budget.toLocaleString()}</strong> for ${channel} exceeds the <strong>$${cap.toLocaleString()}</strong> channel cap by <strong>$${diff.toLocaleString()}</strong>. Condition: reallocate $${diff.toLocaleString()} to another approved channel or obtain a named Product Owner exception.`;
+        explainEl.textContent = `The assistant compared your $${budget.toLocaleString()} plan on ${channel} against DOC-MKT-001, DOC-MKT-002, and DOC-MKT-003. It flagged the $${diff.toLocaleString()} over-cap variance while confirming alignment with enterprise targeting.`;
       } else {
         verdictBox.className = 'section-box ok';
         verdictBox.innerHTML = `<strong>Recommendation: APPROVE (Within Policy Caps)</strong><br/>Requested budget of <strong>$${budget.toLocaleString()}</strong> is within the $${cap.toLocaleString()} channel cap and $50,000 total policy limit. Still requires human sign-off.`;
+        explainEl.textContent = `The assistant verified your $${budget.toLocaleString()} plan on ${channel}. All allocations are within approved policy limits.`;
       }
 
       factsEl.innerHTML = `
@@ -935,9 +962,6 @@
         <li>Live auction CPC fluctuations are not connected (MASTERDB production auth is currently blocked pending TANTRA RS256 token).</li>
         <li>ARTHA live remaining Q4 ledger balance is read-only / proposed and not live-verified in this prototype.</li>
       `;
-      explainEl.textContent = state.aiPaused
-        ? 'AI suggestions are currently paused by you. Only raw policy citations are shown above.'
-        : `The assistant compared your $${budget.toLocaleString()} plan on ${channel} against DOC-MKT-001, DOC-MKT-002, and DOC-MKT-003. Every claim links to a specific source chunk, and nothing can execute until a named human approves on Step 5.`;
       btnToApproval.textContent = 'Go to Human Approval →';
     }
 
@@ -959,16 +983,25 @@
       return;
     }
 
-    const reviewer = document.getElementById('inpReviewer').value.trim();
-    const notes = document.getElementById('inpNotes').value.trim();
-
-    if (!reviewer) {
-      errText.textContent = 'Reviewer identity cannot be blank. Enter an explicit named human reviewer (e.g., "Pratik Bhuwad - CMO Product Owner").';
+    if (state.isOverMax && decision === 'APPROVED') {
+      errText.textContent = 'Policy Violation: Proposals exceeding the $50,000 ceiling cannot receive standard approval. An authorized executive exception is required.';
       errBanner.classList.add('show');
       return;
     }
-    if (reviewer.toLowerCase() === 'prof_evaluator') {
-      errText.textContent = 'Placeholder identity "Prof_Evaluator" is strictly rejected. Enter an explicit authorized human reviewer name.';
+
+    const reviewer = document.getElementById('inpReviewer').value.trim();
+    const notes = document.getElementById('inpNotes').value.trim();
+    const normalizedReviewer = reviewer.toLowerCase().replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+    const disallowed = ['prof_evaluator', 'anonymous', 'anonymous_reviewer', 'default', '.', 'none', 'unknown', 'evaluator'];
+
+    if (!reviewer || normalizedReviewer.length < 3 || disallowed.includes(normalizedReviewer)) {
+      errText.textContent = 'Reviewer identity rejected. Enter an explicit, authorized human reviewer name (e.g., "Pratik Bhuwad - CMO Product Owner"). Placeholders and anonymous strings are prohibited.';
+      errBanner.classList.add('show');
+      return;
+    }
+
+    if (!notes || notes.length < 5) {
+      errText.textContent = 'Decision notes cannot be blank. Enter formal audit notes or conditions (minimum 5 characters).';
       errBanner.classList.add('show');
       return;
     }
@@ -979,10 +1012,14 @@
     const finalBox = document.getElementById('s5-final-box');
     finalBox.style.display = 'block';
     finalBox.className = decision === 'APPROVED' ? 'section-box ok' : 'section-box danger';
+    
+    // QA-005 Fix: Escaped insertion prevents self-XSS completely
+    const safeReviewer = escapeHtml(reviewer);
+    const safeNotes = escapeHtml(notes);
     finalBox.innerHTML = `
       <strong>Decision Recorded (${decision} — Simulated Prototype):</strong><br/>
-      <strong>Reviewer:</strong> ${reviewer}<br/>
-      <strong>Notes:</strong> ${notes || '(No additional notes provided)'}<br/>
+      <strong>Reviewer:</strong> ${safeReviewer}<br/>
+      <strong>Notes:</strong> ${safeNotes}<br/>
       <strong>Timestamp:</strong> ${new Date().toISOString()}<br/>
       <strong>Side-Effect Proof:</strong> Zero ads published, zero purchase orders created, zero financial writes. Workflow Executor remains gated &amp; blocked.
     `;
@@ -1029,6 +1066,12 @@
     window.speechSynthesis.speak(utter);
   }
 
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('controlsModal').classList.contains('open')) {
+      closeControls();
+    }
+  });
+
   function openControls() {
     document.getElementById('traceInspector').textContent = JSON.stringify({
       theme: document.body.classList.contains('light-contrast') ? 'grafana-light-high-contrast' : 'grafana-dark',
@@ -1042,11 +1085,18 @@
       real_world_execution_enabled: false,
       covert_tracking_enabled: false
     }, null, 2);
-    document.getElementById('controlsModal').classList.add('open');
+    const modal = document.getElementById('controlsModal');
+    modal.classList.add('open');
+    setTimeout(() => {
+      const btn = document.getElementById('ctrlPauseBtn');
+      if (btn) btn.focus();
+    }, 50);
   }
 
   function closeControls() {
     document.getElementById('controlsModal').classList.remove('open');
+    const returnFocus = document.getElementById('btnUserControls');
+    if (returnFocus) returnFocus.focus();
   }
 
   function togglePauseAI() {

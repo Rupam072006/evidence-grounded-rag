@@ -203,21 +203,58 @@ class MasterDBPersistenceAdapter:
 
 ---
 
-## 5. Bug Fix Required: Relative CWD Path Fragility (`DEF-REPRO-001`)
+## 5. Mandatory Hardening Bug Fixes (Identified by Independent Tester)
 
-### The Problem
-Currently, running `pytest tests` from `evidence-grounded-rag-main` succeeds (136/136 pass). But running `pytest evidence-grounded-rag-main/tests` from the parent directory fails with `IndexNotFoundError: Index files missing at ...\data\index` because `data/index` is resolved relative to the current working directory (`Path("data/index")`).
+Independent verification by Tester (**Samsoorya Rajakumar**) on 19 Nov 2026 confirmed that the core test baseline passes, but caught three critical governance hardening defects that must be patched in Task 1:
 
-### The Fix
-In `src/evidence_rag/config.py` and wherever `data_dir` or `index_dir` are resolved:
-```python
-# Pin paths to the repository root directory relative to __file__:
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_DATA_DIR = REPO_ROOT / "data"
-DEFAULT_INDEX_DIR = DEFAULT_DATA_DIR / "index"
-DEFAULT_MANIFEST_PATH = DEFAULT_DATA_DIR / "manifest.json"
-```
-After making this change, `pytest` will pass 100% from any working directory!
+### 5.1. CWD Path Fragility (`DEF-REPRO-001`)
+- **The Bug:** Running `pytest` from outside the repository root fails with `IndexNotFoundError` because paths default to relative strings (`Path("data/index")`).
+- **The Fix:** In `src/evidence_rag/config.py`:
+  ```python
+  REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+  DEFAULT_DATA_DIR = REPO_ROOT / "data"
+  DEFAULT_INDEX_DIR = DEFAULT_DATA_DIR / "index"
+  DEFAULT_MANIFEST_PATH = DEFAULT_DATA_DIR / "manifest.json"
+  ```
+
+### 5.2. Reviewer Placeholder Normalization Gate (`QA-001`)
+- **The Bug:** `workflow.py` and `cli.py` only checked exact `reviewer == "Prof_Evaluator"`. Case variants (`prof_evaluator`, `PROF_EVALUATOR`, `Anonymous`, `.`) were accepted.
+- **The Fix:** Create a shared validator in `src/evidence_rag/workflow.py` used by both CLI and API:
+  ```python
+  import unicodedata
+
+  def validate_reviewer_identity(reviewer: str) -> str:
+      if not reviewer or not reviewer.strip():
+          raise ValueError("Reviewer identity cannot be blank.")
+      # Normalize NFKC, strip zero-width characters and casefold
+      norm = unicodedata.normalize("NFKC", reviewer).casefold().strip()
+      norm = "".join(ch for ch in norm if unicodedata.category(ch) != "Cf").strip()
+      disallowed = {"prof_evaluator", "anonymous", "anonymous_reviewer", "default", ".", "none", "unknown"}
+      if norm in disallowed or len(norm) < 3:
+          raise ValueError(f"Disallowed reviewer identity '{reviewer}'. Explicit authorized human name required.")
+      return reviewer.strip()
+  ```
+
+### 5.3. Status Gate on Approval Decisions (`QA-002`)
+- **The Bug:** `record_store.record_decision` only logged a warning when approving an abstained record (`INSUFFICIENT_EVIDENCE -> APPROVED`), contradicting the abstention invariant.
+- **The Fix:** In `src/evidence_rag/record_store.py`:
+  ```python
+  if record.status not in (WorkflowStatus.AWAITING_APPROVAL, WorkflowStatus.RECOMMENDATION_READY):
+      raise ValueError(f"Cannot record decision on request with status '{record.status}'. Request must be in AWAITING_APPROVAL.")
+  ```
+
+### 5.4. Trace ID Propagation to Decision History (`QA-003`)
+- **The Bug:** `HUMAN_APPROVED` / `HUMAN_REJECTED` history events lacked `trace_id`, breaking replay correlation.
+- **The Fix:** In `record_store.py`, explicitly attach `record.trace_id` to the appended decision history event:
+  ```python
+  decision_event = {
+      "step": "HUMAN_APPROVED" if decision == ApprovalStatus.APPROVED else "HUMAN_REJECTED",
+      "timestamp": decided_at,
+      "trace_id": record.trace_id,  # QA-003 fix
+      "reviewer": reviewer,
+      "notes": notes
+  }
+  ```
 
 ---
 
