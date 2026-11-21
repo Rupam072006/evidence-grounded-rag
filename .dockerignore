@@ -35,3 +35,10 @@ logs/*.log
 # Ephemeral records & uploads
 .user_uploaded/
 latest_evaluation_run.json
+
+# Environment files & secrets
+.env
+.env.*
+*.key
+*.pem
+
