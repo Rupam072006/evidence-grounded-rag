@@ -19,9 +19,11 @@ def project_root() -> Path:
 
 
 @pytest.fixture(autouse=True)
-def force_test_mock_mode(monkeypatch):
-    """Enforce deterministic offline mock mode for all tests."""
+def force_test_mock_mode(monkeypatch, tmp_path):
+    """Enforce deterministic offline mock mode and isolate logging (QA-012)."""
     monkeypatch.setenv("RAG_GENERATION_MODE", "mock")
+    temp_log = tmp_path / "test_rag_system.log"
+    monkeypatch.setenv("RAG_LOG_FILE", str(temp_log))
 
 
 @pytest.fixture(scope="session")

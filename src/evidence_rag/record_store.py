@@ -6,6 +6,7 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime, timezone
 
 from evidence_rag.workflow_schemas import WorkflowRecord, ApprovalDecision, WorkflowStatus
+from evidence_rag.config import REPO_ROOT
 from evidence_rag.logging_config import setup_logger
 
 logger = setup_logger("evidence_rag.record_store")
@@ -22,21 +23,26 @@ class RecordStore:
     ]
 
     def __init__(self, storage_dir: Optional[Path] = None):
-        self.storage_dir = Path(storage_dir) if storage_dir else Path("data/workflow_records")
+        self.storage_dir = Path(storage_dir) if storage_dir else (REPO_ROOT / "data" / "workflow_records")
         self.storage_dir.mkdir(parents=True, exist_ok=True)
         self.store_file = self.storage_dir / "records.json"
         if not self.store_file.exists():
             self._write_store({})
 
-    def _read_store(self) -> Dict[str, Dict[str, Any]]:
+    def _read_store(self, raise_on_error: bool = False) -> Dict[str, Dict[str, Any]]:
         """Read all raw record dictionaries from persistent storage."""
         if not self.store_file.exists():
             return {}
         try:
             with open(self.store_file, "r", encoding="utf-8") as f:
-                return json.load(f)
+                content = f.read().strip()
+                if not content:
+                    return {}
+                return json.loads(content)
         except Exception as e:
             logger.error(f"Failed to read record store from {self.store_file}: {e}")
+            if raise_on_error:
+                raise IOError(f"Corrupt or unreadable record store at {self.store_file}: {e}")
             return {}
 
     def _write_store(self, data: Dict[str, Dict[str, Any]]) -> None:
@@ -53,7 +59,8 @@ class RecordStore:
 
     def save_record(self, record: WorkflowRecord) -> WorkflowRecord:
         """Persist or update a workflow record."""
-        data = self._read_store()
+        # Fail-closed if existing file is corrupted (QA-004) to prevent silent data overwrite
+        data = self._read_store(raise_on_error=True)
         rec_dict = record.model_dump()
         rec_dict["updated_at"] = datetime.now(timezone.utc).isoformat()
         data[record.request_id] = rec_dict
@@ -107,10 +114,14 @@ class RecordStore:
                 f"'{record.status.value}'. Duplicate decisions are prohibited."
             )
 
-        # Verify that record was in an approvable state
-        if record.status not in (WorkflowStatus.AWAITING_APPROVAL, WorkflowStatus.RECOMMENDATION_READY):
-            logger.warning(
-                f"Recording decision on request {request_id} which is currently in status {record.status.value}."
+        # Verify that record was in an approvable state (QA-002 fix)
+        if decision.decision.upper() == "APPROVED" and record.status not in (
+            WorkflowStatus.AWAITING_APPROVAL,
+            WorkflowStatus.RECOMMENDATION_READY
+        ):
+            raise ValueError(
+                f"Cannot record decision on request '{request_id}' with status '{record.status.value}'. "
+                "Request must be in AWAITING_APPROVAL or RECOMMENDATION_READY."
             )
 
         new_status = (
@@ -123,6 +134,7 @@ class RecordStore:
         record.status = new_status
         record.history.append({
             "action": f"HUMAN_{new_status.value}",
+            "trace_id": getattr(record, "trace_id", None),
             "reviewer": decision.reviewer,
             "decision_notes": decision.decision_notes,
             "timestamp": decision.decided_at

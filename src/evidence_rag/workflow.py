@@ -1,10 +1,11 @@
 """End-to-End Decision-Support Workflow Engine with Human Approval Gate."""
 import re
+import unicodedata
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Tuple
 from datetime import datetime, timezone
 
-from evidence_rag.config import RAGConfig, load_config
+from evidence_rag.config import RAGConfig, load_config, REPO_ROOT
 from evidence_rag.pipeline import RAGPipeline
 from evidence_rag.schemas import (
     RetrievedChunk,
@@ -27,6 +28,24 @@ from evidence_rag.logging_config import setup_logger
 logger = setup_logger("evidence_rag.workflow")
 
 
+def validate_reviewer_identity(reviewer: str) -> str:
+    """Validate and normalize human reviewer identity (AC-5, QA-001)."""
+    if not reviewer or not reviewer.strip():
+        raise ValueError("Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
+
+    # Normalize NFKC, strip zero-width characters and casefold
+    norm = unicodedata.normalize("NFKC", reviewer).casefold().strip()
+    norm = "".join(ch for ch in norm if unicodedata.category(ch) != "Cf").strip()
+
+    disallowed = {"prof_evaluator", "anonymous", "anonymous_reviewer", "default", ".", "none", "unknown"}
+    if norm in disallowed or len(norm) < 3:
+        raise ValueError(
+            f"Default reviewer placeholder '{reviewer.strip()}' is rejected. "
+            "An explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required."
+        )
+    return reviewer.strip()
+
+
 class DecisionWorkflow:
     """Executes evidence-grounded decision evaluation with a mandatory human approval gate."""
 
@@ -37,7 +56,7 @@ class DecisionWorkflow:
         base_dir: Optional[Path] = None,
         record_store: Optional[RecordStore] = None
     ):
-        self.base_dir = Path(base_dir) if base_dir else Path.cwd()
+        self.base_dir = Path(base_dir) if base_dir is not None else REPO_ROOT
 
         # Load workflow config (default to marketing workflow config if present)
         if config is not None:
@@ -435,16 +454,8 @@ class DecisionWorkflow:
         if dec_upper not in ("APPROVED", "REJECTED"):
             raise ValueError(f"Decision must be 'APPROVED' or 'REJECTED', got: {decision}")
 
-        # AC-5 Reviewer Identity Validation:
-        if not reviewer or not reviewer.strip():
-            raise ValueError("Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
-
-        clean_reviewer = reviewer.strip()
-        if clean_reviewer in ("Prof_Evaluator", "anonymous_reviewer", "default"):
-            raise ValueError(
-                f"Default reviewer placeholder '{clean_reviewer}' is rejected. "
-                "An explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required."
-            )
+        # AC-5 Reviewer Identity Validation (QA-001):
+        clean_reviewer = validate_reviewer_identity(reviewer)
 
         # AC-5 Decision justification notes validation:
         if not notes or not notes.strip():

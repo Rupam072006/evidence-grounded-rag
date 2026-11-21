@@ -3,7 +3,7 @@ import time
 from typing import Optional, List, Tuple
 from pathlib import Path
 
-from evidence_rag.config import RAGConfig, load_config
+from evidence_rag.config import RAGConfig, load_config, REPO_ROOT
 from evidence_rag.schemas import (
     RAGResponse,
     ResponseStatus,
@@ -37,7 +37,7 @@ class RAGPipeline:
 
     def __init__(self, config: Optional[RAGConfig] = None, base_dir: Optional[Path] = None):
         self.config = config or load_config()
-        self.base_dir = base_dir or Path.cwd()
+        self.base_dir = Path(base_dir) if base_dir is not None else REPO_ROOT
         self.index: Optional[VectorIndex] = None
         self.generator: BaseGenerator = create_generator(self.config.generation)
         self.conflict_detector = ConflictDetector()

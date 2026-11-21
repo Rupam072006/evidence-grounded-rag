@@ -8,6 +8,8 @@ python-dotenv>=1.0.0
 click>=8.0.0
 rich>=13.0.0
 httpx>=0.24.0
+fastapi>=0.110.0
+uvicorn>=0.28.0
 
 # Optional External LLM Provider
 google-genai>=0.1.0

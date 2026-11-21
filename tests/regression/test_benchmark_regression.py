@@ -3,9 +3,9 @@ import pytest
 from evidence_rag.evaluation import EvaluationRunner
 
 
-def test_benchmark_regression_performance(indexed_pipeline, project_root):
+def test_benchmark_regression_performance(indexed_pipeline, project_root, tmp_path):
     questions_file = project_root / "evaluation" / "questions.jsonl"
-    results_dir = project_root / "evaluation" / "results"
+    results_dir = tmp_path / "results"
 
     runner = EvaluationRunner(
         pipeline=indexed_pipeline,

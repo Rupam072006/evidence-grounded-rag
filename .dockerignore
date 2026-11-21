@@ -1,0 +1,37 @@
+# Git and IDE
+.git
+.gitignore
+.gitattributes
+.github
+.vscode
+.idea
+
+# Python bytecode & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+ENV/
+
+# Testing and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+tests/
+audit_reports/
+
+# Ephemeral runtime data & logs
+scratch/
+logs/*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+
+# Ephemeral records & uploads
+.user_uploaded/
+latest_evaluation_run.json

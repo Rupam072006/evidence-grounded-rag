@@ -39,6 +39,13 @@ def setup_logger(
     log_file: Optional[str] = "logs/rag_system.log"
 ) -> logging.Logger:
     """Configure and return a structured, secret-safe logger."""
+    import sys
+    env_log = os.getenv("RAG_LOG_FILE")
+    if env_log:
+        log_file = env_log
+    elif "pytest" in sys.modules or os.getenv("PYTEST_CURRENT_TEST"):
+        import tempfile
+        log_file = str(Path(tempfile.gettempdir()) / "test_rag_system.log")
     logger = logging.getLogger(name)
     logger.setLevel(getattr(logging, level.upper(), logging.INFO))
 
@@ -61,6 +68,9 @@ def setup_logger(
     # File Handler
     if log_file:
         log_path = Path(log_file)
+        if not log_path.is_absolute():
+            repo_root = Path(__file__).resolve().parent.parent.parent
+            log_path = repo_root / log_path
         log_path.parent.mkdir(parents=True, exist_ok=True)
         file_handler = logging.FileHandler(str(log_path), encoding="utf-8")
         file_handler.setFormatter(formatter)

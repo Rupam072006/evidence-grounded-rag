@@ -144,8 +144,20 @@ def test_ac6_duplicate_decision_prevention(workflow_env):
         )
 
 
-def test_cli_v2_acceptance_flow(cli_runner, tmp_path):
+def test_cli_v2_acceptance_flow(cli_runner, tmp_path, monkeypatch):
     """Verify AC-4, AC-5, and AC-6 end-to-end through Click CLI."""
+    from evidence_rag.record_store import RecordStore
+    from evidence_rag import workflow
+
+    isolated_store = RecordStore(tmp_path / "cli_records")
+    orig_wf_init = workflow.DecisionWorkflow.__init__
+
+    def patched_init(self, *args, **kwargs):
+        kwargs["record_store"] = isolated_store
+        orig_wf_init(self, *args, **kwargs)
+
+    monkeypatch.setattr(workflow.DecisionWorkflow, "__init__", patched_init)
+
     # AC-4: Evaluate proposal via CLI
     eval_res = cli_runner.invoke(main, [
         "workflow", "evaluate",

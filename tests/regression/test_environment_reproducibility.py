@@ -70,12 +70,14 @@ def test_clean_environment_rag_pipeline_smoke():
     assert response.model_name == "deterministic_mock"
 
 
-def test_clean_environment_decision_workflow_smoke():
+def test_clean_environment_decision_workflow_smoke(tmp_path):
     """Smoke test ensuring DecisionWorkflow evaluates proposals and pauses at approval gate."""
     from evidence_rag.workflow import DecisionWorkflow
     from evidence_rag.workflow_schemas import WorkflowRequest, WorkflowStatus
+    from evidence_rag.record_store import RecordStore
 
-    wf = DecisionWorkflow()
+    store = RecordStore(tmp_path / "smoke_records")
+    wf = DecisionWorkflow(record_store=store)
     req = WorkflowRequest(
         request_id="SMOKE-TEST-001",
         title="Smoke Test Proposal",

@@ -6,8 +6,15 @@ import yaml
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+DEFAULT_DATA_DIR = REPO_ROOT / "data"
+DEFAULT_INDEX_DIR = DEFAULT_DATA_DIR / "index"
+DEFAULT_MANIFEST_PATH = DEFAULT_DATA_DIR / "manifest.json"
+
 # Load .env if present (do not override explicitly set environment variables)
-env_path = Path.cwd() / ".env"
+env_path = REPO_ROOT / ".env"
+if not env_path.exists():
+    env_path = Path.cwd() / ".env"
 if env_path.exists():
     load_dotenv(dotenv_path=env_path, override=False)
 else:
@@ -100,15 +107,24 @@ class RAGConfig(BaseModel):
 def load_config(config_path: Optional[str] = None) -> RAGConfig:
     """Load configuration from a YAML file with environment variable overrides."""
     data = {}
-    if config_path and os.path.exists(config_path):
-        with open(config_path, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f) or {}
+    resolved_path = None
+    if config_path:
+        p = Path(config_path)
+        if p.exists():
+            resolved_path = p
+        elif (REPO_ROOT / p).exists():
+            resolved_path = REPO_ROOT / p
     else:
-        # Default search path
-        default_path = Path("configs/default.yaml")
+        # Default search path: prefer REPO_ROOT/configs/default.yaml then relative
+        default_path = REPO_ROOT / "configs" / "default.yaml"
         if default_path.exists():
-            with open(default_path, "r", encoding="utf-8") as f:
-                data = yaml.safe_load(f) or {}
+            resolved_path = default_path
+        elif Path("configs/default.yaml").exists():
+            resolved_path = Path("configs/default.yaml")
+
+    if resolved_path and resolved_path.exists():
+        with open(resolved_path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
 
     config = RAGConfig(**data)
 

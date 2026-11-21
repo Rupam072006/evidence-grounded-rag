@@ -33,7 +33,7 @@ def isolated_record_store(tmp_path, monkeypatch):
     from evidence_rag import workflow
     orig_init = workflow.DecisionWorkflow.__init__
     
-    def patched_init(self, config_path="configs/default.yaml", record_store=None):
+    def patched_init(self, config_path=None, record_store=None):
         if record_store is None:
             record_store = RecordStore(records_dir)
         orig_init(self, config_path=config_path, record_store=record_store)
@@ -110,8 +110,8 @@ def test_workflow_evaluate_interactive_approve(cli_runner, isolated_record_store
         main,
         [
             "workflow", "evaluate",
-            "--title", "Content Marketing Campaign",
-            "--proposal", "Produce quarterly thought leadership research whitepapers with paid promotion.",
+            "--title", "Targeted Sponsored Content Campaign",
+            "--proposal", "Deploy targeted sponsored content on LinkedIn targeting technical decision makers, aiming for a 25 percent increase in SQLs with a budget of $18,000.",
             "--budget", "18000",
             "--interactive"
         ],

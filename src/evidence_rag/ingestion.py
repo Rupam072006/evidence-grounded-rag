@@ -3,7 +3,7 @@ import json
 import hashlib
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
-from evidence_rag.config import CorpusConfig
+from evidence_rag.config import CorpusConfig, REPO_ROOT
 from evidence_rag.schemas import Document, DocumentMetadata, CorpusError
 from evidence_rag.logging_config import setup_logger
 
@@ -26,7 +26,7 @@ class IngestionEngine:
 
     def __init__(self, config: CorpusConfig = None, base_dir: Path = None):
         self.config = config or CorpusConfig()
-        self.base_dir = base_dir or Path.cwd()
+        self.base_dir = Path(base_dir) if base_dir is not None else REPO_ROOT
 
     def load_corpus(self) -> List[Document]:
         """Ingest all documents declared in manifest, verifying counts and cryptographic integrity."""

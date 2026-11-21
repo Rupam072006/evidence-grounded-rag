@@ -561,15 +561,14 @@ def workflow_ask(question, config, mode, json_out):
 @click.option("--json-out", is_flag=True, help="Output full updated record as JSON.")
 def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
     """Submit a binding human approval or rejection decision for a pending workflow proposal."""
-    from evidence_rag.workflow import DecisionWorkflow
+    from evidence_rag.workflow import DecisionWorkflow, validate_reviewer_identity
     from evidence_rag.workflow_schemas import WorkflowStatus
 
-    # AC-5: Validate reviewer identity and notes
-    if not reviewer or not reviewer.strip():
-        console.print("[bold red]Error:[/bold red] ValueError: Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
-        sys.exit(1)
-    if reviewer.strip() in ("Prof_Evaluator", "anonymous_reviewer"):
-        console.print(f"[bold red]Error:[/bold red] ValueError: Default reviewer placeholder '{reviewer.strip()}' is rejected. Explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.")
+    # AC-5: Validate reviewer identity and notes (QA-001)
+    try:
+        clean_reviewer = validate_reviewer_identity(reviewer)
+    except ValueError as e:
+        console.print(f"[bold red]Error:[/bold red] ValueError: {e}")
         sys.exit(1)
     if not notes or not notes.strip():
         console.print("[bold red]Error:[/bold red] ValueError: Decision justification notes are mandatory and cannot be empty.")
@@ -620,15 +619,14 @@ def workflow_approve(request_id, decision, reviewer, notes, config, json_out):
 @click.option("--json-out", is_flag=True, help="Output full updated record as JSON.")
 def workflow_reject(request_id, reviewer, reason, config, json_out):
     """Submit a binding human rejection decision for a pending workflow proposal."""
-    from evidence_rag.workflow import DecisionWorkflow
+    from evidence_rag.workflow import DecisionWorkflow, validate_reviewer_identity
     from evidence_rag.workflow_schemas import WorkflowStatus
 
-    # AC-5: Validate reviewer identity and notes
-    if not reviewer or not reviewer.strip():
-        console.print("[bold red]Error:[/bold red] ValueError: Reviewer identity cannot be blank. An explicit authorized reviewer is required.")
-        sys.exit(1)
-    if reviewer.strip() in ("Prof_Evaluator", "anonymous_reviewer"):
-        console.print(f"[bold red]Error:[/bold red] ValueError: Default reviewer placeholder '{reviewer.strip()}' is rejected. Explicit authorized reviewer (e.g. 'Pratik Bhuwad - CMO Product Owner') is required.")
+    # AC-5: Validate reviewer identity and notes (QA-001)
+    try:
+        clean_reviewer = validate_reviewer_identity(reviewer)
+    except ValueError as e:
+        console.print(f"[bold red]Error:[/bold red] ValueError: {e}")
         sys.exit(1)
     if not reason or not reason.strip():
         console.print("[bold red]Error:[/bold red] ValueError: Decision justification notes are mandatory and cannot be empty.")
